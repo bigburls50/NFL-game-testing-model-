@@ -1,0 +1,1 @@
+NFL Auto Research V3 personal PWA. Demo only: manually entered games, probabilities and odds; no live data or wagering. Upload all files preserving folders to an HTTPS static host, open URL in Android Chrome and use Install app or Add to Home screen. Export backups regularly: local data is not synced. Offline after initial load. Opening HTML as a file does not install the PWA.

@@ -1,0 +1,24 @@
+name: Phase 10 validation
+on:
+  push:
+    paths:
+      - 'phase10/**'
+      - '.github/workflows/phase10-validation.yml'
+  pull_request:
+    paths:
+      - 'phase10/**'
+      - '.github/workflows/phase10-validation.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: node --check phase10/evaluate.mjs
+      - name: Automated validation tests
+        run: node --test phase10/evaluate.test.mjs

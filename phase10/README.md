@@ -21,3 +21,23 @@ Each historical record must have: game_id, kickoff_utc, home_team, away_team, ho
 
 ## Safety
 Research and paper betting only. No live wager placement. Never commit API credentials.
+
+## Running the first validation checks
+
+From the repository root, run:
+
+```sh
+node --check phase10/evaluate.mjs
+node --test phase10/evaluate.test.mjs
+node phase10/evaluate.mjs path/to/pregame-predictions.csv
+```
+
+The automated GitHub Actions workflow runs the syntax and test commands for Phase 10 changes. A passing software test **does not** establish predictive accuracy or profitable betting performance.
+
+### CSV input schema
+
+Required columns: `game_id,kickoff_utc,prediction_created_utc,home_team,away_team,home_score,away_score,home_win_probability`. Timestamps must include a timezone (prefer UTC with `Z`). The probability is a decimal strictly between 0 and 1. Each game should appear once. Never populate historical predictions using final scores or post-kickoff information.
+
+### Interpretation
+
+The current evaluator calculates in-sample metrics for the supplied records. It does **not** yet implement season-separated holdouts, walk-forward testing, uncertainty intervals, verified Ontario market pricing, or a live prediction data pipeline. Do not interpret its output as a validated edge.

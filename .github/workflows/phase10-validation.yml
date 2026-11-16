@@ -165,6 +165,25 @@ jobs:
           done
           head -n 1 phase10/data/pbp-2023.csv > phase10/data/pbp-all.csv
           for year in 2023 2024 2025; do tail -n +2 "phase10/data/pbp-$year.csv" >> phase10/data/pbp-all.csv; done
+      - name: Fail closed on missing multi-season source coverage
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const games=parseCSV(fs.readFileSync('phase10/data/historical-games.csv','utf8'));
+          const pbp=parseCSV(fs.readFileSync('phase10/data/pbp-all.csv','utf8'));
+          const report={};
+          for(const [year,minGames] of [[2023,250],[2024,250],[2025,100]]){
+            const g=games.filter(r=>Number(r.season)===year);
+            const p=pbp.filter(r=>Number(r.season)===year);
+            const covered=new Set(p.map(r=>r.game_id));
+            const overlap=g.filter(r=>covered.has(r.game_id));
+            report[year]={schedule_games:g.length,pbp_team_games:p.length,matched_games:overlap.length};
+            if(g.length<minGames||p.length<minGames*2*.85||overlap.length<minGames*.85)
+              throw Error('Insufficient independent NFL source coverage for '+year+': '+JSON.stringify(report[year]));
+          }
+          console.log(JSON.stringify({coverage:report,warning:'Coverage checks do not establish point-in-time correctness or prospective accuracy.'}));
+          EOF
       - name: Build pregame EPA and fixed ensemble
         run: |
           node phase10/rolling-epa.mjs phase10/data/historical-games.csv phase10/data/pbp-all.csv phase10/data/epa-rolling.csv

@@ -146,3 +146,44 @@ jobs:
             phase10/data/team-qb-epa-2024.csv
             phase10/data/pregame-epa-2024.csv
           retention-days: 30
+  multi-season-epa-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download completed 2023–2025 games
+        run: |
+          mkdir -p phase10/data
+          node phase10/fetch-games.mjs 2023 2025
+      - name: Download 2023–2025 play-by-play aggregates
+        run: |
+          for year in 2023 2024 2025; do
+            node phase10/fetch-pbp.mjs "$year" "phase10/data/pbp-$year.csv"
+          done
+          head -n 1 phase10/data/pbp-2023.csv > phase10/data/pbp-all.csv
+          for year in 2023 2024 2025; do tail -n +2 "phase10/data/pbp-$year.csv" >> phase10/data/pbp-all.csv; done
+      - name: Build pregame EPA and fixed ensemble
+        run: |
+          node phase10/rolling-epa.mjs phase10/data/historical-games.csv phase10/data/pbp-all.csv phase10/data/epa-rolling.csv
+          node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo.csv
+          node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup.csv
+          node phase10/ensemble.mjs phase10/data/elo.csv phase10/data/matchup.csv phase10/data/ensemble.csv
+          node phase10/epa-augmented.mjs phase10/data/ensemble.csv phase10/data/epa-rolling.csv phase10/data/epa-ensemble.csv
+      - name: Compare multi-season models and high-confidence coverage
+        run: |
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble.csv epa_augmented=phase10/data/epa-ensemble.csv > phase10/data/epa-comparison-2023-2025.json
+          cat phase10/data/epa-comparison-2023-2025.json
+          node phase10/holdout.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-report.json
+          cat phase10/data/epa-season-report.json
+      - name: Archive multi-season evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-epa-multi-season-2023-2025
+          path: |
+            phase10/data/epa-comparison-2023-2025.json
+            phase10/data/epa-season-report.json
+            phase10/data/epa-ensemble.csv
+          retention-days: 30

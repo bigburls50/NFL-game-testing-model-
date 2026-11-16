@@ -24,6 +24,8 @@ jobs:
         run: node --test phase10/*.test.mjs
       - name: Season comparison regression checks
         run: node phase10/test-season-review.mjs
+      - name: Pregame EPA point-in-time leakage regression checks
+        run: node phase10/test-epa-asof.mjs
       - name: EPA augmented model integration smoke test
         run: node phase10/epa-integration-smoke.mjs
       - name: EPA feature construction smoke test

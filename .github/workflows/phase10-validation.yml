@@ -101,3 +101,30 @@ jobs:
           name: phase10-ensemble-holdout
           path: phase10/data/ensemble-holdout.json
           retention-days: 30
+  real-epa-import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch verified nflverse 2024 play-by-play
+        run: |
+          mkdir -p phase10/data
+          node phase10/fetch-pbp.mjs 2024 phase10/data/team-qb-epa-2024.csv
+      - name: Fetch completed-game schedules
+        run: node phase10/fetch-games.mjs 2024 2024
+      - name: Build strictly lagged real EPA features
+        run: node phase10/rolling-epa.mjs phase10/data/historical-games.csv phase10/data/team-qb-epa-2024.csv phase10/data/pregame-epa-2024.csv
+      - name: Verify source coverage
+        run: |
+          node --input-type=module -e "import fs from 'node:fs';import {parseCSV} from './phase10/baseline.mjs';const r=parseCSV(fs.readFileSync('phase10/data/pregame-epa-2024.csv','utf8'));const n=r.filter(x=>Number(x.home_prior_games)>0&&Number(x.away_prior_games)>0).length;console.log(JSON.stringify({games:r.length,with_both_teams_prior_epa:n}));if(n<100)process.exit(1)"
+      - name: Archive verified real EPA feature sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-real-pregame-epa-2024
+          path: |
+            phase10/data/team-qb-epa-2024.csv
+            phase10/data/pregame-epa-2024.csv
+          retention-days: 30

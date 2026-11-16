@@ -203,6 +203,26 @@ jobs:
           cat phase10/data/epa-season-comparison.json
           node phase10/holdout.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-report.json
           cat phase10/data/epa-season-report.json
+      - name: Report fixed-bin calibration and high-confidence uncertainty
+        run: |
+          node phase10/calibration-diagnostics.mjs phase10/data/ensemble.csv > phase10/data/ensemble-calibration.json
+          node phase10/calibration-diagnostics.mjs phase10/data/epa-ensemble.csv > phase10/data/epa-calibration.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for (const model of ['ensemble','epa']) {
+            const r=JSON.parse(fs.readFileSync('phase10/data/'+model+'-calibration.json','utf8'));
+            if(r.games<250||r.calibration.reduce((s,b)=>s+b.count,0)!==r.games||!Number.isFinite(r.expected_calibration_error))throw Error('Invalid calibration report: '+model);
+            console.log(JSON.stringify({model,games:r.games,accuracy:r.accuracy,accuracy_95ci:r.accuracy_95ci,brier:r.brier,log_loss:r.log_loss,ece:r.expected_calibration_error,high_confidence_games:r.high_confidence_games,high_confidence_coverage:r.high_confidence_coverage,high_confidence_accuracy:r.high_confidence_accuracy,high_confidence_95ci:r.high_confidence_95ci}));
+          }
+          EOF
+      - name: Archive calibration diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-calibration-diagnostics
+          path: |
+            phase10/data/ensemble-calibration.json
+            phase10/data/epa-calibration.json
+          retention-days: 30
       - name: Archive multi-season evaluation
         uses: actions/upload-artifact@v4
         with:

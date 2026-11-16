@@ -223,6 +223,26 @@ jobs:
             phase10/data/ensemble-calibration.json
             phase10/data/epa-calibration.json
           retention-days: 30
+      - name: Audit chronological per-season calibration and confidence coverage
+        run: |
+          node phase10/season-calibration.mjs phase10/data/ensemble.csv 2023 > phase10/data/ensemble-season-calibration.json
+          node phase10/season-calibration.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-calibration.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for(const name of ['ensemble','epa']){
+            const r=JSON.parse(fs.readFileSync('phase10/data/'+name+'-season-calibration.json','utf8'));
+            if(r.years.length!==3||r.combined.games<800||r.years.some(y=>r.by_season[y].games<200))throw Error('Incomplete season calibration '+name);
+            console.log(JSON.stringify({model:name,years:r.years,games:r.combined.games,accuracy:r.combined.accuracy,high_confidence_coverage:r.combined.high_confidence_coverage}));
+          }
+          EOF
+      - name: Archive chronological calibration
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-season-calibration
+          path: |
+            phase10/data/ensemble-season-calibration.json
+            phase10/data/epa-season-calibration.json
+          retention-days: 30
       - name: Archive multi-season evaluation
         uses: actions/upload-artifact@v4
         with:

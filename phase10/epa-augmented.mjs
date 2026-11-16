@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+// Point-in-time EPA augmentation of a pregame probability. Coefficients are
+// deliberately fixed and conservative, NOT optimized against test outcomes.
+import fs from 'node:fs';import {parseCSV} from './baseline.mjs';
+const sigmoid=z=>1/(1+Math.exp(-z)),logit=p=>Math.log(p/(1-p));
+export function augmentWithEpa(predictions,features,{teamWeight=.35,qbWeight=.20,minPriorGames=4}={}){
+ if(!Number.isFinite(teamWeight)||!Number.isFinite(qbWeight)||!Number.isInteger(minPriorGames)||minPriorGames<1)throw Error('Invalid settings');
+ const f=new Map();for(const r of features){if(!r.game_id||f.has(r.game_id))throw Error('Duplicate/missing feature game');f.set(r.game_id,r)}
+ const out=[],ids=new Set();for(const r of predictions){if(!r.game_id||ids.has(r.game_id))throw Error('Duplicate/missing prediction game');ids.add(r.game_id);const p=Number(r.home_win_probability);if(!(p>0&&p<1))throw Error('Invalid base probability');const x=f.get(r.game_id);if(x&&['season','home_team','away_team'].some(k=>String(x[k])!==String(r[k])))throw Error('Feature game mismatch: '+r.game_id);let adjustment=0,used=false;const v=k=>x?.[k]!==''&&x?.[k]!==undefined&&Number.isFinite(Number(x[k]))?Number(x[k]):null;
+ if(x&&Number(x.home_prior_games)>=minPriorGames&&Number(x.away_prior_games)>=minPriorGames){const ho=v('home_offense_epa_per_play'),ao=v('away_offense_epa_per_play'),hd=v('home_defense_epa_allowed_per_play'),ad=v('away_defense_epa_allowed_per_play'),hq=v('home_qb_epa_per_dropback'),aq=v('away_qb_epa_per_dropback');if([ho,ao,hd,ad].every(n=>n!==null)){adjustment+=teamWeight*((ho-ad)-(ao-hd));used=true}if(hq!==null&&aq!==null){adjustment+=qbWeight*(hq-aq);used=true}}
+ out.push({...r,home_win_probability:sigmoid(logit(p)+adjustment),epa_features_used:used?1:0,epa_logit_adjustment:adjustment})}
+ return out}
+if(process.argv[1]?.endsWith('epa-augmented.mjs')){try{const [pred,features,outfile]=process.argv.slice(2);if(!pred||!features||!outfile)throw Error('Usage: epa-augmented.mjs ensemble.csv rolling-epa.csv output.csv');const rows=augmentWithEpa(parseCSV(fs.readFileSync(pred,'utf8')),parseCSV(fs.readFileSync(features,'utf8'))),keys=Object.keys(rows[0]??{});fs.writeFileSync(outfile,[keys.join(','),...rows.map(r=>keys.map(k=>r[k]).join(','))].join('\n')+'\n');console.log(JSON.stringify({games:rows.length,with_epa_features:rows.filter(r=>r.epa_features_used).length,warning:'Unoptimized fixed-coefficient experiment. Do not claim improvement until verified on truly held-out data.'}))}catch(e){console.error(e.message);process.exitCode=1}}

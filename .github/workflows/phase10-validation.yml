@@ -21,7 +21,7 @@ jobs:
       - name: Syntax check
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests
-        run: node --test phase10/evaluate.test.mjs
+        run: node --test phase10/*.test.mjs
       - name: End-to-end CSV evaluation smoke test
         run: |
           node phase10/evaluate.mjs phase10/fixtures/sample-pregame-predictions.csv > phase10-result.json
@@ -35,4 +35,12 @@ jobs:
           path: |
             phase10/data/historical-games.csv
             phase10/data/source-summary.json
+          retention-days: 30
+      - name: Evaluate leakage-safe historical baseline
+        run: node phase10/baseline.mjs phase10/data/historical-games.csv phase10/data/baseline-predictions.csv
+      - name: Archive baseline predictions
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-baseline-predictions
+          path: phase10/data/baseline-predictions.csv
           retention-days: 30

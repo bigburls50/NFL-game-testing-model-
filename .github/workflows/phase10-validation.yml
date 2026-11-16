@@ -111,6 +111,23 @@ jobs:
           console.log(JSON.stringify({folds:r.folds.map(f=>({season:f.season,training_games:f.training_games,test_games:f.test_games})),accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci,warning:'Exploratory only: underlying ensemble training predictions are not proven out-of-sample.'}));
           EOF
           node phase10/compare-models.mjs ensemble=phase10/data/ensemble-predictions.csv recalibrated=phase10/data/walk-forward-ensemble.csv > phase10/data/walk-forward-comparison.json
+      - name: Report fail-closed model release readiness (non-blocking research audit)
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {releaseGate} from './phase10/release-gate.mjs';
+          const input=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const decision=releaseGate(input.report,{prospective:false,point_in_time_features:false,no_test_season_tuning:false,android_pwa_verified:false,ci_passed:false});
+          if(decision.ready)throw Error('Retrospective experiment must never authorize model promotion');
+          fs.writeFileSync('phase10/data/release-readiness.json',JSON.stringify({decision,source:'experimental walk-forward ensemble',status:'RESEARCH_ONLY',warning:'This workflow does not establish prospective accuracy or authorize model deployment.'},null,2)+'\\n');
+          console.log(JSON.stringify(decision));
+          EOF
+      - name: Archive release-readiness audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-release-readiness
+          path: phase10/data/release-readiness.json
+          retention-days: 30
       - name: Archive experimental walk-forward evaluation
         uses: actions/upload-artifact@v4
         with:

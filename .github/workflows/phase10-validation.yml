@@ -22,6 +22,8 @@ jobs:
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests
         run: node --test phase10/*.test.mjs
+      - name: Season comparison regression checks
+        run: node phase10/test-season-review.mjs
       - name: EPA augmented model integration smoke test
         run: node phase10/epa-integration-smoke.mjs
       - name: EPA feature construction smoke test

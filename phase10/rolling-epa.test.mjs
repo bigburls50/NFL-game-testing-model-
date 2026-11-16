@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {rollingEpa} from './rolling-epa.mjs';
+const g=(id,date,home,away)=>({game_id:id,gameday:date,season:'2025',home_team:home,away_team:away});
+const t=(id,team,opp,off,qb)=>({game_id:id,team,opponent:opp,offense_epa_per_play:String(off),qb_epa_per_dropback:String(qb),qb_cpoe:'3'});
+test('same-day games never use each other as training data',()=>{const games=[g('1','2025-09-01','A','B'),g('2','2025-09-01','A','C')],rows=[t('1','A','B',.4,.5),t('1','B','A',-.2,-.1)];const out=rollingEpa(games,rows);assert.equal(out[0].home_prior_games,0);assert.equal(out[1].home_prior_games,0);assert.equal(out[1].home_qb_epa_per_dropback,'')});
+test('later game sees earlier offensive and defensive EPA',()=>{const games=[g('1','2025-09-01','A','B'),g('2','2025-09-08','A','C')],rows=[t('1','A','B',.4,.5),t('1','B','A',-.2,-.1)];const out=rollingEpa(games,rows);assert.equal(out[1].home_offense_epa_per_play,.4);assert.equal(out[1].home_defense_epa_allowed_per_play,-.2);assert.equal(out[1].home_qb_epa_per_dropback,.5)});
+test('game order does not change output',()=>{const games=[g('1','2025-09-01','A','B'),g('2','2025-09-08','A','C')];assert.deepEqual(rollingEpa([...games].reverse(),[]),rollingEpa(games,[]))});
+test('duplicate team-game rows rejected',()=>assert.throws(()=>rollingEpa([g('1','2025-09-01','A','B')],[t('1','A','B',1,1),t('1','A','B',1,1)]),/Duplicate/));

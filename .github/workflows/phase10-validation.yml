@@ -44,3 +44,11 @@ jobs:
           name: phase10-baseline-predictions
           path: phase10/data/baseline-predictions.csv
           retention-days: 30
+      - name: Audit performance by NFL season
+        run: node phase10/audit-seasons.mjs phase10/data/baseline-predictions.csv > phase10/data/season-audit.json
+      - name: Archive season-by-season audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-season-audit
+          path: phase10/data/season-audit.json
+          retention-days: 30

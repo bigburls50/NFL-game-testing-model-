@@ -1,0 +1,31 @@
+name: Import nflverse play-by-play EPA
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        description: 'Completed season to import (e.g. 2025)'
+        required: true
+        default: '2025'
+permissions:
+  contents: read
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run unit tests
+        run: node --test phase10/fetch-pbp.test.mjs
+      - name: Download and aggregate nflverse play-by-play
+        run: |
+          mkdir -p phase10/data
+          node phase10/fetch-pbp.mjs "${{ inputs.season }}" phase10/data/team-qb-epa.csv
+      - name: Archive EPA data
+        uses: actions/upload-artifact@v4
+        with:
+          name: nflverse-team-qb-epa-${{ inputs.season }}
+          path: phase10/data/team-qb-epa.csv
+          retention-days: 30

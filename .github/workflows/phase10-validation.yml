@@ -72,13 +72,17 @@ jobs:
             phase10/data/matchup-predictions.csv
             phase10/data/matchup-summary.json
           retention-days: 30
+      - name: Generate fixed-weight ensemble
+        run: node phase10/ensemble.mjs phase10/data/elo-predictions.csv phase10/data/matchup-predictions.csv phase10/data/ensemble-predictions.csv
       - name: Compare models on common historical games
         run: |
-          node phase10/compare-models.mjs baseline=phase10/data/baseline-predictions.csv elo=phase10/data/elo-predictions.csv matchup=phase10/data/matchup-predictions.csv > phase10/data/model-comparison.json
+          node phase10/compare-models.mjs baseline=phase10/data/baseline-predictions.csv elo=phase10/data/elo-predictions.csv matchup=phase10/data/matchup-predictions.csv ensemble=phase10/data/ensemble-predictions.csv > phase10/data/model-comparison.json
           cat phase10/data/model-comparison.json
       - name: Archive model comparison
         uses: actions/upload-artifact@v4
         with:
           name: phase10-model-comparison
-          path: phase10/data/model-comparison.json
+          path: |
+            phase10/data/model-comparison.json
+            phase10/data/ensemble-predictions.csv
           retention-days: 30

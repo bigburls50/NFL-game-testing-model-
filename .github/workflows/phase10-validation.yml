@@ -22,3 +22,7 @@ jobs:
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests
         run: node --test phase10/evaluate.test.mjs
+      - name: End-to-end CSV evaluation smoke test
+        run: |
+          node phase10/evaluate.mjs phase10/fixtures/sample-pregame-predictions.csv > phase10-result.json
+          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('phase10-result.json','utf8')); if(r.n!==2 || r.excluded.late!==1 || r.accuracy!==1) process.exit(1);"

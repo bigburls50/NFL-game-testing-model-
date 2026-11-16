@@ -26,8 +26,8 @@ jobs:
         run: |
           node phase10/evaluate.mjs phase10/fixtures/sample-pregame-predictions.csv > phase10-result.json
           node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('phase10-result.json','utf8')); if(r.n!==2 || r.excluded.late!==1 || r.accuracy!==1) process.exit(1);"
-      - name: Import real nflverse historical outcomes (2020–2025)
-        run: node phase10/fetch-games.mjs 2020 2025
+      - name: Import real nflverse historical outcomes (1999–2025)
+        run: node phase10/fetch-games.mjs 1999 2025
       - name: Archive real historical games and provenance
         uses: actions/upload-artifact@v4
         with:

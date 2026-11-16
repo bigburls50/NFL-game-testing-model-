@@ -86,3 +86,13 @@ jobs:
             phase10/data/model-comparison.json
             phase10/data/ensemble-predictions.csv
           retention-days: 30
+      - name: Evaluate fixed ensemble on 2023–2025 held-out seasons
+        run: |
+          node phase10/holdout.mjs phase10/data/ensemble-predictions.csv 2023 > phase10/data/ensemble-holdout.json
+          cat phase10/data/ensemble-holdout.json
+      - name: Archive ensemble holdout report
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-ensemble-holdout
+          path: phase10/data/ensemble-holdout.json
+          retention-days: 30

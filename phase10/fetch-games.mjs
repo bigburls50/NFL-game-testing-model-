@@ -2,7 +2,7 @@
 // Download real historical NFL game outcomes. Does NOT manufacture predictions.
 import { writeFileSync, mkdirSync } from 'node:fs';
 const URL='https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv';
-const min=Number(process.argv[2]??2020), max=Number(process.argv[3]??2025);
+const min=Number(process.argv[2]??1999), max=Number(process.argv[3]??2025);
 if(!Number.isInteger(min)||!Number.isInteger(max)||min<1999||max>2026||min>max)throw Error('Usage: node phase10/fetch-games.mjs [first-season] [last-season]');
 function csvRows(text){let rows=[],row=[],v='',q=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(q&&text[i+1]==='"'){v+='"';i++}else q=!q}else if(c===','&&!q){row.push(v);v=''}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v=''}else v+=c}if(q)throw Error('Unclosed CSV quote');row.push(v);if(row.some(x=>x.trim()))rows.push(row);const [header,...data]=rows;return data.map(r=>Object.fromEntries(header.map((h,i)=>[h.trim(),(r[i]??'').trim()])));}
 function esc(x){const s=String(x??'');return /[",\r\n]/.test(s)?'"'+s.replaceAll('"','""')+'"':s}

@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {audit,wilson} from './season-compare.mjs';
+const r=(id,season,p)=>({game_id:id,season,home_team:'A',away_team:'B',home_score:21,away_score:14,home_win_probability:p});
+test('Wilson interval bounded, including perfect small sample',()=>{const x=wilson(1,1);assert.ok(x.lower<.3&&x.upper<=1);assert.equal(wilson(0,0),null)});
+test('season grouping and fixed confidence threshold',()=>{const x=audit({base:[r('1','2023',.8),r('2','2024',.6)],epa:[r('1','2023',.9),r('2','2024',.7)]});assert.equal(x.common_games,2);assert.equal(x.seasons['2023'].epa.high_confidence_games,1);assert.equal(x.seasons['2024'].epa.high_confidence_games,0);assert.equal(x.seasons['2024'].base.accuracy,1)});
+test('rejects inconsistent outcomes and duplicate games',()=>{assert.throws(()=>audit({a:[r('1','2024',.6)],b:[{...r('1','2024',.6),away_score:25}]}),/mismatch/);assert.throws(()=>audit({a:[r('1','2024',.6),r('1','2024',.6)],b:[r('1','2024',.6)]}),/Duplicate/)});

@@ -3,9 +3,10 @@
 import fs from 'node:fs';
 export function releaseGate(report, evidence={}){
  const issues=[];
- const n=Number(report.games),accuracy=Number(report.accuracy),brier=Number(report.brier),loss=Number(report.log_loss);
- const selected=Number(report.high_confidence_games),coverage=Number(report.high_confidence_coverage),hit=Number(report.high_confidence_accuracy);
+ const n=report.games,accuracy=report.accuracy,brier=report.brier,loss=report.log_loss;
+ const selected=report.high_confidence_games,coverage=report.high_confidence_coverage,hit=report.high_confidence_accuracy;
  const ci=report.high_confidence_95ci;
+ if(report.threshold!==.75)issues.push('High-confidence threshold must be predeclared at 0.75');
  if(!Number.isInteger(n)||n<500)issues.push('At least 500 evaluated games required');
  if(!Number.isFinite(accuracy)||accuracy<0||accuracy>1||!Number.isFinite(brier)||brier<0||brier>1||!Number.isFinite(loss)||loss<0)issues.push('Invalid all-game accuracy, Brier or log loss');
  if(!Number.isInteger(selected)||selected<100||selected>n)issues.push('At least 100 high-confidence selections required');

@@ -5,7 +5,7 @@ on:
       first_season:
         description: First NFL season
         required: true
-        default: '2020'
+        default: '1999'
       last_season:
         description: Last NFL season
         required: true

@@ -99,6 +99,27 @@ jobs:
         run: |
           node phase10/holdout.mjs phase10/data/ensemble-predictions.csv 2023 > phase10/data/ensemble-holdout.json
           cat phase10/data/ensemble-holdout.json
+      - name: Experimental expanding-window calibration of ensemble
+        run: |
+          node phase10/walk-forward-calibration.mjs phase10/data/ensemble-predictions.csv phase10/data/walk-forward-ensemble.csv 2023 > phase10/data/walk-forward-ensemble-report.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const r=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const p=parseCSV(fs.readFileSync('phase10/data/walk-forward-ensemble.csv','utf8'));
+          if(r.folds.length!==3||r.folds.some(f=>f.status!=='evaluated'||f.training_last_season>=f.season)||p.length<800||p.some(x=>Number(x.training_last_season)>=Number(x.season)))throw Error('Walk-forward chronological audit failed');
+          console.log(JSON.stringify({folds:r.folds.map(f=>({season:f.season,training_games:f.training_games,test_games:f.test_games})),accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci,warning:'Exploratory only: underlying ensemble training predictions are not proven out-of-sample.'}));
+          EOF
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble-predictions.csv recalibrated=phase10/data/walk-forward-ensemble.csv > phase10/data/walk-forward-comparison.json
+      - name: Archive experimental walk-forward evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-walk-forward-experiment
+          path: |
+            phase10/data/walk-forward-ensemble.csv
+            phase10/data/walk-forward-ensemble-report.json
+            phase10/data/walk-forward-comparison.json
+          retention-days: 30
       - name: Archive ensemble holdout report
         uses: actions/upload-artifact@v4
         with:

@@ -52,3 +52,13 @@ jobs:
           name: phase10-season-audit
           path: phase10/data/season-audit.json
           retention-days: 30
+      - name: Evaluate chronological Elo model
+        run: node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo-predictions.csv > phase10/data/elo-summary.json
+      - name: Archive Elo model evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-elo-evaluation
+          path: |
+            phase10/data/elo-predictions.csv
+            phase10/data/elo-summary.json
+          retention-days: 30

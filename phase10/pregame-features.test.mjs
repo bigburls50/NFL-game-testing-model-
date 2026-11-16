@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {attachPregameFeatures,FEATURES} from './pregame-features.mjs';
+const game={game_id:'g1',kickoff_utc:'2025-09-07T17:00:00Z'};
+test('rejects post-kickoff leakage and chooses latest prior snapshot',()=>{const rows=attachPregameFeatures([game],[{game_id:'g1',as_of_utc:'2025-09-07T16:00:00Z',home_qb_epa_per_dropback:'.2'},{game_id:'g1',as_of_utc:'2025-09-07T17:00:00Z',home_qb_epa_per_dropback:'999'},{game_id:'g1',as_of_utc:'2025-09-06T16:00:00Z',home_qb_epa_per_dropback:'.1'}]);assert.equal(rows[0].home_qb_epa_per_dropback,'.2');assert.equal(rows[0].feature_coverage,1)});
+test('does not turn missing metrics into zero',()=>{const r=attachPregameFeatures([game],[])[0];assert.equal(r.home_qb_epa_per_dropback,'');assert.equal(r.feature_coverage,0)});
+test('requires timezone-aware kickoff',()=>assert.throws(()=>attachPregameFeatures([{game_id:'g1',kickoff_utc:'2025-09-07T17:00:00'}],[]),/timezone-aware/));
+test('rejects invalid numeric feature',()=>assert.throws(()=>attachPregameFeatures([game],[{game_id:'g1',as_of_utc:'2025-09-06T17:00:00Z',wind_mph:'unknown'}]),/Invalid numeric/));
+test('schema covers QB, team EPA, injuries, weather, rest and travel',()=>{for(const k of ['home_qb_epa_per_dropback','home_offense_epa_per_play','home_injury_impact','wind_mph','home_rest_days','away_travel_miles'])assert.ok(FEATURES.includes(k))});

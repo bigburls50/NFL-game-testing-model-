@@ -176,6 +176,8 @@ jobs:
         run: |
           node phase10/compare-models.mjs ensemble=phase10/data/ensemble.csv epa_augmented=phase10/data/epa-ensemble.csv > phase10/data/epa-comparison-2023-2025.json
           cat phase10/data/epa-comparison-2023-2025.json
+          node phase10/season-compare.mjs ensemble=phase10/data/ensemble.csv epa_augmented=phase10/data/epa-ensemble.csv > phase10/data/epa-season-comparison.json
+          cat phase10/data/epa-season-comparison.json
           node phase10/holdout.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-report.json
           cat phase10/data/epa-season-report.json
       - name: Archive multi-season evaluation
@@ -185,5 +187,6 @@ jobs:
           path: |
             phase10/data/epa-comparison-2023-2025.json
             phase10/data/epa-season-report.json
+            phase10/data/epa-season-comparison.json
             phase10/data/epa-ensemble.csv
           retention-days: 30

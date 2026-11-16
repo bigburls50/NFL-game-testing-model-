@@ -38,7 +38,7 @@ if(process.argv[1]?.endsWith('walk-forward-calibration.mjs')){try{
  if(!input)throw Error('Usage: walk-forward-calibration.mjs predictions.csv [output.csv] [first-test-season]');
  const r=walkForward(parseCSV(fs.readFileSync(input,'utf8')),{firstTestSeason:Number(first)});
  const columns=['game_id','season','home_team','away_team','home_score','away_score','home_win_probability','training_last_season','training_games'];
- const esc=v=>{const s=String(v??'');return /[",\\n\\r]/.test(s)?'"'+s.replaceAll('"','""')+'"':s};
- fs.writeFileSync(output,[columns.join(','),...r.predictions.map(p=>columns.map(k=>esc(p[k])).join(','))].join('\\n')+'\\n');
+ const esc=v=>{const s=String(v??'');return /[",\n\r]/.test(s)?'"'+s.replaceAll('"','""')+'"':s};
+ fs.writeFileSync(output,[columns.join(','),...r.predictions.map(p=>columns.map(k=>esc(p[k])).join(','))].join('\n')+'\n');
  console.log(JSON.stringify({folds:r.folds,report:r.report,warning:r.warning},null,2));
 }catch(e){console.error(e.message);process.exitCode=1}}

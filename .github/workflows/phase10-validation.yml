@@ -62,3 +62,13 @@ jobs:
             phase10/data/elo-predictions.csv
             phase10/data/elo-summary.json
           retention-days: 30
+      - name: Evaluate offensive and defensive matchup model
+        run: node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup-predictions.csv > phase10/data/matchup-summary.json
+      - name: Archive matchup model evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-matchup-evaluation
+          path: |
+            phase10/data/matchup-predictions.csv
+            phase10/data/matchup-summary.json
+          retention-days: 30

@@ -120,6 +120,24 @@ jobs:
       - name: Verify source coverage
         run: |
           node --input-type=module -e "import fs from 'node:fs';import {parseCSV} from './phase10/baseline.mjs';const r=parseCSV(fs.readFileSync('phase10/data/pregame-epa-2024.csv','utf8'));const n=r.filter(x=>Number(x.home_prior_games)>0&&Number(x.away_prior_games)>0).length;console.log(JSON.stringify({games:r.length,with_both_teams_prior_epa:n}));if(n<100)process.exit(1)"
+      - name: Build 2024 Elo and matchup baselines
+        run: |
+          node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo-2024.csv
+          node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup-2024.csv
+          node phase10/ensemble.mjs phase10/data/elo-2024.csv phase10/data/matchup-2024.csv phase10/data/ensemble-2024.csv
+      - name: Compare fixed-coefficient EPA model on 2024 games
+        run: |
+          node phase10/epa-augmented.mjs phase10/data/ensemble-2024.csv phase10/data/pregame-epa-2024.csv phase10/data/epa-ensemble-2024.csv
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble-2024.csv epa_augmented=phase10/data/epa-ensemble-2024.csv > phase10/data/epa-comparison-2024.json
+          cat phase10/data/epa-comparison-2024.json
+      - name: Archive 2024 EPA model comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-epa-comparison-2024
+          path: |
+            phase10/data/epa-comparison-2024.json
+            phase10/data/epa-ensemble-2024.csv
+          retention-days: 30
       - name: Archive verified real EPA feature sample
         uses: actions/upload-artifact@v4
         with:

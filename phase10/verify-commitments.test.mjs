@@ -40,3 +40,10 @@ test('rejects future-dated and malformed manifest publication',()=>{
  assert.equal(verifyCommitments([signed],manifest,{now:Date.parse('2026-11-20T15:00:00Z')}).ready,false);
  assert.equal(verifyCommitments([signed],{commitments:[{...manifest.commitments[0],published_at_utc:'2026-11-20 16:01:00'}]},opts).ready,false);
 });
+
+test('hash integrity does not imply independent prospective timestamp verification',()=>{
+ const report=verifyCommitments([signed],manifest,opts);
+ assert.equal(report.ready,true);
+ assert.equal(report.prospective_verified,false);
+ assert.equal(verifyCommitments([signed],{},opts).prospective_verified,false);
+});

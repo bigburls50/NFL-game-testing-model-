@@ -23,7 +23,10 @@ export function pregameRest(games){
    // Offseason is not meaningful in-season rest; mark season openers unknown.
    const homePrior=home?.season===String(g.season)?home.day:undefined;
    const awayPrior=away?.season===String(g.season)?away.day:undefined;
-   // A gap beyond four weeks is not credible ordinary NFL game-to-game rest.\n   // Fail closed rather than treating preseason-to-playoffs or missing schedules as rest.\n   const rest=prior=>prior===undefined||today-prior-1>28?'':today-prior-1;\n   const h=rest(homePrior),a=rest(awayPrior);
+   // A gap beyond four weeks is not credible ordinary NFL game-to-game rest.
+   // Fail closed rather than treating preseason-to-playoffs or missing schedules as rest.
+   const rest=prior=>prior===undefined||today-prior-1>28?'':today-prior-1;
+   const h=rest(homePrior),a=rest(awayPrior);
    if((h!==''&&h<0)||(a!==''&&a<0))throw Error('Negative rest');
    out.push({game_id:g.game_id,season:g.season,gameday:g.gameday,home_team:g.home_team,away_team:g.away_team,home_rest_days:h,away_rest_days:a,rest_days_edge:h===''||a===''?'':h-a,home_short_rest:h===''?'':Number(h<6),away_short_rest:a===''?'':Number(a<6)});
   }

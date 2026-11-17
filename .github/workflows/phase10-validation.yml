@@ -21,7 +21,18 @@ jobs:
       - name: Syntax check
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests
-        run: node --test phase10/*.test.mjs
+        run: |
+          mkdir -p phase10/data
+          set -o pipefail
+          node --test --test-reporter=tap phase10/*.test.mjs 2>&1 | tee phase10/data/unit-test-results.tap
+      - name: Archive unit test diagnostics even when tests fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-unit-test-diagnostics
+          path: phase10/data/unit-test-results.tap
+          if-no-files-found: warn
+          retention-days: 14
       - name: Season comparison regression checks
         run: node phase10/test-season-review.mjs
       - name: Pregame EPA point-in-time leakage regression checks

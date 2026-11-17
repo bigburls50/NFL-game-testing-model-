@@ -19,7 +19,7 @@ export function canonicalPrediction(r){
 export function verifyCommitments(rows,manifest,{now=Date.now()}={}){
  const audit=auditProspective(rows,{now}),issues=[...audit.issues];
  const entries=manifest?.commitments;
- if(!Array.isArray(entries))return {ready:false,issues:[...issues,{error:'Missing commitment manifest'}],warning:'Hash integrity alone does not establish external pre-kickoff publication'};
+ if(!Array.isArray(entries))return {ready:false,prospective_verified:false,issues:[...issues,{error:'Missing commitment manifest'}],warning:'Hash integrity alone does not establish external pre-kickoff publication'};
  const byId=new Map();
  for(const e of entries){if(!e||!e.game_id||byId.has(e.game_id)){issues.push({error:'Duplicate or invalid manifest game ID'});continue}byId.set(e.game_id,e)}
  for(const r of rows){
@@ -30,7 +30,7 @@ export function verifyCommitments(rows,manifest,{now=Date.now()}={}){
   }catch(err){issues.push({game_id:r.game_id,error:err.message})}
  }
  for(const id of byId.keys())if(!rows.some(r=>r.game_id===id))issues.push({game_id:id,error:'Unmatched manifest commitment'});
- return {ready:audit.ready&&issues.length===0,accepted:audit.accepted,issues,warning:'Manifest publication timestamps are self-asserted. Independent immutable third-party timestamp evidence is still mandatory before prospective performance claims.'};
+ return {ready:audit.ready&&issues.length===0,prospective_verified:false,accepted:audit.accepted,issues,warning:'Manifest publication timestamps are self-asserted. Independent immutable third-party timestamp evidence is still mandatory before prospective performance claims.'};
 }
 if(process.argv[1]?.endsWith('verify-commitments.mjs')){try{
  const [ledger,manifest]=process.argv.slice(2);if(!ledger||!manifest)throw Error('Usage: verify-commitments.mjs ledger.csv manifest.json');

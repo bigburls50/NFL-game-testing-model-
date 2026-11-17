@@ -9,7 +9,7 @@ export function canonicalPrediction(r){
  const fields=['game_id','kickoff_utc','prediction_locked_utc','model_version','home_team','away_team','home_win_probability'];
  const values=fields.map(k=>String(r[k]??'').trim());
  if(values.some(v=>!v))throw Error('Missing canonical prediction field');
- if(!/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$/.test(values[1])||!/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$/.test(values[2]))throw Error('UTC timestamps must use explicit ISO Z format');
+ if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\\.\d{1,3})?Z$/.test(values[1])||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\\.\d{1,3})?Z$/.test(values[2]))throw Error('UTC timestamps must use explicit ISO Z format');
  const p=Number(values[6]);if(!(p>0&&p<1)||!Number.isFinite(p))throw Error('Invalid probability');
  values[6]=p.toString();
  return JSON.stringify(Object.fromEntries(fields.map((k,i)=>[k,values[i]])));

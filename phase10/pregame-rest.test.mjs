@@ -36,3 +36,17 @@ test('rest resumes after a game in the new season',()=>{
  assert.equal(r[2].home_rest_days,6);
  assert.equal(r[2].away_rest_days,6);
 });
+
+test('missing, nonnumeric, and inconsistent season metadata fail closed',()=>{
+ assert.throws(()=>pregameRest([{...games[0],season:undefined}]),/season/);
+ assert.throws(()=>pregameRest([{...games[0],season:'not-a-year'}]),/season/);
+ assert.throws(()=>pregameRest([{...games[0],season:2024}]),/outside NFL season/);
+});
+test('January playoff games belong to the preceding NFL season',()=>{
+ const r=pregameRest([
+  {game_id:'dec',season:2025,gameday:'2025-12-28',home_team:'A',away_team:'B'},
+  {game_id:'jan',season:2025,gameday:'2026-01-04',home_team:'A',away_team:'B'}
+ ]);
+ assert.equal(r[1].home_rest_days,6);
+ assert.equal(r[1].away_rest_days,6);
+});

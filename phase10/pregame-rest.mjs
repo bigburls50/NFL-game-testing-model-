@@ -18,11 +18,14 @@ export function pregameRest(games){
    if(seen.has(g.home_team)||seen.has(g.away_team))throw Error('Team scheduled twice on same day');
    seen.add(g.home_team);seen.add(g.away_team);
    const home=last.get(g.home_team),away=last.get(g.away_team);
-   const h=home===undefined?'':today-home-1,a=away===undefined?'':today-away-1;
+   // Offseason is not meaningful in-season rest; mark season openers unknown.
+   const homePrior=home?.season===String(g.season)?home.day:undefined;
+   const awayPrior=away?.season===String(g.season)?away.day:undefined;
+   const h=homePrior===undefined?'':today-homePrior-1,a=awayPrior===undefined?'':today-awayPrior-1;
    if((h!==''&&h<0)||(a!==''&&a<0))throw Error('Negative rest');
    out.push({game_id:g.game_id,season:g.season,gameday:g.gameday,home_team:g.home_team,away_team:g.away_team,home_rest_days:h,away_rest_days:a,rest_days_edge:h===''||a===''?'':h-a,home_short_rest:h===''?'':Number(h<6),away_short_rest:a===''?'':Number(a<6)});
   }
-  for(const g of batch){last.set(g.home_team,today);last.set(g.away_team,today)}
+  for(const g of batch){last.set(g.home_team,{day:today,season:String(g.season)});last.set(g.away_team,{day:today,season:String(g.season)})}
  }
  return out;
 }
@@ -32,5 +35,5 @@ if(process.argv[1]?.endsWith('pregame-rest.mjs')){try{
  const rows=pregameRest(parseCSV(fs.readFileSync(input,'utf8'))),cols=['game_id','season','gameday','home_team','away_team','home_rest_days','away_rest_days','rest_days_edge','home_short_rest','away_short_rest'];
  const esc=v=>{const s=String(v??'');return /[",\n\r]/.test(s)?'"'+s.replaceAll('"','""')+'"':s};
  fs.writeFileSync(output,[cols.join(','),...rows.map(r=>cols.map(k=>esc(r[k])).join(','))].join('\n')+'\n');
- console.log(JSON.stringify({games:rows.length,with_both_prior_games:rows.filter(r=>r.rest_days_edge!=='').length,warning:'Calendar-date-only rest feature; historical team codes and schedule changes require audit. Not yet trained into model.'}));
+ console.log(JSON.stringify({games:rows.length,with_both_prior_games:rows.filter(r=>r.rest_days_edge!=='').length,warning:'Calendar-date-only in-season rest feature; season openers have unknown rest; historical team codes and schedule changes require audit. Not yet trained into model.'}));
 }catch(e){console.error(e.message);process.exitCode=1}}

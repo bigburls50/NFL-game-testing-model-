@@ -20,7 +20,7 @@ test('outcomes and future games cannot change prior rest features',()=>{
  const b=pregameRest([...games,{game_id:'future',season:2025,gameday:'2025-09-20',home_team:'A',away_team:'B'}].map(x=>({...x,home_score:999,away_score:0})));
  assert.deepEqual(b.slice(0,a.length),a);
 });
-test('same-date double-booked team is rejected',()=>assert.throws(()=>pregameRest([...games,{game_id:'bad',gameday:'2025-09-01',home_team:'A',away_team:'Z'}]),/twice/));
+test('same-date double-booked team is rejected',()=>assert.throws(()=>pregameRest([...games,{game_id:'bad',season:2025,gameday:'2025-09-01',home_team:'A',away_team:'Z'}]),/twice/));
 test('invalid date and duplicate game are rejected',()=>{
  assert.throws(()=>pregameRest([{...games[0],gameday:'2025-02-30'}]),/date/);
  assert.throws(()=>pregameRest([games[0],games[0]]),/duplicate/);
@@ -40,7 +40,7 @@ test('rest resumes after a game in the new season',()=>{
 test('missing, nonnumeric, and inconsistent season metadata fail closed',()=>{
  assert.throws(()=>pregameRest([{...games[0],season:undefined}]),/season/);
  assert.throws(()=>pregameRest([{...games[0],season:'not-a-year'}]),/season/);
- assert.throws(()=>pregameRest([{...games[0],season:2024}]),/outside NFL season/);
+ assert.throws(()=>pregameRest([{...games[0],season:2024}]),/outside NFL season window/);
 });
 test('January playoff games belong to the preceding NFL season',()=>{
  const r=pregameRest([

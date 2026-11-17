@@ -7,7 +7,9 @@ const day=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s))throw Error('Invalid ISO game da
 export function pregameRest(games){
  const ids=new Set(),ordered=games.map(g=>{
   if(!g.game_id||ids.has(g.game_id)||!g.home_team||!g.away_team||g.home_team===g.away_team)throw Error('Invalid or duplicate game/team');
-  ids.add(g.game_id);return {...g,_day:day(g.gameday)};
+  const season=Number(g.season);if(!Number.isInteger(season)||season<1990||season>2100)throw Error('Invalid season');
+  const gameDay=day(g.gameday);const year=Number(g.gameday.slice(0,4));if(year!==season&&year!==season+1)throw Error('Game date outside NFL season');
+  ids.add(g.game_id);return {...g,_day:gameDay};
  }).sort((a,b)=>a._day-b._day||a.game_id.localeCompare(b.game_id));
  const last=new Map(),out=[];
  for(let i=0;i<ordered.length;){

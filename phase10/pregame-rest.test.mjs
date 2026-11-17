@@ -25,8 +25,14 @@ test('invalid date and duplicate game are rejected',()=>{
  assert.throws(()=>pregameRest([{...games[0],gameday:'2025-02-30'}]),/date/);
  assert.throws(()=>pregameRest([games[0],games[0]]),/duplicate/);
 });
-test('cross-season rest is historical, not invented',()=>{
- const r=pregameRest([{...games[0],gameday:'2024-12-20'}, {...games[2],gameday:'2025-09-01'}]);
- assert.ok(r[1].home_rest_days>100);
+test('offseason is not counted as in-season rest',()=>{
+ const r=pregameRest([{...games[0],season:2024,gameday:'2024-12-20'}, {...games[2],season:2025,gameday:'2025-09-01'}]);
+ assert.equal(r[1].home_rest_days,'');
  assert.equal(r[1].away_rest_days,'');
+ assert.equal(r[1].rest_days_edge,'');
+});
+test('rest resumes after a game in the new season',()=>{
+ const r=pregameRest([{...games[0],season:2024,gameday:'2024-12-20'}, {...games[2],season:2025,gameday:'2025-09-01'}, {game_id:'new',season:2025,gameday:'2025-09-08',home_team:'A',away_team:'C'}]);
+ assert.equal(r[2].home_rest_days,6);
+ assert.equal(r[2].away_rest_days,6);
 });

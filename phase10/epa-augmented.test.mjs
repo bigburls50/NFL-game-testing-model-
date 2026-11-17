@@ -6,3 +6,8 @@ test('missing features preserve base model',()=>{const x=augmentWithEpa([p],[])[
 test('too few prior games preserves base model',()=>{const x=augmentWithEpa([p],[{...f,home_prior_games:1}])[0];assert.equal(x.home_win_probability,.6)});
 test('rejects mismatched teams',()=>assert.throws(()=>augmentWithEpa([p],[{...f,away_team:'C'}]),/mismatch/));
 test('missing values do not become zero',()=>{const x=augmentWithEpa([p],[{...f,home_offense_epa_per_play:'',home_qb_epa_per_dropback:''}])[0];assert.equal(x.epa_features_used,0)});
+
+test('rejects mismatched kickoff dates when both sources provide dates',()=>{
+ assert.throws(()=>augmentWithEpa([{...p,gameday:'2025-09-07'}],[{...f,gameday:'2025-09-14'}]),/mismatch/);
+ assert.equal(augmentWithEpa([{...p,gameday:'2025-09-07'}],[{...f,gameday:'2025-09-07'}])[0].epa_features_used,1);
+});

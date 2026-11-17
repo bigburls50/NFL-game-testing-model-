@@ -8,7 +8,7 @@ export function pregameRest(games){
  const ids=new Set(),ordered=games.map(g=>{
   if(!g.game_id||ids.has(g.game_id)||!g.home_team||!g.away_team||g.home_team===g.away_team)throw Error('Invalid or duplicate game/team');
   const season=Number(g.season);if(!Number.isInteger(season)||season<1990||season>2100)throw Error('Invalid season');
-  const gameDay=day(g.gameday);const year=Number(g.gameday.slice(0,4));if(year!==season&&year!==season+1)throw Error('Game date outside NFL season');
+  const gameDay=day(g.gameday);const year=Number(g.gameday.slice(0,4));const month=Number(g.gameday.slice(5,7));if(!((year===season&&month>=8)||(year===season+1&&month<=2)))throw Error('Game date outside NFL season window');
   ids.add(g.game_id);return {...g,_day:gameDay};
  }).sort((a,b)=>a._day-b._day||a.game_id.localeCompare(b.game_id));
  const last=new Map(),out=[];

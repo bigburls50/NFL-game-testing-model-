@@ -63,3 +63,26 @@ test('accepts February postseason and August season dates',()=>{
  ]);
  assert.equal(r[1].home_rest_days,154);
 });
+
+test('short-rest flags use five or fewer full days and retain direction of rest edge',()=>{
+ const r=pregameRest([
+  {game_id:'a1',season:2025,gameday:'2025-09-01',home_team:'A',away_team:'B'},
+  {game_id:'c1',season:2025,gameday:'2025-09-03',home_team:'C',away_team:'D'},
+  {game_id:'a2',season:2025,gameday:'2025-09-08',home_team:'A',away_team:'C'},
+  {game_id:'b2',season:2025,gameday:'2025-09-08',home_team:'D',away_team:'B'}
+ ]);
+ const a=r.find(x=>x.game_id==='a2'),b=r.find(x=>x.game_id==='b2');
+ assert.equal(a.home_rest_days,6);
+ assert.equal(a.away_rest_days,4);
+ assert.equal(a.rest_days_edge,2);
+ assert.equal(a.home_short_rest,0);
+ assert.equal(a.away_short_rest,1);
+ assert.equal(b.rest_days_edge,-2);
+ assert.equal(b.home_short_rest,1);
+ assert.equal(b.away_short_rest,0);
+});
+test('rest outputs are invariant to input ordering and outcome fields',()=>{
+ const canonical=pregameRest(games);
+ const shuffled=pregameRest([...games].reverse().map(g=>({...g,home_score:100,away_score:0})));
+ assert.deepEqual(shuffled,canonical);
+});

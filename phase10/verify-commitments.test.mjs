@@ -27,3 +27,16 @@ test('invalid UTC fractional precision and timezone are rejected',()=>{
  assert.throws(()=>canonicalPrediction({...row,kickoff_utc:'2026-11-20T18:00:00.1234Z'}));
  assert.throws(()=>canonicalPrediction({...row,prediction_locked_utc:'2026-11-20T16:00:00+00:00'}));
 });
+
+test('rejects impossible calendar dates rather than normalizing them',()=>{
+ assert.throws(()=>canonicalPrediction({...row,kickoff_utc:'2026-02-30T18:00:00Z'}));
+ assert.throws(()=>canonicalPrediction({...row,prediction_locked_utc:'2026-13-20T16:00:00Z'}));
+});
+test('rejects manifest publication before prediction lock',()=>{
+ const changed={commitments:[{...manifest.commitments[0],published_at_utc:'2026-11-20T15:59:59Z'}]};
+ assert.equal(verifyCommitments([signed],changed,opts).ready,false);
+});
+test('rejects future-dated and malformed manifest publication',()=>{
+ assert.equal(verifyCommitments([signed],manifest,{now:Date.parse('2026-11-20T15:00:00Z')}).ready,false);
+ assert.equal(verifyCommitments([signed],{commitments:[{...manifest.commitments[0],published_at_utc:'2026-11-20 16:01:00'}]},opts).ready,false);
+});

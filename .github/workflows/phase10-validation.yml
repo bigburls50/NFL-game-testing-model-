@@ -45,6 +45,22 @@ jobs:
             phase10/data/historical-games.csv
             phase10/data/source-summary.json
           retention-days: 30
+      - name: Build point-in-time team rest features
+        run: |
+          node phase10/pregame-rest.mjs phase10/data/historical-games.csv phase10/data/pregame-rest.csv
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const r=parseCSV(fs.readFileSync('phase10/data/pregame-rest.csv','utf8'));
+          if(r.length<5000||r.filter(x=>x.rest_days_edge!=='').length<4000||r.some(x=>x.home_rest_days!==''&&Number(x.home_rest_days)<0))throw Error('Pregame rest coverage audit failed');
+          console.log(JSON.stringify({games:r.length,rest_both_teams:r.filter(x=>x.rest_days_edge!=='').length}));
+          EOF
+      - name: Archive historical pregame rest features
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-pregame-rest
+          path: phase10/data/pregame-rest.csv
+          retention-days: 30
       - name: Evaluate leakage-safe historical baseline
         run: node phase10/baseline.mjs phase10/data/historical-games.csv phase10/data/baseline-predictions.csv
       - name: Archive baseline predictions

@@ -98,3 +98,22 @@ test('long gaps are unknown, but normal bye weeks remain valid',()=>{
  assert.equal(r[2].home_rest_days,'');
  assert.equal(r[2].home_short_rest,'');
 });
+
+test('28-day rest cutoff is inclusive and 29 days is unknown',()=>{
+ const r=pregameRest([
+  {game_id:'first',season:2025,gameday:'2025-09-01',home_team:'A',away_team:'B'},
+  {game_id:'at-cutoff',season:2025,gameday:'2025-09-30',home_team:'A',away_team:'C'},
+  {game_id:'past-cutoff',season:2025,gameday:'2025-10-31',home_team:'B',away_team:'D'}
+ ]);
+ assert.equal(r[1].home_rest_days,28);
+ assert.equal(r[2].home_rest_days,'');
+ assert.equal(r[2].home_short_rest,'');
+});
+test('consecutive-day games produce zero full rest days',()=>{
+ const r=pregameRest([
+  {game_id:'first',season:2025,gameday:'2025-09-01',home_team:'A',away_team:'B'},
+  {game_id:'second',season:2025,gameday:'2025-09-02',home_team:'A',away_team:'C'}
+ ]);
+ assert.equal(r[1].home_rest_days,0);
+ assert.equal(r[1].home_short_rest,1);
+});

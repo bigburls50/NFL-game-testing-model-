@@ -16,3 +16,14 @@ test('missing or duplicate commitments rejected',()=>{
 });
 test('extra commitment is rejected',()=>assert.equal(verifyCommitments([signed],{commitments:[...manifest.commitments,{game_id:'other',sha256:hash,published_at_utc:'2026-11-20T16:00:00Z'}]},opts).ready,false));
 test('ambiguous timezone format rejected',()=>assert.throws(()=>canonicalPrediction({...row,kickoff_utc:'2026-11-20 18:00'})));
+
+test('valid fractional-second UTC timestamps are canonicalized and verified',()=>{
+ const fractional={...row,kickoff_utc:'2026-11-20T18:00:00.125Z',prediction_locked_utc:'2026-11-20T16:00:00.025Z'};
+ const digest=createHash('sha256').update(canonicalPrediction(fractional)).digest('hex');
+ const result=verifyCommitments([{...fractional,prediction_sha256:digest}],{commitments:[{game_id:'g1',sha256:digest,published_at_utc:'2026-11-20T16:01:00Z'}]},opts);
+ assert.equal(result.ready,true,JSON.stringify(result.issues));
+});
+test('invalid UTC fractional precision and timezone are rejected',()=>{
+ assert.throws(()=>canonicalPrediction({...row,kickoff_utc:'2026-11-20T18:00:00.1234Z'}));
+ assert.throws(()=>canonicalPrediction({...row,prediction_locked_utc:'2026-11-20T16:00:00+00:00'}));
+});

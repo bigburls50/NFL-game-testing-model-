@@ -61,7 +61,8 @@ test('accepts February postseason and August season dates',()=>{
   {game_id:'aug',season:2025,gameday:'2025-08-30',home_team:'A',away_team:'B'},
   {game_id:'feb',season:2025,gameday:'2026-02-01',home_team:'A',away_team:'B'}
  ]);
- assert.equal(r[1].home_rest_days,'');\n assert.equal(r[1].away_rest_days,'');
+ assert.equal(r[1].home_rest_days,'');
+ assert.equal(r[1].away_rest_days,'');
 });
 
 test('short-rest flags use five or fewer full days and retain direction of rest edge',()=>{
@@ -87,4 +88,13 @@ test('rest outputs are invariant to input ordering and outcome fields',()=>{
  assert.deepEqual(shuffled,canonical);
 });
 
-test('long gaps are unknown, but normal bye weeks remain valid',()=>{\n const r=pregameRest([\n  {game_id:'w1',season:2025,gameday:'2025-09-07',home_team:'A',away_team:'B'},\n  {game_id:'bye',season:2025,gameday:'2025-09-21',home_team:'A',away_team:'C'},\n  {game_id:'gap',season:2025,gameday:'2025-11-02',home_team:'A',away_team:'D'}\n ]);\n assert.equal(r[1].home_rest_days,13);\n assert.equal(r[2].home_rest_days,'');\n assert.equal(r[2].home_short_rest,'');\n});\n
+test('long gaps are unknown, but normal bye weeks remain valid',()=>{
+ const r=pregameRest([
+  {game_id:'w1',season:2025,gameday:'2025-09-07',home_team:'A',away_team:'B'},
+  {game_id:'bye',season:2025,gameday:'2025-09-21',home_team:'A',away_team:'C'},
+  {game_id:'gap',season:2025,gameday:'2025-11-02',home_team:'A',away_team:'D'}
+ ]);
+ assert.equal(r[1].home_rest_days,13);
+ assert.equal(r[2].home_rest_days,'');
+ assert.equal(r[2].home_short_rest,'');
+});

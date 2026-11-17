@@ -50,3 +50,16 @@ test('January playoff games belong to the preceding NFL season',()=>{
  assert.equal(r[1].home_rest_days,6);
  assert.equal(r[1].away_rest_days,6);
 });
+
+test('rejects spring and summer dates mislabelled as NFL regular-season games',()=>{
+ for(const gameday of ['2025-01-15','2025-07-31','2026-03-01','2026-12-01']){
+  assert.throws(()=>pregameRest([{...games[0],gameday}]),/season window/,gameday);
+ }
+});
+test('accepts February postseason and August season dates',()=>{
+ const r=pregameRest([
+  {game_id:'aug',season:2025,gameday:'2025-08-30',home_team:'A',away_team:'B'},
+  {game_id:'feb',season:2025,gameday:'2026-02-01',home_team:'A',away_team:'B'}
+ ]);
+ assert.equal(r[1].home_rest_days,154);
+});

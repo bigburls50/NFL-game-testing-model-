@@ -10,6 +10,7 @@ const logit=p=>Math.log(p/(1-p));
 export function walkForward(rows,{firstTestSeason=2023,minTrainingGames=200,iterations=300,learningRate=.03}={}){
  if(!Number.isInteger(firstTestSeason)||!Number.isInteger(minTrainingGames)||minTrainingGames<1||!Number.isInteger(iterations)||iterations<1||!(learningRate>0&&learningRate<=1))throw Error('Invalid settings');
  const ids=new Set(),data=rows.map(r=>{
+  if([r.season,r.home_win_probability,r.home_score,r.away_score].some(v=>v===null||v===undefined||String(v).trim()===''))throw Error('Missing season, probability or final score');
   const season=Number(r.season),p=Number(r.home_win_probability),h=Number(r.home_score),a=Number(r.away_score);
   if(!r.game_id||ids.has(r.game_id)||!Number.isInteger(season)||!(p>0&&p<1)||!Number.isInteger(h)||!Number.isInteger(a)||h<0||a<0||h===a)throw Error('Invalid/duplicate record');
   ids.add(r.game_id);return {...r,season,p,y:Number(h>a)};

@@ -18,3 +18,9 @@ test('rejects duplicate game IDs in expected schedule',()=>assert.equal(auditPre
 test('rejects placeholder digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:example'}],opts).ready,false));
 test('rejects short digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:'+'a'.repeat(63)}],opts).ready,false));
 test('rejects blank model version',()=>assert.equal(auditPregameForecasts([{...row,model_version:' '}],opts).ready,false));
+
+const verifiedSchedule=[{game_id:row.game_id,home_team:row.home_team,away_team:row.away_team,kickoff_utc:row.kickoff_utc}];
+test('accepts matching independently supplied schedule details',()=>assert.equal(auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).ready,true));
+test('rejects swapped home and away against verified schedule',()=>assert.ok(auditPregameForecasts([{...row,home_team:'IND',away_team:'HOU'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).errors.some(x=>x.reasons.includes('verified_schedule_details_mismatch'))));
+test('rejects kickoff mismatch even when game id matches',()=>assert.equal(auditPregameForecasts([{...row,kickoff_utc:'2026-11-20T02:15:00Z'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).ready,false));
+test('rejects duplicate verified schedule entries',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[...verifiedSchedule,...verifiedSchedule]}),/Invalid or duplicate/));

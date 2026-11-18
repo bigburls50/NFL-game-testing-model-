@@ -22,3 +22,12 @@ test('reject duplicate games and insufficient prior training',()=>{
  assert.throws(()=>walkForward([...rows,rows[0]],{minTrainingGames:8}),/duplicate/);
  assert.throws(()=>walkForward(rows,{firstTestSeason:2021,minTrainingGames:100}),/No eligible/);
 });
+
+test('reject missing outcomes instead of treating blank CSV cells as zero scores',()=>{
+ for(const field of ['home_score','away_score','season','home_win_probability']){
+  for(const value of ['', '   ', null, undefined]){
+   const corrupted=rows.map((r,i)=>i===0?{...r,[field]:value}:r);
+   assert.throws(()=>walkForward(corrupted,{firstTestSeason:2022,minTrainingGames:8,iterations:20}),/Missing/);
+  }
+ }
+});

@@ -24,3 +24,8 @@ test('accepts matching independently supplied schedule details',()=>assert.equal
 test('rejects swapped home and away against verified schedule',()=>assert.ok(auditPregameForecasts([{...row,home_team:'IND',away_team:'HOU'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).errors.some(x=>x.reasons.includes('verified_schedule_details_mismatch'))));
 test('rejects kickoff mismatch even when game id matches',()=>assert.equal(auditPregameForecasts([{...row,kickoff_utc:'2026-11-20T02:15:00Z'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).ready,false));
 test('rejects duplicate verified schedule entries',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[...verifiedSchedule,...verifiedSchedule]}),/Invalid or duplicate/));
+
+test('rejects timezone-less kickoff in verified schedule',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[{...verifiedSchedule[0],kickoff_utc:'2026-11-20T01:15:00'}]}),/Invalid or duplicate/));
+test('rejects timezone-less forecast generation time',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00'}],opts).ready,false));
+test('rejects offset-based feature timestamp to require canonical UTC',()=>assert.equal(auditPregameForecasts([{...row,features_asof_utc:'2026-11-18T10:00:00-05:00'}],opts).ready,false));
+test('rejects timezone-less audit as-of',()=>assert.throws(()=>auditPregameForecasts([row],{...opts,asOf:'2026-11-18T17:00:00'}),/Invalid as-of/));

@@ -3,10 +3,12 @@ on:
   push:
     paths:
       - 'phase10/**'
+      - 'research/**'
       - '.github/workflows/phase10-validation.yml'
   pull_request:
     paths:
       - 'phase10/**'
+      - 'research/**'
       - '.github/workflows/phase10-validation.yml'
 permissions:
   contents: read
@@ -18,6 +20,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Prospective evaluator regression tests
+        run: python3 -m unittest discover -s research -p 'test_validate_prospective_predictions.py' -v
       - name: Syntax check
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests

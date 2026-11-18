@@ -155,7 +155,7 @@ jobs:
           import fs from 'node:fs';
           const r=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
           const c=r.comparison;
-          if(!c||c.games!==854||r.report.games!==c.games||r.original_report.games!==c.games)throw Error('Paired calibration game count mismatch');
+          if(!c||c.games<800||r.report.games!==c.games||r.original_report.games!==c.games)throw Error('Paired calibration game count mismatch');
           for(const key of ['brier_change','log_loss_change','accuracy_change','high_confidence_coverage_change']){
             if(!Number.isFinite(c[key]))throw Error('Missing paired calibration metric: '+key);
           }

@@ -31,3 +31,15 @@ test('reject missing outcomes instead of treating blank CSV cells as zero scores
   }
  }
 });
+
+test('original and calibrated metrics use identical eligible holdout games',()=>{
+ const result=walkForward(rows,{firstTestSeason:2022,minTrainingGames:8,iterations:20});
+ assert.equal(result.original_report.games,result.report.games);
+ assert.equal(result.comparison.games,result.predictions.length);
+ assert.equal(result.original_report.games,24);
+ const close=(a,b)=>assert.ok(Math.abs(a-b)<1e-12);
+ close(result.comparison.brier_change,result.report.brier-result.original_report.brier);
+ close(result.comparison.log_loss_change,result.report.log_loss-result.original_report.log_loss);
+ close(result.comparison.accuracy_change,result.report.accuracy-result.original_report.accuracy);
+ close(result.comparison.high_confidence_coverage_change,result.report.high_confidence_coverage-result.original_report.high_confidence_coverage);
+});

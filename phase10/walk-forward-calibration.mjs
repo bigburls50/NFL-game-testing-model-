@@ -32,7 +32,10 @@ export function walkForward(rows,{firstTestSeason=2023,minTrainingGames=200,iter
   folds.push({season,status:'evaluated',training_games:train.length,training_last_season:Math.max(...train.map(t=>t.season)),test_games:test.length,intercept:a,slope:b});
  }
  if(!predictions.length)throw Error('No eligible walk-forward folds');
- return {folds,predictions,report:calibration(predictions),warning:'Experimental expanding-window calibration. Fits only earlier-season predictions; input predictions must be generated out-of-sample with point-in-time features. Do not treat this as prospective validation.'};
+ const evaluatedIds=new Set(predictions.map(r=>r.game_id));
+ const original=data.filter(r=>evaluatedIds.has(r.game_id)).map(r=>({...r,home_win_probability:r.p}));
+ const originalReport=calibration(original),calibratedReport=calibration(predictions);
+ return {folds,predictions,report:calibratedReport,original_report:originalReport,comparison:{games:predictions.length,brier_change:calibratedReport.brier-originalReport.brier,log_loss_change:calibratedReport.log_loss-originalReport.log_loss,accuracy_change:calibratedReport.accuracy-originalReport.accuracy,high_confidence_coverage_change:calibratedReport.high_confidence_coverage-originalReport.high_confidence_coverage},warning:'Experimental expanding-window calibration. Fits only earlier-season predictions; input predictions must be generated out-of-sample with point-in-time features. Do not treat this as prospective validation.'};
 }
 if(process.argv[1]?.endsWith('walk-forward-calibration.mjs')){try{
  const [input,output='phase10/data/walk-forward-predictions.csv',first='2023']=process.argv.slice(2);
@@ -41,5 +44,5 @@ if(process.argv[1]?.endsWith('walk-forward-calibration.mjs')){try{
  const columns=['game_id','season','home_team','away_team','home_score','away_score','home_win_probability','training_last_season','training_games'];
  const esc=v=>{const s=String(v??'');return /[",\n\r]/.test(s)?'"'+s.replaceAll('"','""')+'"':s};
  fs.writeFileSync(output,[columns.join(','),...r.predictions.map(p=>columns.map(k=>esc(p[k])).join(','))].join('\n')+'\n');
- console.log(JSON.stringify({folds:r.folds,report:r.report,warning:r.warning},null,2));
+ console.log(JSON.stringify({folds:r.folds,report:r.report,original_report:r.original_report,comparison:r.comparison,warning:r.warning},null,2));
 }catch(e){console.error(e.message);process.exitCode=1}}

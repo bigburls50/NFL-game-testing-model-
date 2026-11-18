@@ -1,7 +1,6 @@
 // Validate a current-season pregame forecast archive before any dashboard picks are shown.
 // This is a provenance/quality gate, NOT evidence of predictive accuracy.
 const utcInstant=value=>typeof value==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(value)&&Number.isFinite(Date.parse(value));
-const utcInstant=value=>typeof value==='string'&&/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$/.test(value)&&Number.isFinite(Date.parse(value));
 export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season,expectedGameIds=[],expectedGames=null}={}){
  if(!Number.isInteger(season)||season<2000)throw Error('Explicit target season required');
  const now=Date.parse(asOf);if(!utcInstant(asOf))throw Error('Invalid as-of timestamp');

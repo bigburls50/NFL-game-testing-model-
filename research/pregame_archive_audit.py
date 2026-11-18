@@ -32,8 +32,8 @@ def validate_archive(path):
         normalized = [name.strip().lower() for name in reader.fieldnames]
         if len(normalized) != len(set(normalized)):
             raise ValueError("duplicate column names after normalization")
-        forbidden = {"home_score", "away_score", "home_points", "away_points", "winner", "home_win", "result", "final_score"}
-        if forbidden.intersection(normalized):
+        forbidden = {"home_score", "away_score", "home_points", "away_points", "winner", "home_win", "result", "final_score", "winning_team", "home_team_score", "away_team_score", "actual_home_win", "outcome", "is_home_win"}
+        if forbidden.intersection(normalized) or any(name.startswith(("actual_", "postgame_", "final_")) for name in normalized):
             raise ValueError("outcome columns are prohibited in immutable pregame archives")
         if normalized != reader.fieldnames:
             raise ValueError("archive column names must be canonical lowercase without whitespace")

@@ -18,7 +18,9 @@ export function walkForward(rows,{firstTestSeason=2023,minTrainingGames=200,iter
  const years=[...new Set(data.map(r=>r.season))].filter(s=>s>=firstTestSeason).sort((a,b)=>a-b);
  const predictions=[],folds=[];
  for(const season of years){
-  const train=data.filter(r=>r.season<season),test=data.filter(r=>r.season===season);
+  // Canonical ordering avoids floating-point accumulation differences when CSV rows are shuffled.
+  const train=data.filter(r=>r.season<season).sort((a,b)=>String(a.game_id).localeCompare(String(b.game_id)));
+  const test=data.filter(r=>r.season===season).sort((a,b)=>String(a.game_id).localeCompare(String(b.game_id)));
   if(train.length<minTrainingGames){folds.push({season,status:'skipped_insufficient_prior_seasons',training_games:train.length,test_games:test.length});continue}
   // Two-parameter logistic calibration; deterministic full-batch gradient descent.
   // Initialize identity calibration and fit ONLY on earlier seasons.

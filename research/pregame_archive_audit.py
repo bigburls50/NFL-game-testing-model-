@@ -27,14 +27,19 @@ def validate_archive(path):
     raw = Path(path).read_bytes()
     with Path(path).open(newline="", encoding="utf-8-sig") as handle:
         reader = csv.DictReader(handle)
+        if not reader.fieldnames:
+            raise ValueError("missing required archive columns")
+        normalized = [name.strip().lower() for name in reader.fieldnames]
+        if len(normalized) != len(set(normalized)):
+            raise ValueError("duplicate column names after normalization")
+        if normalized != reader.fieldnames:
+            raise ValueError("archive column names must be canonical lowercase without whitespace")
         required = {"game_id", "prediction_timestamp", "kickoff_timestamp", "home_win_probability"}
-        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+        if not required.issubset(normalized):
             raise ValueError("missing required archive columns")
         forbidden = {"home_score", "away_score", "home_points", "away_points", "winner", "home_win", "result", "final_score"}
-        if forbidden.intersection({name.strip().lower() for name in reader.fieldnames}):
+        if forbidden.intersection(normalized):
             raise ValueError("outcome columns are prohibited in immutable pregame archives")
-        if len(reader.fieldnames) != len(set(reader.fieldnames)):
-            raise ValueError("duplicate column names")
         seen = set()
         count = 0
         for row in reader:

@@ -4,6 +4,9 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
  if(!Number.isInteger(season)||season<2000)throw Error('Explicit target season required');
  const now=Date.parse(asOf);if(!Number.isFinite(now))throw Error('Invalid as-of timestamp');
  const errors=[],accepted=[],ids=new Set();
+ // A dashboard-ready archive must be matched to a nonempty independently supplied schedule.
+ if(!Array.isArray(expectedGameIds)||expectedGameIds.length===0)errors.push({row:null,game_id:null,reasons:['missing_verified_schedule']});
+ if(new Set(expectedGameIds).size!==expectedGameIds.length)errors.push({row:null,game_id:null,reasons:['duplicate_schedule_game_id']});
  for(const [i,r] of rows.entries()){
   const e=[],id=String(r.game_id??'').trim();
   if(!id||ids.has(id))e.push('missing_or_duplicate_game_id');else ids.add(id);
@@ -13,6 +16,7 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
   if(!Number.isFinite(kickoff)||!Number.isFinite(generated)||!Number.isFinite(features))e.push('invalid_timestamps');
   else{
    if(generated>=kickoff||features>generated)e.push('not_pregame_or_future_features');
+   if(kickoff<=now)e.push('game_not_upcoming_as_of_audit');
    if(generated>now||features>now)e.push('future_dated_forecast');
   }
   const p=r.home_win_probability;

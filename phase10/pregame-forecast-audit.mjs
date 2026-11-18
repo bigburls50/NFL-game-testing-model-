@@ -4,14 +4,14 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
  if(!Number.isInteger(season)||season<2000)throw Error('Explicit target season required');
  const now=Date.parse(asOf);if(!Number.isFinite(now))throw Error('Invalid as-of timestamp');
  const errors=[],accepted=[],ids=new Set();
- // A dashboard-ready archive must be matched to a nonempty independently supplied schedule.
  if(!Array.isArray(expectedGameIds)||expectedGameIds.length===0)errors.push({row:null,game_id:null,reasons:['missing_verified_schedule']});
  if(new Set(expectedGameIds).size!==expectedGameIds.length)errors.push({row:null,game_id:null,reasons:['duplicate_schedule_game_id']});
  for(const [i,r] of rows.entries()){
   const e=[],id=String(r.game_id??'').trim();
   if(!id||ids.has(id))e.push('missing_or_duplicate_game_id');else ids.add(id);
   if(Number(r.season)!==season)e.push('wrong_season');
-  if(!String(r.home_team??'').trim()||!String(r.away_team??'').trim()||r.home_team===r.away_team)e.push('invalid_teams');
+  const home=String(r.home_team??'').trim(),away=String(r.away_team??'').trim();
+  if(!home||!away||home===away)e.push('invalid_teams');
   const kickoff=Date.parse(r.kickoff_utc),generated=Date.parse(r.generated_at_utc),features=Date.parse(r.features_asof_utc);
   if(!Number.isFinite(kickoff)||!Number.isFinite(generated)||!Number.isFinite(features))e.push('invalid_timestamps');
   else{
@@ -21,7 +21,9 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
   }
   const p=r.home_win_probability;
   if(p===null||p===undefined||String(p).trim()===''||!Number.isFinite(Number(p))||Number(p)<=0||Number(p)>=1)e.push('invalid_probability');
-  if(!String(r.model_version??'').trim()||!String(r.source_digest??'').trim())e.push('missing_model_or_source_provenance');
+  if(!String(r.model_version??'').trim())e.push('missing_model_version');
+  // A digest must be an actual 256-bit SHA-256 value, not a placeholder label.
+  if(!/^sha256:[0-9a-f]{64}$/i.test(String(r.source_digest??'').trim()))e.push('invalid_source_digest');
   if(e.length)errors.push({row:i+1,game_id:id||null,reasons:e});else accepted.push({...r,home_win_probability:Number(p)});
  }
  const expected=new Set(expectedGameIds),missing=[...expected].filter(id=>!ids.has(id));

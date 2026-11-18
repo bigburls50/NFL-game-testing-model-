@@ -12,3 +12,7 @@ test('rejects missing probability instead of coercing blank to zero',()=>assert.
 test('rejects wrong season and missing provenance',()=>assert.equal(auditPregameForecasts([{...row,season:2025,source_digest:''}],opts).ready,false));
 test('rejects duplicate game ids',()=>assert.equal(auditPregameForecasts([row,row],opts).ready,false));
 test('rejects schedule mismatch',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:['another']}).ready,false));
+
+test('fails closed when no independently verified schedule is supplied',()=>assert.deepEqual(auditPregameForecasts([row],{season:2026,asOf:opts.asOf}).errors.map(x=>x.reasons).flat().includes('missing_verified_schedule'),true));
+test('fails closed when kickoff has passed at display time',()=>assert.equal(auditPregameForecasts([row],{...opts,asOf:'2026-11-20T02:00:00Z'}).ready,false));
+test('rejects duplicate game IDs in expected schedule',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:[row.game_id,row.game_id]}).ready,false));

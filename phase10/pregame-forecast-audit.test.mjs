@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {auditPregameForecasts} from './pregame-forecast-audit.mjs';
-const row={game_id:'2026_11_IND_HOU',season:2026,home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z',generated_at_utc:'2026-11-18T16:00:00Z',features_asof_utc:'2026-11-18T15:00:00Z',home_win_probability:.62,model_version:'research-v1',source_digest:'sha256:example'};
+const row={game_id:'2026_11_IND_HOU',season:2026,home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z',generated_at_utc:'2026-11-18T16:00:00Z',features_asof_utc:'2026-11-18T15:00:00Z',home_win_probability:.62,model_version:'research-v1',source_digest:'sha256:'+'a'.repeat(64)};
 const opts={season:2026,asOf:'2026-11-18T17:00:00Z',expectedGameIds:[row.game_id]};
 test('accepts timestamped pregame research forecast',()=>assert.equal(auditPregameForecasts([row],opts).ready,true));
 test('rejects missing predictions for scheduled games',()=>assert.equal(auditPregameForecasts([] ,opts).ready,false));
@@ -12,7 +12,9 @@ test('rejects missing probability instead of coercing blank to zero',()=>assert.
 test('rejects wrong season and missing provenance',()=>assert.equal(auditPregameForecasts([{...row,season:2025,source_digest:''}],opts).ready,false));
 test('rejects duplicate game ids',()=>assert.equal(auditPregameForecasts([row,row],opts).ready,false));
 test('rejects schedule mismatch',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:['another']}).ready,false));
-
-test('fails closed when no independently verified schedule is supplied',()=>assert.deepEqual(auditPregameForecasts([row],{season:2026,asOf:opts.asOf}).errors.map(x=>x.reasons).flat().includes('missing_verified_schedule'),true));
+test('fails closed when no independently verified schedule is supplied',()=>assert.equal(auditPregameForecasts([row],{season:2026,asOf:opts.asOf}).errors.flatMap(x=>x.reasons).includes('missing_verified_schedule'),true));
 test('fails closed when kickoff has passed at display time',()=>assert.equal(auditPregameForecasts([row],{...opts,asOf:'2026-11-20T02:00:00Z'}).ready,false));
 test('rejects duplicate game IDs in expected schedule',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:[row.game_id,row.game_id]}).ready,false));
+test('rejects placeholder digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:example'}],opts).ready,false));
+test('rejects short digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:'+'a'.repeat(63)}],opts).ready,false));
+test('rejects blank model version',()=>assert.equal(auditPregameForecasts([{...row,model_version:' '}],opts).ready,false));

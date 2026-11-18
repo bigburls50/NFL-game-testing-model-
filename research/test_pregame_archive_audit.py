@@ -54,6 +54,21 @@ class ArchiveAuditTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "outcome columns"):
                     validate_archive(self.path)
 
+    def test_noncanonical_and_normalized_duplicate_headers_rejected(self):
+        cases = [
+            ["game_id", "prediction_timestamp", "kickoff_timestamp", "home_win_probability", " GAME_ID "],
+            ["game_id", "prediction_timestamp", "kickoff_timestamp", "home_win_probability", "Game_ID"],
+            ["game_id ", "prediction_timestamp", "kickoff_timestamp", "home_win_probability"],
+        ]
+        for header in cases:
+            with self.subTest(header=header):
+                with self.path.open("w", newline="") as handle:
+                    writer = csv.writer(handle)
+                    writer.writerow(header)
+                    writer.writerow(["a", "2026-09-01T12:00:00Z", "2026-09-01T13:00:00Z", "0.5"] + [""] * (len(header) - 4))
+                with self.assertRaisesRegex(ValueError, "column names"):
+                    validate_archive(self.path)
+
     def test_nonfinite_probability_rejected(self):
         for p in ("nan", "inf", "-0.1", "1.1"):
             with self.subTest(p=p):

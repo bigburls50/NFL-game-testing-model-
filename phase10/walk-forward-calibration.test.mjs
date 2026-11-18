@@ -56,3 +56,17 @@ test('input row ordering does not change per-game calibrated probabilities',()=>
  const byId=r=>Object.fromEntries(r.predictions.map(p=>[p.game_id,p.home_win_probability]));
  assert.deepEqual(byId(walkForward([...rows].reverse(),opts)),byId(walkForward(rows,opts)));
 });
+
+test('heterogeneous probability gradients remain exactly invariant under shuffling',()=>{
+ const mixed=[];
+ for(let season=2019;season<=2024;season++)for(let i=0;i<41;i++)
+  mixed.push({game_id:`${season}-${i}`,season,home_score:i%3===0?13:24,away_score:i%3===0?27:10,
+   home_win_probability:0.01+0.98*((i*37+season*11)%101)/101});
+ const opts={firstTestSeason:2021,minTrainingGames:40,iterations:60};
+ const first=walkForward(mixed,opts);
+ const shuffled=[...mixed].sort((a,b)=>b.game_id.localeCompare(a.game_id));
+ const second=walkForward(shuffled,opts);
+ assert.deepEqual(first.predictions,second.predictions);
+ assert.deepEqual(first.folds,second.folds);
+ assert.deepEqual(first.comparison,second.comparison);
+});

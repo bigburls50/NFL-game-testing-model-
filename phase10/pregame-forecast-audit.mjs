@@ -1,17 +1,30 @@
 // Validate a current-season pregame forecast archive before any dashboard picks are shown.
 // This is a provenance/quality gate, NOT evidence of predictive accuracy.
-export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season,expectedGameIds=[]}={}){
+export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season,expectedGameIds=[],expectedGames=null}={}){
  if(!Number.isInteger(season)||season<2000)throw Error('Explicit target season required');
  const now=Date.parse(asOf);if(!Number.isFinite(now))throw Error('Invalid as-of timestamp');
  const errors=[],accepted=[],ids=new Set();
- if(!Array.isArray(expectedGameIds)||expectedGameIds.length===0)errors.push({row:null,game_id:null,reasons:['missing_verified_schedule']});
- if(new Set(expectedGameIds).size!==expectedGameIds.length)errors.push({row:null,game_id:null,reasons:['duplicate_schedule_game_id']});
+ const scheduleRows=expectedGames===null?null:expectedGames;
+ if(scheduleRows!==null&&!Array.isArray(scheduleRows))throw Error('expectedGames must be an array');
+ const schedule=new Map();
+ if(scheduleRows!==null){
+  for(const g of scheduleRows){
+   const id=String(g?.game_id??'').trim(),home=String(g?.home_team??'').trim(),away=String(g?.away_team??'').trim(),kickoff=Date.parse(g?.kickoff_utc);
+   if(!id||!home||!away||home===away||!Number.isFinite(kickoff)||schedule.has(id))throw Error('Invalid or duplicate verified schedule entry');
+   schedule.set(id,{home,away,kickoff});
+  }
+ }
+ const requiredIds=scheduleRows===null?expectedGameIds:[...schedule.keys()];
+ if(!Array.isArray(requiredIds)||requiredIds.length===0)errors.push({row:null,game_id:null,reasons:['missing_verified_schedule']});
+ if(new Set(requiredIds).size!==requiredIds.length)errors.push({row:null,game_id:null,reasons:['duplicate_schedule_game_id']});
  for(const [i,r] of rows.entries()){
   const e=[],id=String(r.game_id??'').trim();
   if(!id||ids.has(id))e.push('missing_or_duplicate_game_id');else ids.add(id);
   if(Number(r.season)!==season)e.push('wrong_season');
   const home=String(r.home_team??'').trim(),away=String(r.away_team??'').trim();
   if(!home||!away||home===away)e.push('invalid_teams');
+  const scheduled=schedule.get(id);
+  if(scheduleRows!==null&&scheduled&& (home!==scheduled.home||away!==scheduled.away||Date.parse(r.kickoff_utc)!==scheduled.kickoff))e.push('verified_schedule_details_mismatch');
   const kickoff=Date.parse(r.kickoff_utc),generated=Date.parse(r.generated_at_utc),features=Date.parse(r.features_asof_utc);
   if(!Number.isFinite(kickoff)||!Number.isFinite(generated)||!Number.isFinite(features))e.push('invalid_timestamps');
   else{
@@ -26,7 +39,7 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
   if(!/^sha256:[0-9a-f]{64}$/i.test(String(r.source_digest??'').trim()))e.push('invalid_source_digest');
   if(e.length)errors.push({row:i+1,game_id:id||null,reasons:e});else accepted.push({...r,home_win_probability:Number(p)});
  }
- const expected=new Set(expectedGameIds),missing=[...expected].filter(id=>!ids.has(id));
+ const expected=new Set(requiredIds),missing=[...expected].filter(id=>!ids.has(id));
  const extra=expected.size?[...ids].filter(id=>!expected.has(id)):[];
  if(missing.length||extra.length)errors.push({row:null,game_id:null,reasons:['schedule_mismatch'],missing,extra});
  return {ready:errors.length===0&&accepted.length>0,season,as_of_utc:new Date(now).toISOString(),accepted_games:accepted.length,total_games:rows.length,errors,warning:'Archive integrity only; does not validate accuracy or authorize wagering.'};

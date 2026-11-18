@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {auditPregameForecasts} from './pregame-forecast-audit.mjs';
+const row={game_id:'2026_11_IND_HOU',season:2026,home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z',generated_at_utc:'2026-11-18T16:00:00Z',features_asof_utc:'2026-11-18T15:00:00Z',home_win_probability:.62,model_version:'research-v1',source_digest:'sha256:example'};
+const opts={season:2026,asOf:'2026-11-18T17:00:00Z',expectedGameIds:[row.game_id]};
+test('accepts timestamped pregame research forecast',()=>assert.equal(auditPregameForecasts([row],opts).ready,true));
+test('rejects missing predictions for scheduled games',()=>assert.equal(auditPregameForecasts([] ,opts).ready,false));
+test('rejects predictions created after kickoff',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-20T02:00:00Z'}],{...opts,asOf:'2026-11-21T00:00:00Z'}).ready,false));
+test('rejects features unavailable at prediction time',()=>assert.equal(auditPregameForecasts([{...row,features_asof_utc:'2026-11-18T16:01:00Z'}],opts).ready,false));
+test('rejects future dated predictions',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-19T16:00:00Z'}],opts).ready,false));
+test('rejects missing probability instead of coercing blank to zero',()=>assert.equal(auditPregameForecasts([{...row,home_win_probability:''}],opts).ready,false));
+test('rejects wrong season and missing provenance',()=>assert.equal(auditPregameForecasts([{...row,season:2025,source_digest:''}],opts).ready,false));
+test('rejects duplicate game ids',()=>assert.equal(auditPregameForecasts([row,row],opts).ready,false));
+test('rejects schedule mismatch',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:['another']}).ready,false));

@@ -76,3 +76,18 @@ test('heterogeneous probability gradients remain exactly invariant under shuffli
   else assert.deepEqual(first.comparison[key],second.comparison[key]);
  }
 });
+
+test('paired report exposes high-confidence counts, uncertainty and null-safe accuracy deltas',()=>{
+ const result=walkForward(rows,{firstTestSeason:2022,minTrainingGames:8,iterations:20});
+ const {comparison:c,report:after,original_report:before}=result;
+ assert.equal(c.original_high_confidence_games,before.high_confidence_games);
+ assert.equal(c.calibrated_high_confidence_games,after.high_confidence_games);
+ assert.deepEqual(c.original_high_confidence_95ci,before.high_confidence_95ci);
+ assert.deepEqual(c.calibrated_high_confidence_95ci,after.high_confidence_95ci);
+ assert.equal(c.original_high_confidence_accuracy,before.high_confidence_accuracy);
+ assert.equal(c.calibrated_high_confidence_accuracy,after.high_confidence_accuracy);
+ const expected=after.high_confidence_accuracy===null||before.high_confidence_accuracy===null
+  ?null:after.high_confidence_accuracy-before.high_confidence_accuracy;
+ assert.equal(c.high_confidence_accuracy_change,expected);
+ assert.equal(c.games,after.games);
+});

@@ -43,3 +43,16 @@ test('original and calibrated metrics use identical eligible holdout games',()=>
  close(result.comparison.accuracy_change,result.report.accuracy-result.original_report.accuracy);
  close(result.comparison.high_confidence_coverage_change,result.report.high_confidence_coverage-result.original_report.high_confidence_coverage);
 });
+
+test('holdout outcomes never influence their own season probabilities',()=>{
+ const opts={firstTestSeason:2022,minTrainingGames:8,iterations:20};
+ const original=walkForward(rows,opts).predictions.filter(p=>p.season===2023).map(p=>[p.game_id,p.home_win_probability]);
+ const changed=rows.map(r=>r.season===2023?{...r,home_score:r.away_score+1,away_score:0}:r);
+ const altered=walkForward(changed,opts).predictions.filter(p=>p.season===2023).map(p=>[p.game_id,p.home_win_probability]);
+ assert.deepEqual(altered,original);
+});
+test('input row ordering does not change per-game calibrated probabilities',()=>{
+ const opts={firstTestSeason:2022,minTrainingGames:8,iterations:20};
+ const byId=r=>Object.fromEntries(r.predictions.map(p=>[p.game_id,p.home_win_probability]));
+ assert.deepEqual(byId(walkForward([...rows].reverse(),opts)),byId(walkForward(rows,opts)));
+});

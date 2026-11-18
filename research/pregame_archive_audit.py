@@ -30,6 +30,9 @@ def validate_archive(path):
         required = {"game_id", "prediction_timestamp", "kickoff_timestamp", "home_win_probability"}
         if not reader.fieldnames or not required.issubset(reader.fieldnames):
             raise ValueError("missing required archive columns")
+        forbidden = {"home_score", "away_score", "home_points", "away_points", "winner", "home_win", "result", "final_score"}
+        if forbidden.intersection({name.strip().lower() for name in reader.fieldnames}):
+            raise ValueError("outcome columns are prohibited in immutable pregame archives")
         if len(reader.fieldnames) != len(set(reader.fieldnames)):
             raise ValueError("duplicate column names")
         seen = set()

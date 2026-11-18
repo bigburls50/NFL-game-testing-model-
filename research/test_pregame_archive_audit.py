@@ -69,6 +69,20 @@ class ArchiveAuditTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "column names"):
                     validate_archive(self.path)
 
+    def test_additional_outcome_aliases_rejected(self):
+        for column in ("winning_team", "home_team_score", "away_team_score",
+                       "actual_home_win", "outcome", "is_home_win",
+                       "actual_margin", "postgame_epa", "final_margin"):
+            with self.subTest(column=column):
+                with self.path.open("w", newline="") as handle:
+                    writer = csv.writer(handle)
+                    writer.writerow(["game_id", "prediction_timestamp", "kickoff_timestamp",
+                                     "home_win_probability", column])
+                    writer.writerow(["a", "2026-09-01T12:00:00Z",
+                                     "2026-09-01T13:00:00Z", "0.5", ""])
+                with self.assertRaisesRegex(ValueError, "outcome columns"):
+                    validate_archive(self.path)
+
     def test_nonfinite_probability_rejected(self):
         for p in ("nan", "inf", "-0.1", "1.1"):
             with self.subTest(p=p):

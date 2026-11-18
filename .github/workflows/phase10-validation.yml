@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '22'
       - name: Prospective evaluator regression tests
-        run: python3 -m unittest discover -s research -p 'test_validate_prospective_predictions.py' -v
+        run: python3 -m unittest discover -s research -p 'test_*.py' -v
       - name: Syntax check
         run: node --check phase10/evaluate.mjs
       - name: Automated validation tests

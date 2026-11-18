@@ -1,8 +1,10 @@
 // Validate a current-season pregame forecast archive before any dashboard picks are shown.
 // This is a provenance/quality gate, NOT evidence of predictive accuracy.
+// Require explicit UTC instants: timezone-less dates otherwise depend on runner locale.
+const utcInstant=value=>typeof value==='string'&&/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$/.test(value)&&Number.isFinite(Date.parse(value));
 export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season,expectedGameIds=[],expectedGames=null}={}){
  if(!Number.isInteger(season)||season<2000)throw Error('Explicit target season required');
- const now=Date.parse(asOf);if(!Number.isFinite(now))throw Error('Invalid as-of timestamp');
+ const now=Date.parse(asOf);if(!utcInstant(asOf))throw Error('Invalid as-of timestamp');
  const errors=[],accepted=[],ids=new Set();
  const scheduleRows=expectedGames===null?null:expectedGames;
  if(scheduleRows!==null&&!Array.isArray(scheduleRows))throw Error('expectedGames must be an array');
@@ -10,7 +12,7 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
  if(scheduleRows!==null){
   for(const g of scheduleRows){
    const id=String(g?.game_id??'').trim(),home=String(g?.home_team??'').trim(),away=String(g?.away_team??'').trim(),kickoff=Date.parse(g?.kickoff_utc);
-   if(!id||!home||!away||home===away||!Number.isFinite(kickoff)||schedule.has(id))throw Error('Invalid or duplicate verified schedule entry');
+   if(!id||!home||!away||home===away||!utcInstant(g?.kickoff_utc)||schedule.has(id))throw Error('Invalid or duplicate verified schedule entry');
    schedule.set(id,{home,away,kickoff});
   }
  }
@@ -26,7 +28,7 @@ export function auditPregameForecasts(rows,{asOf=new Date().toISOString(),season
   const scheduled=schedule.get(id);
   if(scheduleRows!==null&&scheduled&& (home!==scheduled.home||away!==scheduled.away||Date.parse(r.kickoff_utc)!==scheduled.kickoff))e.push('verified_schedule_details_mismatch');
   const kickoff=Date.parse(r.kickoff_utc),generated=Date.parse(r.generated_at_utc),features=Date.parse(r.features_asof_utc);
-  if(!Number.isFinite(kickoff)||!Number.isFinite(generated)||!Number.isFinite(features))e.push('invalid_timestamps');
+  if(!utcInstant(r.kickoff_utc)||!utcInstant(r.generated_at_utc)||!utcInstant(r.features_asof_utc))e.push('invalid_timestamps');
   else{
    if(generated>=kickoff||features>generated)e.push('not_pregame_or_future_features');
    if(kickoff<=now)e.push('game_not_upcoming_as_of_audit');

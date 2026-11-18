@@ -151,6 +151,17 @@ jobs:
           console.log(JSON.stringify({folds:r.folds.map(f=>({season:f.season,training_games:f.training_games,test_games:f.test_games})),accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci,warning:'Exploratory only: underlying ensemble training predictions are not proven out-of-sample.'}));
           EOF
           node phase10/compare-models.mjs ensemble=phase10/data/ensemble-predictions.csv recalibrated=phase10/data/walk-forward-ensemble.csv > phase10/data/walk-forward-comparison.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const c=r.comparison;
+          if(!c||c.games!==854||r.report.n!==c.games||r.original_report.n!==c.games)throw Error('Paired calibration game count mismatch');
+          for(const key of ['brier_change','log_loss_change','accuracy_change','high_confidence_coverage_change']){
+            if(!Number.isFinite(c[key]))throw Error('Missing paired calibration metric: '+key);
+          }
+          if(c.original_high_confidence_games!==r.original_report.high_confidence_games||c.calibrated_high_confidence_games!==r.report.high_confidence_games)throw Error('High-confidence selection counts mismatch');
+          console.log('PAIRED_CALIBRATION_METRICS '+JSON.stringify({games:c.games,original:{accuracy:r.original_report.accuracy,brier:r.original_report.brier,log_loss:r.original_report.log_loss,high_confidence_games:r.original_report.high_confidence_games,high_confidence_coverage:r.original_report.high_confidence_coverage,high_confidence_accuracy:r.original_report.high_confidence_accuracy,high_confidence_95ci:r.original_report.high_confidence_95ci},calibrated:{accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci},delta:c,warning:r.warning}));
+          EOF
       - name: Report fail-closed model release readiness (non-blocking research audit)
         run: |
           node --input-type=module <<'EOF'

@@ -88,7 +88,7 @@ results.push({game:g.away_team+' @ '+g.home_team,kickoff:g.commence_time,team,bo
 results.sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff)||b.roi-a.roi);
 status.textContent='Analysis complete · '+new Date(odds.retrieved_at).toLocaleString('en-CA')+' · '+results.length+' matched quotes · '+skipped.length+' matchups skipped · regional odds NOT verified for Ontario';
 const positive=results.filter(x=>x.roi>0);
-const best=new Map();for(const x of positive){const key=x.game+'|'+x.team;if(!best.has(key))best.set(key,x)}
+const best=new Map();for(const x of positive){const key=x.game+'|'+x.team;const prior=best.get(key);if(!prior||x.roi>prior.roi)best.set(key,x)}
 const display=[...best.values()].sort((a,b)=>b.p-a.p||b.roi-a.roi).slice(0,16);
 const note=document.createElement('div');note.className='phase9-note';note.textContent='PRELIMINARY RESEARCH ONLY · Ranked by estimated win probability, not expected betting profit. The 1–10 score is the experimental win percentage rounded to tenths, NOT a verified confidence rating. Highlighting is for research, not a best-bet recommendation. All displayed game selections are ABSTAIN until both teams have independently verified starting quarterbacks and complete final injury reports. '+positive.length+' hypothetical positive-EV quotes across '+display.length+' displayed selections (best quote per team). Minimum five prior games per team. Probabilities shrunk 25% toward 50%; this is a heuristic, NOT validated calibration. Positive EV is not proof of a profitable opportunity.';root.append(note);
 if(!display.length){const p=document.createElement('p');p.textContent='No positive model-based expected value found. This is not evidence of market efficiency.';root.append(p);return}

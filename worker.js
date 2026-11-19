@@ -4,6 +4,24 @@ export default {
  async fetch(request,env){
   const url=new URL(request.url);
   if(url.pathname==='/api/health')return reply({status:'ok',service:'nfl-game-testing-model',hosting:'cloudflare-workers',time:new Date().toISOString(),odds_configured:Boolean(env.ODDS_API_KEY)});
+  if(url.pathname==='/api/verification'){
+   if(request.method!=='GET')return reply({error:'Method not allowed'},405);
+   try{
+    const upstream=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?limit=50',{signal:AbortSignal.timeout(10000),headers:{'Accept':'application/json'}});
+    if(!upstream.ok)throw Error('Schedule provider HTTP '+upstream.status);
+    const body=await upstream.json();
+    if(!Array.isArray(body.events))throw Error('Invalid schedule provider response');
+    const now=Date.now();
+    const games=body.events.filter(e=>Date.parse(e.date)>now&&Date.parse(e.date)<now+21*86400000).map(e=>{
+     const competitors=e.competitions?.[0]?.competitors||[];
+     const home=competitors.find(c=>c.homeAway==='home')?.team?.displayName;
+     const away=competitors.find(c=>c.homeAway==='away')?.team?.displayName;
+     if(!home||!away)return null;
+     return {game_id:String(e.id),kickoff_utc:e.date,home_team:home,away_team:away,decision:'abstain',checks:{home_qb:'unverified',away_qb:'unverified',home_final_injury_report:'unverified',away_final_injury_report:'unverified'},reasons:['home_qb_unconfirmed','away_qb_unconfirmed','home_injury_report_unverified','away_injury_report_unverified']};
+    }).filter(Boolean);
+    return reply({status:'preliminary_schedule_only',source:'ESPN unofficial scoreboard',retrieved_at_utc:new Date().toISOString(),verified_games:0,games,warning:'Schedule is not quarterback or injury verification. Fail-closed until independently certified evidence and model scoring are integrated.'});
+   }catch{return reply({status:'unavailable',verified_games:0,games:[],reason:'Live schedule unavailable; no verification can be claimed.'},503)}
+  }
   if(url.pathname==='/api/predictions'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    // Phase 10 historical evaluation is not a live prediction feed.

@@ -34,3 +34,28 @@ test('successful preliminary feeds still cannot authorize a forecast',async()=>{
  assert.equal(result.games[0].home_win_probability,undefined);
  assert.ok(result.games[0].reasons.includes('collector_does_not_expose_normalized_evidence'));
 });
+
+test('collector provenance is exposed for audit without enabling a forecast',async()=>{
+ const manifest={season:2026,week:11,games:[{game_id:'g1',home_team:'HOU',away_team:'IND'}]};
+ const historicalGames=Array.from({length:100},(_,i)=>({game_id:'past-'+i,season:2025,home_score:21,away_score:14}));
+ const rosterFetch=async()=>({players:[],source_url:'https://github.com/nflverse/rosters',source_digest:'roster-fixture'});
+ const depthFetch=async()=>({rows:[],source_url:'https://github.com/nflverse/depth',source_digest:'depth-fixture',columns:[]});
+ const injuryFetch=async()=>({rows:[],source_url:'https://github.com/nflverse/injuries',source_digest:'injury-fixture'});
+ const result=await runProvisionalPipeline(manifest,{historicalGames,rosterFetch,depthFetch,injuryFetch,asOf:'2026-11-19T21:00:00Z'});
+ assert.equal(result.snapshot_checked_at_utc,'2026-11-19T21:00:00Z');
+ assert.equal(result.source_provenance.roster.digest,'roster-fixture');
+ assert.equal(result.source_provenance.injuries.digest,'injury-fixture');
+ assert.deepEqual(result.feed_errors,[]);
+ assert.equal(result.games[0].status,'abstain');
+ assert.equal(result.games[0].home_win_probability,undefined);
+});
+test('failed feeds retain audit errors without leaking a probability',async()=>{
+ const manifest={season:2026,week:11,games:[{game_id:'g1',home_team:'HOU',away_team:'IND'}]};
+ const historicalGames=Array.from({length:100},(_,i)=>({game_id:'past-'+i,season:2025,home_score:21,away_score:14}));
+ const fail=async()=>{throw Error('fixture unavailable');};
+ const result=await runProvisionalPipeline(manifest,{historicalGames,rosterFetch:fail,depthFetch:fail,injuryFetch:fail});
+ assert.equal(result.feed_errors.length,3);
+ assert.equal(result.source_provenance,null);
+ assert.equal(result.games[0].status,'abstain');
+ assert.equal(result.games[0].home_win_probability,undefined);
+});

@@ -7,7 +7,7 @@ import {fetchNflverseInjuries,injuryCandidates} from './nflverse-injuries-adapte
 import {assessPregameEvidence} from './pregame-evidence-gate.mjs';
 export async function collectPregameSnapshot(manifest,{asOf=new Date().toISOString(),rosterFetch=fetchVerifiedRosterIds,depthFetch=fetchNflverseDepthCharts,injuryFetch=fetchNflverseInjuries}={}){
  const feeds=await Promise.allSettled([rosterFetch(),depthFetch(manifest.season),injuryFetch(manifest.season)]);
- const errors=feeds.map((r,i)=>r.status==='rejected'?{feed:['roster','depth_chart','injuries'][i],reason:r.reason.message}:null).filter(Boolean);
+ const errors=feeds.map((r,i)=>r.status==='rejected'?{feed:['roster','depth_chart','injuries'][i],reason:r.reason instanceof Error?r.reason.message:'non_error_feed_rejection'}:null).filter(Boolean);
  if(errors.length)return {ready:false,errors,games:manifest.games.map(g=>({game_id:g.game_id,decision:'abstain',reasons:['missing_pregame_feed']}))};
  const [roster,depth,injury]=feeds.map(x=>x.value);
  const qb=projectedQuarterbacks(depth,manifest.week),teams=[...new Set(manifest.games.flatMap(g=>[g.home_team,g.away_team]))];

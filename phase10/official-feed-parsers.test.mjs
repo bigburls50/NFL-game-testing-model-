@@ -31,3 +31,11 @@ test('unverified no-injuries placeholder cannot assert an explicit clean report'
  assert.ok(r.reports.every(x=>x.explicit_no_injuries===false && x.complete_report===false));
  assert.equal(r.reports.find(x=>x.team==='IND').placeholder_observed,true);
 });
+
+test('official QB URLs with credentials or nonstandard ports are rejected',()=>{
+ for(const source_url of ['https://user:pass@www.nfl.com/news/example','https://www.nfl.com:8443/news/example']){
+  const result=extractConfirmedStarter({...doc,source_url},options);
+  assert.equal(result.status,'unconfirmed');
+  assert.equal(result.reason,'unverified_source_domain');
+ }
+});

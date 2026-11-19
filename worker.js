@@ -3,6 +3,7 @@ function reply(body,status=200){return new Response(JSON.stringify(body),{status
 export default {
  async fetch(request,env){
   const url=new URL(request.url);
+  if(url.pathname==='/api/health')return reply({status:'ok',service:'nfl-game-testing-model',hosting:'cloudflare-workers',time:new Date().toISOString(),odds_configured:Boolean(env.ODDS_API_KEY)});
   if(url.pathname==='/.netlify/functions/odds'||url.pathname==='/api/odds'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    if(!env.ODDS_API_KEY)return reply({error:'ODDS_API_KEY is not configured as a Cloudflare Worker secret.'},503);

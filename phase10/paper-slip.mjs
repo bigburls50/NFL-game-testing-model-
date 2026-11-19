@@ -1,0 +1,39 @@
+import {moneylinesByBook} from './moneyline.mjs';
+import {paperStake,singlePortfolio,parlayProjection} from './paper-math.mjs';
+const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
+const cash=n=>Number(n).toLocaleString('en-CA',{style:'currency',currency:'CAD'});
+const percent=n=>(n*100).toFixed(1)+'%';
+const signed=n=>(n>=0?'+':'')+percent(n);
+const american=n=>(n>0?'+':'')+n;
+const fresh=g=>['provisional','verified'].includes(g?.status)&&Number.isFinite(g.home_win_probability)&&Date.parse(g.kickoff_utc)>Date.now()&&Number.isFinite(Date.parse(g.prediction_created_utc))&&Date.now()-Date.parse(g.prediction_created_utc)<=24*3600000&&Date.parse(g.prediction_created_utc)<=Date.now();
+export function createPaperSlip({getRecords,getMarket,onChange}){
+ const selected=new Map();let mode='singles',budget=1000;
+ try{const saved=localStorage.getItem('nfl_phase10_paper_budget');if(saved!==null&&Number.isFinite(Number(saved)))budget=Math.max(0,Math.min(1000000,Number(saved)))}catch{}
+ const root=el('aside',undefined,'p10-slip');root.id='paper-slip';
+ const h=el('div',undefined,'p10-slip-head'),title=el('h3','Paper bet slip'),count=el('span','0','p10-slip-count');h.append(title,count);
+ const warning=el('p','SIMULATION ONLY · Real-money stake $0','p10-slip-warning');
+ const budgetLabel=el('label','Paper bankroll (CAD)','p10-budget-label'),input=el('input');input.id='paper-budget';input.type='number';input.min='0';input.max='1000000';input.step='0.01';input.value=String(budget);budgetLabel.htmlFor=input.id;budgetLabel.append(input);
+ const tabs=el('div',undefined,'p10-slip-tabs'),singleTab=el('button','Singles'),parlayTab=el('button','Parlay');singleTab.type=parlayTab.type='button';tabs.append(singleTab,parlayTab);
+ const list=el('div',undefined,'p10-slip-list'),totals=el('div',undefined,'p10-slip-totals'),message=el('p','Tap a moneyline on a matchup to add a selection.','p10-slip-message');message.setAttribute('aria-live','polite');
+ const sample=el('button','Try a sample 2-leg parlay','p10-sample'),clear=el('button','Clear slip','p10-clear');sample.type=clear.type='button';
+ const actions=el('div',undefined,'p10-slip-actions');actions.append(sample,clear);
+ const float=el('button','Paper bet slip (0)','p10-slip-float');float.type='button';float.hidden=true;float.addEventListener('click',()=>root.scrollIntoView({behavior:'smooth',block:'start'}));
+ root.append(h,warning,budgetLabel,tabs,list,totals,message,actions,el('p','Paper sizing: ¼ Kelly, max 1% per single, 3% per singles slip, 0.25% per parlay. A modeled edge is not proof of profitable betting.','p10-slip-fine'));
+ function legFor(game,side){if(!fresh(game))return null;const probability=side==='home'?game.home_win_probability:1-game.home_win_probability;const quotes=moneylinesByBook(game,getMarket())[side]??[];return {gameId:game.game_id,team:game[side+'_team'],side,probability,quotes}}
+ function getLegs(){return [...selected].map(([id,side])=>{const g=getRecords().find(v=>v.game_id===id);return legFor(g,side)??{gameId:id,team:g?.[side+'_team']??id,side,probability:NaN,quotes:[]}})}
+ function line(label,value,cls=''){const row=el('div',undefined,'p10-slip-total '+cls);row.append(el('span',label),el('strong',value));return row}
+ function render(){const legs=getLegs();count.textContent=String(legs.length);float.textContent=`Paper bet slip (${legs.length})`;float.hidden=legs.length===0;singleTab.setAttribute('aria-pressed',String(mode==='singles'));parlayTab.setAttribute('aria-pressed',String(mode==='parlay'));clear.disabled=!legs.length;list.replaceChildren();totals.replaceChildren();
+  const parlay=mode==='parlay'?parlayProjection(legs,budget):null,rows=mode==='singles'?singlePortfolio(legs,budget):legs;for(const [i,l] of rows.entries()){const row=el('div',undefined,'p10-slip-leg'),info=el('div'),remove=el('button','×','p10-remove');remove.type='button';remove.setAttribute('aria-label','Remove '+l.team);remove.addEventListener('click',()=>{selected.delete(l.gameId);onChange()});const q=parlay?.quotes?.[i]??l.quotes[0];info.append(el('strong',l.team),el('small',q?`${american(q.price)} · ${q.book} · ${percent(l.probability)} model win chance`:'Model or fresh quote unavailable'));if(mode==='singles'&&l.projection)info.append(el('small',`${cash(l.projection.stake)} paper stake · ${signed(l.projection.edge)} estimated EV`));row.append(info,remove);list.append(row)}
+  if(!legs.length){message.textContent='Tap a moneyline on a matchup to add a selection. Choose two or more different games for a parlay.';return}
+  if(mode==='singles'){const valid=rows.filter(r=>r.projection),stake=valid.reduce((s,r)=>s+r.projection.stake,0),returns=valid.reduce((s,r)=>s+r.projection.returnAmount,0);totals.append(line('Suggested paper exposure',cash(stake),'p10-slip-emphasis'),line('Return if every pick wins',cash(returns)),line('Maximum simulated loss',cash(stake)));message.textContent=valid.length<legs.length?'Missing or stale inputs: affected selections receive no stake.':stake===0?'No positive modeled value at these prices. Paper stake is $0.':'Each single is independent. A winning pick can still be poor value at its current price.';return}
+  const p=parlay;if(p.reason){message.textContent=p.reason;return}
+  totals.append(line('Common sportsbook',p.book),line('Estimated combined decimal odds',p.decimal.toFixed(2)+'×'),line('Estimated all-win chance',percent(p.probability)),line('Estimated chance of losing',percent(1-p.probability)),line('Estimated EV',signed(p.edge)),line('Suggested paper stake',cash(p.stake),'p10-slip-emphasis'),line('Return if all legs win',cash(p.returnAmount)),line('Maximum simulated loss',cash(p.maxLoss)));
+  message.textContent=(p.stake===0?'No paper stake under the value and risk rules. ':'')+'Estimated payout multiplies same-book prices, not an offered parlay quote. Assumes independent game outcomes; every leg must win.';
+ }
+ function toggle(gameId,side){if(selected.get(gameId)===side)selected.delete(gameId);else{if(!selected.has(gameId)&&selected.size>=4){root.scrollIntoView({behavior:'smooth'});message.textContent='A paper slip accepts at most four different games.';return}selected.set(gameId,side)}onChange()}
+ function preview(game,side,quote){return fresh(game)&&quote?paperStake(side==='home'?game.home_win_probability:1-game.home_win_probability,quote.decimal,budget):null}
+ input.addEventListener('input',()=>{const n=Number(input.value);budget=Number.isFinite(n)?Math.min(1000000,Math.max(0,n)):0;try{localStorage.setItem('nfl_phase10_paper_budget',String(budget))}catch{}onChange()});
+ singleTab.addEventListener('click',()=>{mode='singles';render()});parlayTab.addEventListener('click',()=>{mode='parlay';render()});clear.addEventListener('click',()=>{selected.clear();onChange()});
+ sample.addEventListener('click',()=>{const candidates=getRecords().flatMap(g=>['home','away'].map(side=>legFor(g,side))).filter(l=>l?.quotes.some(q=>l.probability*q.decimal>1));let best=null;for(let i=0;i<candidates.length;i++)for(let j=i+1;j<candidates.length;j++){const a=candidates[i],b=candidates[j];if(a.gameId===b.gameId)continue;const p=parlayProjection([a,b],budget);if(!p.reason&&p.allPositive&&p.edge>0&&(!best||p.probability>best.p.probability))best={a,b,p}}if(!best){message.textContent='No two-game sample passes the current same-book modeled value checks.';return}selected.clear();selected.set(best.a.gameId,best.a.side);selected.set(best.b.gameId,best.b.side);mode='parlay';onChange()});
+ return {root,float,render,toggle,preview,isSelected:(gameId,side)=>selected.get(gameId)===side};
+}

@@ -162,6 +162,16 @@ jobs:
           if(c.original_high_confidence_games!==r.original_report.high_confidence_games||c.calibrated_high_confidence_games!==r.report.high_confidence_games)throw Error('High-confidence selection counts mismatch');
           console.log('PAIRED_CALIBRATION_METRICS '+JSON.stringify({games:c.games,original:{accuracy:r.original_report.accuracy,brier:r.original_report.brier,log_loss:r.original_report.log_loss,high_confidence_games:r.original_report.high_confidence_games,high_confidence_coverage:r.original_report.high_confidence_coverage,high_confidence_accuracy:r.original_report.high_confidence_accuracy,high_confidence_95ci:r.original_report.high_confidence_95ci},calibrated:{accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci},delta:c,warning:r.warning}));
           EOF
+      - name: Quantify paired calibration uncertainty without tuning
+        run: |
+          node phase10/paired-calibration-uncertainty.mjs phase10/data/ensemble-predictions.csv phase10/data/walk-forward-ensemble.csv > phase10/data/paired-calibration-uncertainty.json
+          cat phase10/data/paired-calibration-uncertainty.json
+      - name: Archive paired calibration uncertainty
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-paired-calibration-uncertainty
+          path: phase10/data/paired-calibration-uncertainty.json
+          retention-days: 30
       - name: Report fail-closed model release readiness (non-blocking research audit)
         run: |
           node --input-type=module <<'EOF'

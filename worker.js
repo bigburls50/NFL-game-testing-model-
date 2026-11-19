@@ -4,6 +4,24 @@ export default {
  async fetch(request,env){
   const url=new URL(request.url);
   if(url.pathname==='/api/health')return reply({status:'ok',service:'nfl-game-testing-model',hosting:'cloudflare-workers',time:new Date().toISOString(),odds_configured:Boolean(env.ODDS_API_KEY)});
+  if(url.pathname==='/api/live-sources'){
+   if(request.method!=='GET')return reply({error:'Method not allowed'},405);
+   const targets=[
+    {id:'official_injury_report',url:'https://www.nfl.com/injuries/',official:true},
+    {id:'official_weekly_status',url:'https://www.nfl.com/news/nfl-week-11-injury-report-2026-season',official:true},
+    {id:'schedule',url:'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?limit=50',official:false}
+   ];
+   const checks=await Promise.all(targets.map(async target=>{
+    try{
+     const response=await fetch(target.url,{signal:AbortSignal.timeout(8000),headers:{'Accept':'text/html,application/json'}});
+     const contentType=response.headers.get('content-type')||'';
+     const text=await response.text();
+     const plausible=response.ok&&text.length>200&&(/json/i.test(contentType)?text.includes('events'):/(injur|questionable|out|game status)/i.test(text));
+     return {id:target.id,source_url:target.url,official:target.official,reachable:response.ok,content_detected:plausible,checked_at_utc:new Date().toISOString(),certified:false,reason:plausible?'Source reachable; team-level completeness and timestamped identity not verified':'Source unavailable or unusable'};
+    }catch{return {id:target.id,source_url:target.url,official:target.official,reachable:false,content_detected:false,checked_at_utc:new Date().toISOString(),certified:false,reason:'Provider request failed or timed out'}}
+   }));
+   return reply({status:'source_probes_only',checks,verified_games:0,warning:'Source reachability is not independent QB confirmation or complete final injury-report certification.'});
+  }
   if(url.pathname==='/api/verification'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    try{

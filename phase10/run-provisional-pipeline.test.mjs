@@ -22,3 +22,15 @@ test('non-Error feed rejection fails closed rather than crashing pipeline',async
  assert.equal(result.games[0].home_win_probability,undefined);
  for(const feed of ['roster','depth_chart','injuries'])assert.ok(result.games[0].reasons.includes('feed_'+feed+'_unavailable'));
 });
+
+test('successful preliminary feeds still cannot authorize a forecast',async()=>{
+ const manifest={season:2026,week:11,games:[{game_id:'g1',home_team:'HOU',away_team:'IND'}]};
+ const historicalGames=Array.from({length:100},(_,i)=>({game_id:'past-'+i,season:2025,home_score:21,away_score:14}));
+ const rosterFetch=async()=>({players:[],source_url:'https://example.test/roster',source_digest:'fixture'});
+ const depthFetch=async()=>({rows:[],source_url:'https://example.test/depth',source_digest:'fixture',columns:[]});
+ const injuryFetch=async()=>({rows:[],source_url:'https://example.test/injuries',source_digest:'fixture'});
+ const result=await runProvisionalPipeline(manifest,{historicalGames,rosterFetch,depthFetch,injuryFetch});
+ assert.equal(result.games[0].status,'abstain');
+ assert.equal(result.games[0].home_win_probability,undefined);
+ assert.ok(result.games[0].reasons.includes('collector_does_not_expose_normalized_evidence'));
+});

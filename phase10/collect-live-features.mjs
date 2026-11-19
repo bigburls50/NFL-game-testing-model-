@@ -9,7 +9,7 @@ import {auditLiveFeatures} from './live-feature-gate.mjs';
 const MAX_BYTES=3_000_000;
 export async function fetchJson(url,{fetchImpl=fetch,timeoutMs=15000}={}){
  const u=new URL(url);
- if(u.protocol!=='https:'||u.username||u.password||!Number.isInteger(timeoutMs)||timeoutMs<1)throw Error('Only credential-free HTTPS source URLs are supported');
+ if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash||!Number.isInteger(timeoutMs)||timeoutMs<1)throw Error('Only credential-free HTTPS source URLs are supported');
  const response=await fetchImpl(u.href,{headers:{Accept:'application/json','User-Agent':'NFL-Auto-Research/1.0'},signal:AbortSignal.timeout(timeoutMs),redirect:'error'});
  if(!response.ok)throw Error('Source HTTP '+response.status);
  const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>MAX_BYTES)throw Error('Source exceeds size limit');
@@ -42,7 +42,7 @@ if(process.argv[1]?.endsWith('collect-live-features.mjs')){
   if(manifest.schedule_verified!==true)throw Error('Unverified schedule');
   const sources={qb:process.env.NFL_QB_JSON_URL,injury:process.env.NFL_INJURY_JSON_URL,weather:process.env.NFL_WEATHER_JSON_URL};
   const report=await collectLiveFeatures(manifest.games,{sources});
-  fs.mkdirSync(new URL('.', 'file://'+process.cwd()+'/'+outPath).pathname,{recursive:true});
+  fs.mkdirSync((await import('node:path')).dirname(outPath),{recursive:true});
   // Never expose source tokens or credentials in the artifact.
   fs.writeFileSync(outPath,JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify({ready:report.ready,coverage:report.coverage.length,sources:report.source_audit.map(({kind,status,rows})=>({kind,status,rows})),errors:report.errors.length}));

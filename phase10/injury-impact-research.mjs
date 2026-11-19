@@ -6,15 +6,20 @@ const key=(s,w,t)=>[s,w,canon(t)].join('|');
 const OFF=new Set(['RB','FB','HB','WR','TE','OT','T','G','OG','C','OL']);
 const DEF=new Set(['DE','DT','NT','DL','LB','ILB','OLB','MLB','CB','DB','S','SS','FS','EDGE']);
 const weights={Out:1,Doubtful:.75,Questionable:.25};
+export const injurySeverity=status=>Object.hasOwn(weights,status)?weights[status]:0;
+export const injurySide=position=>OFF.has(position)?'offense':DEF.has(position)?'defense':null;
 export function indexInjuryReports(rows){
  const map=new Map();for(const r of rows){const timestamp=Date.parse(r.date_modified??'');if(!Number.isFinite(timestamp)||!/^00-\d{7}$/.test(r.gsis_id??'')||!r.team)continue;const k=key(r.season,r.week,r.team);if(!map.has(k))map.set(k,[]);map.get(k).push({...r,timestamp})}return map;
 }
-export function pregameInjuries(index,g,team,cutoff,previousQB){
+export function latestInjuryRows(index,g,team,cutoff){
  const list=index.get(key(g.season,g.week,team))??[],latest=new Map(),bad=new Set();
  for(const r of list){if(r.timestamp>cutoff||cutoff-r.timestamp>8*86400000)continue;const previous=latest.get(r.gsis_id);if(!previous||r.timestamp>previous.timestamp){latest.set(r.gsis_id,r);bad.delete(r.gsis_id)}else if(r.timestamp===previous.timestamp&&r.report_status!==previous.report_status)bad.add(r.gsis_id)}
- if(!latest.size||bad.size)return null;
+ if(!latest.size||bad.size)return null;return [...latest.values()];
+}
+export function pregameInjuries(index,g,team,cutoff,previousQB){
+ const latest=latestInjuryRows(index,g,team,cutoff);if(!latest)return null;
  let offense=0,defense=0,qb=0;for(const r of latest.values()){const severity=Object.hasOwn(weights,r.report_status)?weights[r.report_status]:0;if(OFF.has(r.position))offense+=severity;if(DEF.has(r.position))defense+=severity;if(r.gsis_id===previousQB&&r.position==='QB')qb=severity}
- return {offense,defense,prior_qb_status:qb,observed_players:latest.size};
+ return {offense,defense,prior_qb_status:qb,observed_players:latest.length};
 }
 export function injuryFeatures(schedule,index){
  const games=completedRows(schedule),prev=new Map(),out=new Map();

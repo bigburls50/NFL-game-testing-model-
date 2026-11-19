@@ -10,9 +10,9 @@ export function selectObservations(observations){
  return [...chosen.values()].sort((a,b)=>Date.parse(a.kickoff_utc)-Date.parse(b.kickoff_utc)||a.game_id.localeCompare(b.game_id));
 }
 export function scoreObservations(games,finalScores){
- const final=new Map(finalScores.map(r=>[r.game_id,r])),paired=[],pending=[],excluded=[];
- for(const g of games){const r=final.get(g.game_id);if(!r){pending.push(g.game_id);continue}const p=g.baseline_home_win_probability,q=g.injury_shadow?.home_win_probability;if(r.home_score===r.away_score||![p,q].every(v=>Number.isFinite(v)&&v>0&&v<1)){excluded.push(g.game_id);continue}paired.push({game_id:g.game_id,y:Number(r.home_score>r.away_score),p,q})}
- return {selected_games:games.length,scored_games:paired.length,pending,excluded,metrics:{v2:scorePredictions(paired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(paired.map(r=>({p:r.q,y:r.y})))},policy:'Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.'};
+ const final=new Map(finalScores.map(r=>[r.game_id,r])),paired=[],rolePaired=[],pending=[],excluded=[];
+ for(const g of games){const r=final.get(g.game_id);if(!r){pending.push(g.game_id);continue}const p=g.baseline_home_win_probability,q=g.injury_shadow?.home_win_probability;if(r.home_score===r.away_score||![p,q].every(v=>Number.isFinite(v)&&v>0&&v<1)){excluded.push(g.game_id);continue}const row={game_id:g.game_id,y:Number(r.home_score>r.away_score),p,q};paired.push(row);const role=g.player_impact_shadow?.home_win_probability;if(Number.isFinite(role)&&role>0&&role<1)rolePaired.push({...row,role})}
+ return {selected_games:games.length,scored_games:paired.length,pending,excluded,metrics:{v2:scorePredictions(paired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(paired.map(r=>({p:r.q,y:r.y})))},player_impact_comparison:{scored_games:rolePaired.length,metrics:{v2:scorePredictions(rolePaired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(rolePaired.map(r=>({p:r.q,y:r.y}))),weighted:scorePredictions(rolePaired.map(r=>({p:r.role,y:r.y})))}},policy:'Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.'};
 }
 if(process.argv[1]?.endsWith('score-pregame-observations.mjs')){
  const dir=new URL('./pregame-observations/',import.meta.url),file=new URL('./pregame-observation-results.json',import.meta.url);

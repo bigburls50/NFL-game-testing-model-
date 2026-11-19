@@ -4,15 +4,18 @@ import {createHash} from 'node:crypto';
 import {scorePredictions} from './learned-matchup.mjs';
 import {matchFinalScores} from './run-efficiency-shadow-settlement.mjs';
 import {resultDate} from './paper-ledger.mjs';
+import {QB_REPLACEMENT_VERSION} from './qb-replacement-research.mjs';
 export function selectObservations(observations){
  const chosen=new Map();
  for(const obs of observations){const time=Date.parse(obs.observed_at_utc);if(!Number.isFinite(time))continue;for(const g of obs.games??[]){const lead=Date.parse(g.kickoff_utc)-time;if(lead<3*3600000||lead>24*3600000)continue;const prev=chosen.get(g.game_id);if(!prev||time>Date.parse(prev.observed_at_utc))chosen.set(g.game_id,{...g,observed_at_utc:obs.observed_at_utc,baseline_model_digest:obs.baseline_model_digest})}}
  return [...chosen.values()].sort((a,b)=>Date.parse(a.kickoff_utc)-Date.parse(b.kickoff_utc)||a.game_id.localeCompare(b.game_id));
 }
 export function scoreObservations(games,finalScores){
- const final=new Map(finalScores.map(r=>[r.game_id,r])),paired=[],rolePaired=[],pending=[],excluded=[];
- for(const g of games){const r=final.get(g.game_id);if(!r){pending.push(g.game_id);continue}const p=g.baseline_home_win_probability,q=g.injury_shadow?.home_win_probability;if(r.home_score===r.away_score||![p,q].every(v=>Number.isFinite(v)&&v>0&&v<1)){excluded.push(g.game_id);continue}const row={game_id:g.game_id,y:Number(r.home_score>r.away_score),p,q};paired.push(row);const role=g.player_impact_shadow?.home_win_probability;if(Number.isFinite(role)&&role>0&&role<1)rolePaired.push({...row,role})}
- return {selected_games:games.length,scored_games:paired.length,pending,excluded,metrics:{v2:scorePredictions(paired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(paired.map(r=>({p:r.q,y:r.y})))},player_impact_comparison:{scored_games:rolePaired.length,metrics:{v2:scorePredictions(rolePaired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(rolePaired.map(r=>({p:r.q,y:r.y}))),weighted:scorePredictions(rolePaired.map(r=>({p:r.role,y:r.y})))}},policy:'Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.'};
+ const final=new Map(finalScores.map(r=>[r.game_id,r])),paired=[],rolePaired=[],qbPaired=[],pending=[],excluded=[];
+ const valid=v=>Number.isFinite(v)&&v>0&&v<1,eligibleQB=g=>g.qb_replacement_shadow?.version===QB_REPLACEMENT_VERSION&&valid(g.baseline_home_win_probability)&&valid(g.qb_replacement_shadow.home_win_probability);
+ for(const g of games){const r=final.get(g.game_id);if(!r){pending.push(g.game_id);continue}const p=g.baseline_home_win_probability,q=g.injury_shadow?.home_win_probability,y=Number(r.home_score>r.away_score);if(r.home_score!==r.away_score&&eligibleQB(g))qbPaired.push({p,y,qb:g.qb_replacement_shadow.home_win_probability,changed:g.qb_replacement_shadow.changed===true});if(r.home_score===r.away_score||![p,q].every(valid)){excluded.push(g.game_id);continue}const row={game_id:g.game_id,y,p,q};paired.push(row);const role=g.player_impact_shadow?.home_win_probability;if(valid(role))rolePaired.push({...row,role})}
+ const qbMetrics=rows=>({v2:scorePredictions(rows.map(r=>({p:r.p,y:r.y}))),replacement:scorePredictions(rows.map(r=>({p:r.qb,y:r.y})))});
+ return {selected_games:games.length,scored_games:paired.length,pending,excluded,metrics:{v2:scorePredictions(paired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(paired.map(r=>({p:r.q,y:r.y})))},player_impact_comparison:{scored_games:rolePaired.length,metrics:{v2:scorePredictions(rolePaired.map(r=>({p:r.p,y:r.y}))),injury:scorePredictions(rolePaired.map(r=>({p:r.q,y:r.y}))),weighted:scorePredictions(rolePaired.map(r=>({p:r.role,y:r.y})))}},qb_replacement_comparison:{eligible_games:games.filter(eligibleQB).length,scored_games:qbPaired.length,metrics:qbMetrics(qbPaired),changed_game_metrics:qbMetrics(qbPaired.filter(r=>r.changed))},policy:'Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.'};
 }
 if(process.argv[1]?.endsWith('score-pregame-observations.mjs')){
  const dir=new URL('./pregame-observations/',import.meta.url),file=new URL('./pregame-observation-results.json',import.meta.url);

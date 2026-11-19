@@ -3,6 +3,7 @@ import {parseCSV} from './baseline.mjs';
 import {runProvisionalPipeline} from './run-provisional-pipeline.mjs';
 import {weatherObservation,buildPregameObservation,writePregameObservation} from './pregame-observations.mjs';
 import {fetchRoleEvidence} from './player-role-data.mjs';
+import {fetchQBReplacementEvidence} from './qb-replacement-data.mjs';
 
 const SOURCE='https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv';
 const SCOREBOARD='https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?limit=50';
@@ -34,7 +35,7 @@ export async function generateFeed({fetchImpl=fetch,asOf=new Date().toISOString(
  if(!upcoming.length)return {status:'unavailable',generated_at_utc:asOf,games:[],reason:'No upcoming schedule rows'};
  const {season,week}=upcoming[0],games=upcoming.filter(g=>g.season===season&&g.week===week);
  const history=rows.filter(r=>Number(r.season)>=season-10),feed=await runProvisionalPipeline({season,week,games},{historicalGames:history,asOf,includeResearchEvidence:Boolean(archiveDirectory)});
- if(archiveDirectory)try{let roleEvidence=null;try{roleEvidence=await fetchRoleEvidence(season,{fetchImpl})}catch(e){console.warn('Player roles unavailable; other research unaffected: '+e.message)}const observation=buildPregameObservation(feed,{historicalGames:history,weatherByGame,observedAt:new Date().toISOString(),roleEvidence});const saved=await writePregameObservation(archiveDirectory,observation);if(saved)console.log('Saved pregame research observation: '+saved)}catch(e){console.warn('Research observation unavailable; production feed unaffected: '+e.message)}
+ if(archiveDirectory)try{const [roleEvidence,qbEvidence]=await Promise.all([fetchRoleEvidence(season,{fetchImpl}).catch(e=>{console.warn('Player roles unavailable; other research unaffected: '+e.message);return null}),fetchQBReplacementEvidence(season,{fetchImpl}).catch(e=>{console.warn('QB stats unavailable; other research unaffected: '+e.message);return null})]);const observation=buildPregameObservation(feed,{historicalGames:history,weatherByGame,observedAt:new Date().toISOString(),roleEvidence,qbEvidence});const saved=await writePregameObservation(archiveDirectory,observation);if(saved)console.log('Saved pregame research observation: '+saved)}catch(e){console.warn('Research observation unavailable; production feed unaffected: '+e.message)}
  const {research_evidence,...publicFeed}=feed;return publicFeed;
 }
 if(process.argv[1]?.endsWith('generate-provisional-feed.mjs')){

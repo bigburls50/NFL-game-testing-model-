@@ -42,6 +42,38 @@
       }
     }
   },
+  "qb_replacement_comparison": {
+    "eligible_games": 0,
+    "scored_games": 0,
+    "metrics": {
+      "v2": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      },
+      "replacement": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      }
+    },
+    "changed_game_metrics": {
+      "v2": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      },
+      "replacement": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      }
+    }
+  },
   "policy": "Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.",
   "final_scores": [],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

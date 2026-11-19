@@ -1,0 +1,91 @@
+{
+  "version": "phase10-qb-replacement-research-v1",
+  "train_season": 2025,
+  "holdout_season": 2026,
+  "training_games": 269,
+  "holdout_total": 149,
+  "coverage": 0.9731543624161074,
+  "weights": [
+    0.07662781767318894,
+    0.0138985063369766
+  ],
+  "holdout": {
+    "v2": {
+      "n": 145,
+      "accuracy": 0.6068965517241379,
+      "brier": 0.22059668364452,
+      "log_loss": 0.6298030352419415
+    },
+    "replacement": {
+      "n": 145,
+      "accuracy": 0.6137931034482759,
+      "brier": 0.2196287280887445,
+      "log_loss": 0.6274988655444457
+    }
+  },
+  "changed_holdout": {
+    "v2": {
+      "n": 34,
+      "accuracy": 0.4411764705882353,
+      "brier": 0.2697671932815314,
+      "log_loss": 0.7321560611599315
+    },
+    "replacement": {
+      "n": 34,
+      "accuracy": 0.4411764705882353,
+      "brier": 0.2721455969737635,
+      "log_loss": 0.7370286524094085
+    }
+  },
+  "retrospective_gate": {
+    "passed": false,
+    "requirements": "80% coverage, at least 30 changed-QB games, improved Brier and log loss on both sets"
+  },
+  "production_gate": {
+    "passed": false,
+    "reason": "Prior-game statistics publication times were not independently captured; retrospective holdout reused. Prospective verification required."
+  },
+  "warning": "EPA per QB action (passing attempts, sacks and carries), not isolated causal player value; current and same-day results never enter features. Unseen or low-sample QBs remain unknown.",
+  "sources": [
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+      "sha256": "bb32d79ad8a0a2ab121f79032b84c01c8570f2c3f8eb1560149e38afcc1002a8"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2020.csv",
+      "sha256": "05b992676faccc8940efbf6242cb76358069372d31d7c2e02c1a4acdcd3cbe18"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2021.csv",
+      "sha256": "41915fb49238902ad1f129ebf0405b11a1e710454ae0fe8f7b3e4f9145875f48"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2022.csv",
+      "sha256": "ad426c3fe5bf1cc30c3f137fdfe96d054e19d400879ee4413129da49fa7b54be"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2023.csv",
+      "sha256": "f19cb71a5de0dce7fd09376026237c9ee9d5a93fe13815a2ea3ec2d37204cb17"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2024.csv",
+      "sha256": "3ddc45a84f759aa348ce465ae001752c530575455717657cdfe1f8abfcdb4759"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2025.csv",
+      "sha256": "e5e0615b3d96a3eaebfaee91e55afb4a4e7fe0caf057454177bcd7d6ad4bcfc2"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+      "sha256": "057b1cd6d10703921a631b020a222a27f2209bd576e305400607a5e98482e5ea"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2025.csv",
+      "sha256": "f5a4aa3fa70150e810b2255200c8735a6c1cc8ff77361308ce39149345b39b4a"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.csv",
+      "sha256": "91b78a1df1a94b721252d80969a912cefeb495d6c0df03a2038fdb0949e8c7f6"
+    }
+  ]
+}

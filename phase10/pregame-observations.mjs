@@ -6,6 +6,8 @@ import {indexInjuryReports,pregameInjuries,predictInjuryOffset,latestInjuryRows,
 import {buildRoleHistory,roleBurden,roleVector,PLAYER_IMPACT_VERSION} from './player-impact-research.mjs';
 import injuryValidation from './injury-impact-validation.json' with {type:'json'};
 import roleValidation from './player-impact-validation.json' with {type:'json'};
+import {buildQBHistory,replacementFeatures,predictReplacementOffset,QB_REPLACEMENT_VERSION} from './qb-replacement-research.mjs';
+import qbValidation from './qb-replacement-validation.json' with {type:'json'};
 const id=v=>/^00-\d{7}$/.test(v??'');
 const finite=v=>typeof v==='number'&&Number.isFinite(v);
 export function weatherObservation(event){
@@ -13,10 +15,11 @@ export function weatherObservation(event){
  if(!w&&!v)return null;
  return {source_event_id:String(event.id??''),venue_id:v?.id??null,venue_name:v?.fullName??null,venue_indoor_designation:typeof v?.indoor==='boolean'?v.indoor:null,condition:typeof w?.displayValue==='string'?w.displayValue:null,temperature_source_value:finite(w?.temperature)?w.temperature:null,temperature_units:'not_explicit_in_source',wind_speed:null,forecast_issued_at_utc:null,warning:'Scoreboard weather indication observed before kickoff, not a verified roof position or timestamped meteorological forecast.'};
 }
-export function buildPregameObservation(feed,{historicalGames=[],weatherByGame=new Map(),observedAt=new Date().toISOString(),roleEvidence=null}={}){
+export function buildPregameObservation(feed,{historicalGames=[],weatherByGame=new Map(),observedAt=new Date().toISOString(),roleEvidence=null,qbEvidence=null}={}){
  const now=Date.parse(observedAt),evidence=feed.research_evidence;if(!Number.isFinite(now)||!Number.isFinite(Date.parse(feed.generated_at_utc))||Date.parse(feed.generated_at_utc)>now)throw Error('Invalid observation time');
  const cutoff=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now)),prior=new Map();
  const roles=roleEvidence&&Date.parse(roleEvidence.retrieved_at_utc)<=now?buildRoleHistory(historicalGames,roleEvidence.snaps,cutoff):null;
+ const qbHistory=qbEvidence&&Number.isFinite(Date.parse(qbEvidence.retrieved_at_utc))&&Date.parse(qbEvidence.retrieved_at_utc)<=now?buildQBHistory(completedRows(historicalGames).filter(g=>g.gameday<cutoff),qbEvidence.production):null;
  for(const g of completedRows(historicalGames).filter(g=>g.gameday<cutoff))for(const [team,qb] of [[g.home_team,g.home_qb_id],[g.away_team,g.away_qb_id]]){if(id(qb))prior.set(team,qb);else prior.delete(team)}
  const games=[];
  for(const g of feed.games??[]){if(g.schedule_conflict||!Number.isFinite(Date.parse(g.kickoff_utc))||Date.parse(g.kickoff_utc)<=now)continue;
@@ -25,7 +28,11 @@ export function buildPregameObservation(feed,{historicalGames=[],weatherByGame=n
    const injuries=report?report.players.filter(p=>id(p.player_id)&&(!p.report_date||(Number.isFinite(Date.parse(p.report_date))&&Date.parse(p.report_date)<=now))).map(p=>({player_id:p.player_id,position:p.position??null,game_status:p.game_status??null,practice_status:p.practice_status??null,source_report_at_utc:p.report_date??null})):null;
    teams[team]={projected_qb:depth.length===1?{player_id:depth[0].player_id,snapshot_at_utc:depth[0].snapshot_at_utc}:null,prior_completed_game_qb_id:prior.get(team)??null,injury_report:report?{source_url:report.source_url,source_dataset_or_report_updated_at_utc:report.report_updated_at_utc,timestamp_basis:report.timestamp_basis,rows:injuries}:null};
   }
-  let candidate=null,roleShadow=null;
+  let candidate=null,roleShadow=null,qbShadow=null;
+  if(qbHistory&&g.status==='provisional'&&finite(g.home_win_probability)&&g.home_win_probability>0&&g.home_win_probability<1&&qbValidation.version===QB_REPLACEMENT_VERSION&&Object.values(teams).every(t=>t.projected_qb&&Date.parse(t.projected_qb.snapshot_at_utc)<=now&&now-Date.parse(t.projected_qb.snapshot_at_utc)<=7*86400000)){
+   const h=qbHistory.project(g.home_team,teams[g.home_team].projected_qb.player_id),a=qbHistory.project(g.away_team,teams[g.away_team].projected_qb.player_id);
+   if(h&&a){const x=replacementFeatures(h,a);qbShadow={version:QB_REPLACEMENT_VERSION,home_win_probability:predictReplacementOffset(g.home_win_probability,x,qbValidation.weights),features:x,team_ratings:{[g.home_team]:h,[g.away_team]:a},changed:h.changed||a.changed,retrospective_gate_passed:qbValidation.retrospective_gate.passed,warning:'Unpromoted research forecast only. Depth projection is not final QB confirmation; not a stake or recommendation.'}}
+  }
   if(g.status==='provisional'&&finite(g.home_win_probability)&&g.home_win_probability>0&&g.home_win_probability<1&&Object.values(teams).every(t=>t.prior_completed_game_qb_id&&t.injury_report?.rows?.length)){
    const rows=Object.entries(teams).flatMap(([team,t])=>t.injury_report.rows.map(p=>({season:g.season,week:g.week,team,gsis_id:p.player_id,position:p.position,report_status:p.game_status,date_modified:p.source_report_at_utc??observedAt}))),index=indexInjuryReports(rows);
    const h=pregameInjuries(index,g,g.home_team,now,prior.get(g.home_team)),a=pregameInjuries(index,g,g.away_team,now,prior.get(g.away_team));
@@ -35,9 +42,9 @@ export function buildPregameObservation(feed,{historicalGames=[],weatherByGame=n
     if(h&&a){const known=h.known_injured+a.known_injured,unknown=h.unknown_injured+a.unknown_injured;if(known+unknown>0&&known/(known+unknown)>=.8){const x=roleVector(h,a);roleShadow={version:PLAYER_IMPACT_VERSION,home_win_probability:predictInjuryOffset(g.home_win_probability,x,roleValidation.coefficients),features:x,role_coverage:{known,unknown},team_roles:{[g.home_team]:h,[g.away_team]:a},warning:'Research-only snap usage proxy, not certified causal player value or a betting recommendation.'}}}
    }
   }
-  games.push({game_id:g.game_id,season:g.season,week:g.week,home_team:g.home_team,away_team:g.away_team,kickoff_utc:g.kickoff_utc,baseline_status:g.status,baseline_home_win_probability:g.status==='provisional'?g.home_win_probability:null,teams,weather:weatherByGame.get(g.game_id)??null,injury_shadow:candidate,player_impact_shadow:roleShadow});
+  games.push({game_id:g.game_id,season:g.season,week:g.week,home_team:g.home_team,away_team:g.away_team,kickoff_utc:g.kickoff_utc,baseline_status:g.status,baseline_home_win_probability:g.status==='provisional'?g.home_win_probability:null,teams,weather:weatherByGame.get(g.game_id)??null,injury_shadow:candidate,player_impact_shadow:roleShadow,qb_replacement_shadow:qbShadow});
  }
- return {schema_version:2,observed_at_utc:observedAt,base_feed_generated_at_utc:feed.generated_at_utc,baseline_model_version:feed.model?.version??null,baseline_model_digest:feed.model?.digest??null,source_provenance:feed.source_provenance??null,role_evidence:roles?{sources:roleEvidence.sources,retrieved_at_utc:roleEvidence.retrieved_at_utc,mapped_players:roleEvidence.mapped_players,valid_team_games:roleEvidence.valid_team_games}:null,weather_source:'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?limit=50',games,warning:'Prospective research evidence only. Observation time is when data was seen; absent injury rows are unknown, not healthy. No real-money use.'};
+ return {schema_version:3,observed_at_utc:observedAt,base_feed_generated_at_utc:feed.generated_at_utc,baseline_model_version:feed.model?.version??null,baseline_model_digest:feed.model?.digest??null,source_provenance:feed.source_provenance??null,role_evidence:roles?{sources:roleEvidence.sources,retrieved_at_utc:roleEvidence.retrieved_at_utc,mapped_players:roleEvidence.mapped_players,valid_team_games:roleEvidence.valid_team_games}:null,qb_replacement_evidence:qbHistory?{sources:qbEvidence.sources,retrieved_at_utc:qbEvidence.retrieved_at_utc,game_count:qbEvidence.game_count}:null,weather_source:'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?limit=50',games,warning:'Prospective research evidence only. Observation time is when data was seen; absent injury rows are unknown, not healthy. No real-money use.'};
 }
 export async function writePregameObservation(directory,observation){
  if(!observation.games.length)return null;await mkdir(directory,{recursive:true});

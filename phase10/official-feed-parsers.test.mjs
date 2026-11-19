@@ -39,3 +39,11 @@ test('official QB URLs with credentials or nonstandard ports are rejected',()=>{
   assert.equal(result.reason,'unverified_source_domain');
  }
 });
+
+test('non-quarterback roster identity cannot be promoted to confirmed starter',()=>{
+ const nonQb=extractConfirmedStarter(doc,{...options,roster:[{...options.roster[0],position:'WR'}]});
+ assert.equal(nonQb.status,'unconfirmed');
+ assert.equal(nonQb.reason,'no_unique_explicit_starter');
+ const qb=extractConfirmedStarter(doc,{...options,roster:[{...options.roster[0],position:'QB'}]});
+ assert.equal(qb.status,'confirmed');
+});

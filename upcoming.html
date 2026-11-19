@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#142039"><title>Upcoming NFL games · NFL Auto Research</title><style>
+:root{font-family:system-ui,Arial,sans-serif;background:#0b1220;color:#edf2fa}*{box-sizing:border-box}body{margin:0}header,main{padding:20px;max-width:1050px;margin:auto}a{color:#91c5ff}.muted{color:#a8bad1}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.card{background:#152238;border:1px solid #344967;border-radius:12px;padding:18px}.status{color:#ffcf81;font-weight:700}.date{font-size:.85rem;color:#a8bad1}button{background:#6cdda4;color:#071325;border:0;border-radius:8px;padding:12px 16px;font-weight:700;cursor:pointer}.notice{border-left:4px solid #ffcf81;background:#29273a;padding:14px;margin:16px 0}
+</style></head><body><header><a href="./index.html">← Dashboard</a><h1>Upcoming NFL games</h1><p class="muted">Verified schedule, strictly separated from model forecasts. Research and paper testing only.</p></header><main><div class="notice">Forecasts remain <b>unavailable</b> until a point-in-time model archive passes the Phase 10 provenance gate. No fabricated win probabilities, picks, or Ontario sportsbook quotes.</div><button id="refresh" type="button">Refresh schedule</button><p id="status" class="muted" role="status" aria-live="polite">Loading schedule…</p><div id="games" class="grid"></div><p class="muted">Schedule source: <a href="https://media.nfl.com/content/dam/communications/documents/2026/Week%2011%20Schedule%20Change.pdf">NFL Week 11 update (Nov. 9, 2026)</a>. Times shown in your device's timezone. Game schedules can change; refresh and verify against the NFL.</p></main><script>
+const names={IND:"Indianapolis Colts",HOU:"Houston Texans",MIA:"Miami Dolphins",BUF:"Buffalo Bills",BAL:"Baltimore Ravens",CAR:"Carolina Panthers",NO:"New Orleans Saints",CHI:"Chicago Bears",TEN:"Tennessee Titans",DAL:"Dallas Cowboys",TB:"Tampa Bay Buccaneers",DET:"Detroit Lions",ARI:"Arizona Cardinals",KC:"Kansas City Chiefs",PIT:"Pittsburgh Steelers",PHI:"Philadelphia Eagles",NYJ:"New York Jets",LAC:"Los Angeles Chargers",LV:"Las Vegas Raiders",DEN:"Denver Broncos",JAX:"Jacksonville Jaguars",NYG:"New York Giants",MIN:"Minnesota Vikings",SF:"San Francisco 49ers",CIN:"Cincinnati Bengals",WAS:"Washington Commanders"};
+async function refresh(){
+ const status=document.getElementById("status"),root=document.getElementById("games");status.textContent="Loading verified fixtures…";root.replaceChildren();
+ try{
+ const response=await fetch("./phase10/upcoming-week11-2026.json",{cache:"no-store"});if(!response.ok)throw Error("Schedule HTTP "+response.status);
+ const data=await response.json();if(data.season!==2026||data.week!==11||data.schedule_verified!==true||data.model_forecasts_verified!==false||!Array.isArray(data.games)||data.games.length!==13)throw Error("Schedule manifest failed validation");
+ const seen=new Set();
+ for(const g of data.games){
+ if(seen.has(g.game_id)||g.season!==2026||g.week!==11||!names[g.away_team]||!names[g.home_team]||g.away_team===g.home_team||!/^2026-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(g.kickoff_utc)||!Number.isFinite(Date.parse(g.kickoff_utc)))throw Error("Invalid fixture");
+ seen.add(g.game_id);
+ const card=document.createElement("article");card.className="card";
+ const h=document.createElement("h2");h.textContent=names[g.away_team]+" at "+names[g.home_team];
+ const date=document.createElement("p");date.className="date";date.textContent=new Date(g.kickoff_utc).toLocaleString(undefined,{dateStyle:"full",timeStyle:"short"});
+ const forecast=document.createElement("p");forecast.className="status";forecast.textContent="Model forecast: unavailable · Abstain";
+ const reason=document.createElement("p");reason.className="muted";reason.textContent="No independently validated pre-kickoff prediction is available.";
+ card.append(h,date,forecast,reason);root.append(card);
+ }
+ status.textContent="13 scheduled games loaded · 0 verified model forecasts · 13 abstentions";
+ }catch(error){status.textContent="Schedule unavailable: "+error.message+". No picks displayed.";root.replaceChildren();}
+}
+document.getElementById("refresh").addEventListener("click",refresh);refresh();
+</script></body></html>

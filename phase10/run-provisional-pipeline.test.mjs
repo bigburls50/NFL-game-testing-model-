@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {runProvisionalPipeline} from './run-provisional-pipeline.mjs';
+import {runProvisionalPipeline,provisionalAbstentionReasons} from './run-provisional-pipeline.mjs';
 
 test('feed failure remains an explicit abstention with per-feed diagnostics',async()=>{
  const manifest={season:2026,week:11,games:[{game_id:'g1',home_team:'HOU',away_team:'IND'}]};
@@ -58,4 +58,15 @@ test('failed feeds retain audit errors without leaking a probability',async()=>{
  assert.equal(result.source_provenance,null);
  assert.equal(result.games[0].status,'abstain');
  assert.equal(result.games[0].home_win_probability,undefined);
+});
+
+test('missing per-game collector audit is explicit and never treated as verified',()=>{
+ const reasons=provisionalAbstentionReasons({games:[{game_id:'other',reasons:[]}]},{game_id:'g1'});
+ assert.ok(reasons.includes('missing_game_evidence_audit'));
+ assert.ok(reasons.includes('collector_does_not_expose_normalized_evidence'));
+});
+test('existing game audit reasons are retained without a false missing-audit reason',()=>{
+ const reasons=provisionalAbstentionReasons({games:[{game_id:'g1',reasons:['unverified_qb']}]},{game_id:'g1'});
+ assert.ok(reasons.includes('unverified_qb'));
+ assert.ok(!reasons.includes('missing_game_evidence_audit'));
 });

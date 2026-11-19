@@ -8,6 +8,9 @@ export function extractConfirmedStarter(document,{game,team,roster,asOf=new Date
  const published=Date.parse(document.published_at_utc),retrieved=Date.parse(document.retrieved_at_utc);
  if(!Number.isFinite(published)||!Number.isFinite(retrieved)||published>retrieved||retrieved>Date.parse(asOf)||retrieved>=Date.parse(game.kickoff_utc)||Date.parse(asOf)-published>48*3600000)return reject('stale_or_invalid_timestamp');
  if(document.game_id!==game.game_id||document.team!==team)return reject('game_mismatch');
+ let sourceHost=null;try{const u=new URL(document.source_url);if(u.protocol==='https:')sourceHost=u.hostname.toLowerCase();}catch{}
+ const sourceOfficial=sourceHost==='nfl.com'||sourceHost==='www.nfl.com'||(document.source_verified_independently===true&&document.verified_team_domain===sourceHost&&sourceHost?.endsWith('.com'));
+ if(!sourceOfficial)return reject('unverified_source_domain');
  if(!document.html)return reject('source_text_not_archived');
  const text=clean(document.html);
  const candidates=roster.filter(r=>r.team===team&&r.player_id&&r.player_name).filter(r=>{

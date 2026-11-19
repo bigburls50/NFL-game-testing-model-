@@ -1,0 +1,177 @@
+{
+  "game_id": "2026_11_IND_HOU",
+  "source_url": "https://www.nfl.com/injuries/",
+  "source_type": "official_team_or_league",
+  "publication_timestamp_utc": null,
+  "source_digest": null,
+  "complete_report": false,
+  "reason": "Official web page displays both complete visible sections but does not provide independently authenticated publication time or archived digest",
+  "teams": {
+    "IND": {
+      "visible_row_count": 11,
+      "rows": [
+        {
+          "player_name": "Jaylon Carlies",
+          "injury": "",
+          "practice_status": "DNP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Sauce Gardner",
+          "injury": "Calf",
+          "practice_status": "DNP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Anthony Gould",
+          "injury": "Toe",
+          "practice_status": "FP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Charlie Heck",
+          "injury": "Personal matter",
+          "practice_status": "DNP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Will Mallory",
+          "injury": "Hamstring",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Bernhard Raimann",
+          "injury": "Concussion",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Luke Rhodes",
+          "injury": "Hamstring",
+          "practice_status": "LP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Jerry Tillery",
+          "injury": "Calf",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Jalen Travis",
+          "injury": "Knee",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Dalton Tucker",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Charvarius Ward",
+          "injury": "Knee",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        }
+      ]
+    },
+    "HOU": {
+      "visible_row_count": 15,
+      "rows": [
+        {
+          "player_name": "Azeez Al-Shaair",
+          "injury": "",
+          "practice_status": "DNP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Reed Blankenship",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Tank Dell",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Blake Fisher",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Marvin Harrison Jr.",
+          "injury": "Hamstring",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Jacob Hummel",
+          "injury": "Groin",
+          "practice_status": "FP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Danielle Hunter",
+          "injury": "Hamstring",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Brevin Jordan",
+          "injury": "Foot, Illness",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "Kamari Lassiter",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Woody Marks",
+          "injury": "Concussion",
+          "practice_status": "DNP",
+          "game_status": "Out"
+        },
+        {
+          "player_name": "David Montgomery",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Febechi Nwaiwu",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Keylan Rutledge",
+          "injury": "",
+          "practice_status": "FP",
+          "game_status": ""
+        },
+        {
+          "player_name": "Jaylin Smith",
+          "injury": "Hamstring",
+          "practice_status": "FP",
+          "game_status": "Questionable"
+        },
+        {
+          "player_name": "Wyatt Teller",
+          "injury": "Back",
+          "practice_status": "FP",
+          "game_status": "Questionable"
+        }
+      ]
+    }
+  }
+}

@@ -55,3 +55,15 @@ test('official starter evidence for a team outside the matchup is rejected',()=>
  assert.equal(result.status,'unconfirmed');
  assert.equal(result.reason,'team_not_in_game');
 });
+
+test('duplicate official injury team headings remain ambiguous and cannot assert placeholder evidence',()=>{
+ const html='<h3>Colts</h3><p>No Injuries Reported</p><h3>Colts</h3><p>Practice report pending</p><h3>Texans</h3><p>No Injuries Reported</p>';
+ const result=parseOfficialInjuryHtml(html,[game],{publishedAt:'2026-11-18T16:00:00Z'});
+ const colts=result.reports.find(x=>x.team==='IND');
+ const texans=result.reports.find(x=>x.team==='HOU');
+ assert.equal(colts.placeholder_observed,false);
+ assert.equal(texans.placeholder_observed,true);
+ assert.equal(result.errors.find(x=>x.team==='IND').reason,'ambiguous_team_sections');
+ assert.equal(result.ready_for_forecast,false);
+ assert.ok(result.reports.every(x=>x.complete_report===false && x.explicit_no_injuries===false));
+});

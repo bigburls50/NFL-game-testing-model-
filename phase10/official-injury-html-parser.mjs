@@ -8,10 +8,10 @@ export function parseOfficialInjuryHtml(html,schedule,{publishedAt=null,retrieve
  for(const game of schedule)for(const team of [game.home_team,game.away_team]){
   const label=teams[team];const matches=sections.filter(s=>label&&new RegExp('\\b'+label+'\\b','i').test(s.heading));
   // NFL pages often have repeated team names in navigation: no section is trusted without table context.
-  const placeholderObserved=matches.some(s=>/No Injuries Reported/i.test(s.body));
+  const placeholderObserved=matches.length===1 && /No Injuries Reported/i.test(matches[0].body);
   const candidate={game_id:game.game_id,team,source_url:sourceUrl,published_at_utc:publishedAt,retrieved_at_utc:retrievedAt,players:[],explicit_no_injuries:false,placeholder_observed:placeholderObserved,complete_report:false,source_type:'official_team_or_league',status:'unverified_page_section'};
   rows.push(candidate);
-  errors.push({game_id:game.game_id,team,reason:!publishedAt?'missing_official_report_publication_time':'team_section_not_independently_verified'});
+  errors.push({game_id:game.game_id,team,reason:matches.length>1?'ambiguous_team_sections':!publishedAt?'missing_official_report_publication_time':'team_section_not_independently_verified'});
  }
  return {reports:rows,errors,ready_for_forecast:false,warning:'No Injuries Reported may mean no report has been filed. HTML sections are never promoted to complete without an official timestamp and full game-specific report validation.'};
 }

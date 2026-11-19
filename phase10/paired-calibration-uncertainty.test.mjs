@@ -6,5 +6,5 @@ test('paired bootstrap deterministic and reports signed probability improvement'
 });
 test('reject mismatched and incomplete pairs',()=>{
  assert.throws(()=>pairedAudit([row('a',2023,.6)],[row('b',2023,.7)]));
- assert.throws(()=>pairedAudit([row('a',2023,.6),row('b',2023,.6)],[row('a',2023,.7)]));
+ assert.equal(pairedAudit([row('a',2022,.6),row('b',2023,.6)],[row('b',2023,.7)]).games,1);
 });

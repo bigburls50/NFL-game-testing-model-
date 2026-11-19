@@ -19,7 +19,7 @@ export async function collectOfficialStarterEvidence(sources,{fetchImpl=fetch,as
    if(html.length>2000000)throw Error('oversized_document');
    const published=publishedFromHtml(html);
    if(!published||Date.parse(published)>Date.parse(asOf))throw Error('missing_or_future_publication_timestamp');
-   evidence.push({game_id:s.game_id,team:s.team,source_url:url.toString(),published_at_utc:published,retrieved_at_utc:asOf,document_sha256:'sha256:'+createHash('sha256').update(html).digest('hex'),review_status:'pending_explicit_starter_confirmation',status:'unconfirmed'});
+   evidence.push({game_id:s.game_id,team:s.team,source_url:url.toString(),published_at_utc:published,retrieved_at_utc:asOf,document_sha256:'sha256:'+createHash('sha256').update(html).digest('hex'),html,review_status:'pending_explicit_starter_confirmation',status:'unconfirmed'});
   }catch(e){errors.push({index:i,reason:e.message});}
  }
  return {evidence,errors,confirmed_starters:0,ready_for_forecast:false,warning:'Retrieval and publication timestamps are automatic. Do not treat a headline, depth chart or stale announcement as confirmation for this specific game.'};

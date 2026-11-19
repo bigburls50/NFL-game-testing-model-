@@ -18,6 +18,8 @@ jobs:
         run: node --test phase10/collect-live-features.test.mjs phase10/live-feature-gate.test.mjs
       - name: Probe live nflverse current-season injury release
         run: node phase10/probe-injuries.mjs phase10/upcoming-week11-2026.json phase10/data/injury-source-audit.json
+      - name: Probe live Open-Meteo forecasts for stadiums
+        run: node phase10/probe-weather.mjs phase10/upcoming-week11-2026.json phase10/data/weather-source-audit.json
       - name: Collect configured credential-free JSON sources
         env:
           NFL_QB_JSON_URL: ${{ vars.NFL_QB_JSON_URL }}
@@ -31,4 +33,5 @@ jobs:
           path: |
             phase10/data/live-features-audit.json
             phase10/data/injury-source-audit.json
+            phase10/data/weather-source-audit.json
           retention-days: 7

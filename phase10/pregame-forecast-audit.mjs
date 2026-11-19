@@ -1,7 +1,7 @@
 // Validate a current-season pregame forecast archive before any dashboard picks are shown.
 // This is a provenance/quality gate, NOT evidence of predictive accuracy.
 const utcInstant=value=>{
- if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\\.\d{1,3})?Z$/.test(value))return false;
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(value))return false;
  const ms=Date.parse(value);
  if(!Number.isFinite(ms))return false;
  // Date.parse normalizes impossible dates (e.g. February 30); require a true UTC calendar instant.

@@ -10,6 +10,7 @@ export function assessModelRelease({predeclaredThreshold,highConfidence,allGames
  if(!validMetrics(highConfidence))reasons.push('subset_metrics_invalid');
  if(validMetrics(allGames)&&validMetrics(highConfidence)){
   if(highConfidence.n>allGames.n)reasons.push('subset_exceeds_all_games');
+  if(highConfidence.correct>allGames.correct||highConfidence.n-highConfidence.correct>allGames.n-allGames.correct)reasons.push('subset_outcomes_inconsistent');
   if(!validRate(highConfidence.coverage)||Math.abs(highConfidence.coverage-highConfidence.n/allGames.n)>1e-9)reasons.push('coverage_inconsistent');
   if(!validRate(highConfidence.wilsonLower95)||!validRate(highConfidence.wilsonUpper95)||highConfidence.wilsonLower95>highConfidence.accuracy||highConfidence.wilsonUpper95<highConfidence.accuracy)reasons.push('uncertainty_missing_or_invalid');
   if(highConfidence.accuracy<0.75)reasons.push('subset_accuracy_below_target');

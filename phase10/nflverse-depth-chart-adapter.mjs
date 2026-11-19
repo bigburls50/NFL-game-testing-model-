@@ -17,5 +17,5 @@ export async function fetchNflverseDepthCharts(season,{fetchImpl=fetch}={}){
 }
 export function projectedQuarterbacks(source,week){
  const {teamKey,idKey,positionKey,rankKey,weekKey}=source.keys;
- return source.rows.filter(r=>Number(r[weekKey])===Number(week)&&r[positionKey]==='QB'&&Number(r[rankKey])===1&&/^00-\\d{7}$/.test(r[idKey]??'')).map(r=>({team:r[teamKey],position:'QB',player_id:r[idKey],depth_rank:1}));
+ return source.rows.filter(r=>Number(r[weekKey])===Number(week)&&r[positionKey]==='QB'&&Number(r[rankKey])===1&&/^00-\d{7}$/.test(r[idKey]??'')).map(r=>({team:r[teamKey],position:'QB',player_id:r[idKey],depth_rank:1}));
 }

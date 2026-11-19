@@ -1,0 +1,227 @@
+{
+  "model_version": "phase10-causal-logistic-v2",
+  "features": [
+    "home_venue",
+    "elo_difference",
+    "point_rating_difference",
+    "recent_margin_difference",
+    "opponent_adjusted_margin_difference",
+    "rest_difference"
+  ],
+  "source": "nflverse schedule games.csv",
+  "history_first_season": 2016,
+  "history_last_date": "2026-11-16",
+  "history_games": 2911,
+  "data_digest": "sha256:798f37025feb434b4f92be305c2fc612401615b8b937e448fc4beb3baa0fd2ad",
+  "development_seasons": [
+    2023,
+    2024
+  ],
+  "holdout_seasons": [
+    2025,
+    2026
+  ],
+  "development": {
+    "incumbent": {
+      "n": 570,
+      "accuracy": 0.643859649122807,
+      "brier": 0.22539247508623592,
+      "log_loss": 0.6421950917741427
+    },
+    "learned": {
+      "n": 570,
+      "accuracy": 0.6421052631578947,
+      "brier": 0.2226714082831469,
+      "log_loss": 0.6358259847439407
+    },
+    "market_on_available_subset": {
+      "n": 570,
+      "accuracy": 0.6894736842105263,
+      "brier": 0.20980656120743807,
+      "log_loss": 0.6080921947970853
+    },
+    "learned_on_market_subset": {
+      "n": 570,
+      "accuracy": 0.6421052631578947,
+      "brier": 0.2226714082831469,
+      "log_loss": 0.6358259847439407
+    },
+    "incumbent_on_market_subset": {
+      "n": 570,
+      "accuracy": 0.643859649122807,
+      "brier": 0.22539247508623592,
+      "log_loss": 0.6421950917741427
+    }
+  },
+  "holdout": {
+    "incumbent": {
+      "n": 433,
+      "accuracy": 0.6304849884526559,
+      "brier": 0.22494577308111005,
+      "log_loss": 0.6406517431625892
+    },
+    "learned": {
+      "n": 433,
+      "accuracy": 0.628175519630485,
+      "brier": 0.2191100105631805,
+      "log_loss": 0.62745986873323
+    },
+    "market_on_available_subset": {
+      "n": 433,
+      "accuracy": 0.6651270207852193,
+      "brier": 0.21137946963554122,
+      "log_loss": 0.6098341641856275
+    },
+    "learned_on_market_subset": {
+      "n": 433,
+      "accuracy": 0.628175519630485,
+      "brier": 0.2191100105631805,
+      "log_loss": 0.62745986873323
+    },
+    "incumbent_on_market_subset": {
+      "n": 433,
+      "accuracy": 0.6304849884526559,
+      "brier": 0.22494577308111005,
+      "log_loss": 0.6406517431625892
+    }
+  },
+  "by_season": {
+    "2023": {
+      "training_games": 1632,
+      "incumbent": {
+        "n": 285,
+        "accuracy": 0.6210526315789474,
+        "brier": 0.23134433332208948,
+        "log_loss": 0.6546965406504596
+      },
+      "learned": {
+        "n": 285,
+        "accuracy": 0.624561403508772,
+        "brier": 0.22954894771100928,
+        "log_loss": 0.6503470776887396
+      },
+      "market_on_available_subset": {
+        "n": 285,
+        "accuracy": 0.6701754385964912,
+        "brier": 0.21863833615593278,
+        "log_loss": 0.6269703437511285
+      },
+      "learned_on_market_subset": {
+        "n": 285,
+        "accuracy": 0.624561403508772,
+        "brier": 0.22954894771100928,
+        "log_loss": 0.6503470776887396
+      },
+      "incumbent_on_market_subset": {
+        "n": 285,
+        "accuracy": 0.6210526315789474,
+        "brier": 0.23134433332208948,
+        "log_loss": 0.6546965406504596
+      }
+    },
+    "2024": {
+      "training_games": 1917,
+      "incumbent": {
+        "n": 285,
+        "accuracy": 0.6666666666666666,
+        "brier": 0.21944061685038238,
+        "log_loss": 0.6296936428978253
+      },
+      "learned": {
+        "n": 285,
+        "accuracy": 0.6596491228070176,
+        "brier": 0.21579386885528448,
+        "log_loss": 0.6213048917991435
+      },
+      "market_on_available_subset": {
+        "n": 285,
+        "accuracy": 0.7087719298245614,
+        "brier": 0.20097478625894308,
+        "log_loss": 0.5892140458430418
+      },
+      "learned_on_market_subset": {
+        "n": 285,
+        "accuracy": 0.6596491228070176,
+        "brier": 0.21579386885528448,
+        "log_loss": 0.6213048917991435
+      },
+      "incumbent_on_market_subset": {
+        "n": 285,
+        "accuracy": 0.6666666666666666,
+        "brier": 0.21944061685038238,
+        "log_loss": 0.6296936428978253
+      }
+    },
+    "2025": {
+      "training_games": 2202,
+      "incumbent": {
+        "n": 284,
+        "accuracy": 0.6373239436619719,
+        "brier": 0.22321796698980792,
+        "log_loss": 0.6370803796267711
+      },
+      "learned": {
+        "n": 284,
+        "accuracy": 0.6338028169014085,
+        "brier": 0.2199936309398501,
+        "log_loss": 0.6297333532745247
+      },
+      "market_on_available_subset": {
+        "n": 284,
+        "accuracy": 0.6584507042253521,
+        "brier": 0.21090637306635854,
+        "log_loss": 0.6069889381505208
+      },
+      "learned_on_market_subset": {
+        "n": 284,
+        "accuracy": 0.6338028169014085,
+        "brier": 0.2199936309398501,
+        "log_loss": 0.6297333532745247
+      },
+      "incumbent_on_market_subset": {
+        "n": 284,
+        "accuracy": 0.6373239436619719,
+        "brier": 0.22321796698980792,
+        "log_loss": 0.6370803796267711
+      }
+    },
+    "2026": {
+      "training_games": 2486,
+      "incumbent": {
+        "n": 149,
+        "accuracy": 0.6174496644295302,
+        "brier": 0.22823904106721546,
+        "log_loss": 0.6474589058751548
+      },
+      "learned": {
+        "n": 149,
+        "accuracy": 0.6174496644295302,
+        "brier": 0.21742579454321956,
+        "log_loss": 0.623126515647808
+      },
+      "market_on_available_subset": {
+        "n": 149,
+        "accuracy": 0.6778523489932886,
+        "brier": 0.21228121074727221,
+        "log_loss": 0.615257279581401
+      },
+      "learned_on_market_subset": {
+        "n": 149,
+        "accuracy": 0.6174496644295302,
+        "brier": 0.21742579454321956,
+        "log_loss": 0.623126515647808
+      },
+      "incumbent_on_market_subset": {
+        "n": 149,
+        "accuracy": 0.6174496644295302,
+        "brier": 0.22823904106721546,
+        "log_loss": 0.6474589058751548
+      }
+    }
+  },
+  "promotion_gate": {
+    "passed": true,
+    "requirements": "Lower Brier and log loss in both splits, no more than 1pp accuracy loss in either split."
+  },
+  "warning": "Retrospective walk-forward, entire season holdouts with earlier-season fitting. Historical odds timestamps and trade execution not verified. No claims of gambling profitability."
+}

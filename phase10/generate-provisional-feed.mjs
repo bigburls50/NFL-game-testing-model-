@@ -20,7 +20,7 @@ export async function generateFeed({fetchImpl=fetch,asOf=new Date().toISOString(
  const canon=t=>({WSH:'WAS',LAR:'LA',JAC:'JAX'}[t]??t);
  const espn=events.filter(e=>e.status?.type?.completed!==true).map(e=>{const c=e.competitions?.[0]?.competitors??[],h=c.find(x=>x.homeAway==='home')?.team,a=c.find(x=>x.homeAway==='away')?.team;return {home_team:canon(h?.abbreviation),away_team:canon(a?.abbreviation),home_logo:h?.logo,away_logo:a?.logo,kickoff_utc:e.date}});
  const upcoming=rows.filter(r=>['REG','WC','DIV','CON','SB'].includes(r.game_type)&&!r.home_score&&!r.away_score).map(r=>{
-  const g={game_id:r.game_id,season:Number(r.season),week:Number(r.week),home_team:r.home_team,away_team:r.away_team,kickoff_utc:kickoffUtc(r.gameday,r.gametime)};
+  const g={game_id:r.game_id,season:Number(r.season),week:Number(r.week),home_team:r.home_team,away_team:r.away_team,kickoff_utc:kickoffUtc(r.gameday,r.gametime),location:r.location,home_rest:r.home_rest,away_rest:r.away_rest};
   const matches=espn.filter(e=>e.home_team===canon(g.home_team)&&e.away_team===canon(g.away_team)&&Math.abs(Date.parse(e.kickoff_utc)-Date.parse(g.kickoff_utc))<86400000);
   if(matches.length!==1)return null;const e=matches[0];
   const officialMatch=official.games.find(v=>v.game_id===g.game_id&&Date.parse(v.kickoff_utc)===Date.parse(e.kickoff_utc));

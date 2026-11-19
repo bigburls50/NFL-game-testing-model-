@@ -5,7 +5,7 @@ export function auditTeamInjuryReports(schedule,reports,{asOf=new Date().toISOSt
  for(const game of schedule)for(const team of [game.home_team,game.away_team]){
   const matches=reports.filter(r=>r.game_id===game.game_id&&r.team===team);
   const r=matches[0],kickoff=Date.parse(game.kickoff_utc);
-  let host=null;try{host=new URL(r?.source_url).hostname.toLowerCase();}catch{}
+  let host=null;try{const url=new URL(r?.source_url);if(url.protocol==='https:'&&!url.username&&!url.password&&!url.port)host=url.hostname.toLowerCase();}catch{}
   const official=host==='nfl.com'||host==='www.nfl.com'||(r?.verified_team_domain===host&&host?.endsWith('.com')&&r?.source_verified_independently===true);
   const published=Date.parse(r?.published_at_utc),retrieved=Date.parse(r?.retrieved_at_utc);
   const provenance=matches.length===1&&official&&r?.source_type==='official_team_or_league'&&r?.source_digest?.startsWith('sha256:')&&Number.isFinite(published)&&Number.isFinite(retrieved)&&published<=retrieved&&retrieved<=now&&retrieved<kickoff;

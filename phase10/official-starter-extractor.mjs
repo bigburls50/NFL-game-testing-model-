@@ -14,7 +14,7 @@ export function extractConfirmedStarter(document,{game,team,roster,asOf=new Date
   const escaped=r.player_name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const name=new RegExp('\\b'+escaped+'\\b','i');
   if(!name.test(text))return false;
-  const explicit=new RegExp('(?:'+escaped+'\\s+(?:will|is|has been named|was named)\\s+(?:the\\s+)?(?:starting|starter)\\s+(?:quarterback|QB)|(?:starting|starter)\\s+(?:quarterback|QB)\\s+(?:will be|is|:|—|-)\\s+'+escaped+')','i');
+  const explicit=new RegExp('(?:'+escaped+'\\s+(?:will\\s+be|is|has\\s+been\\s+named|was\\s+named)\\s+(?:the\\s+)?(?:starting|starter)\\s+(?:quarterback|QB)|(?:starting|starter)\\s+(?:quarterback|QB)\\s+(?:will be|is|:|—|-)\\s+'+escaped+')','i');
   return explicit.test(text);
  });
  if(candidates.length!==1)return reject('no_unique_explicit_starter');

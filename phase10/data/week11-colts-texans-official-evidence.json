@@ -1,0 +1,13 @@
+{
+  "as_of_utc": "2026-11-19T03:30:00Z",
+  "game_id": "2026_11_IND_HOU",
+  "source_observations": [
+    {"team":"IND","kind":"injury","url":"https://www.nfl.com/injuries/","observed":"NFL Week 11 player rows are present; report publication time and complete final-game coverage not verified","verified_complete":false},
+    {"team":"HOU","kind":"injury","url":"https://www.houstontexans.com/news/week-11-injury-report-texans-vs-colts","published_at":"2026-11-16T17:48:00-06:00","observed":"Official Monday team report lists players for both teams, not Wednesday final status","verified_complete":false},
+    {"team":"IND","kind":"injury","url":"https://www.colts.com/news/colts-rule-out-5-players-for-week-11-thursday-night-football-game-vs-houston-texans","published_at":"2026-11-18T13:30:00-05:00","observed":"Official team Wednesday story lists five out and four questionable; not a complete injury-report table","verified_complete":false},
+    {"team":"IND","kind":"starter","observed":"No game-specific official QB confirmation with independently verified identity and timestamp in this audit","verified_complete":false},
+    {"team":"HOU","kind":"starter","observed":"No game-specific official QB confirmation with independently verified identity and timestamp in this audit","verified_complete":false}
+  ],
+  "decision": "abstain",
+  "warning": "Research evidence, not an official verified complete feed; do not transform observations into accepted gate records."
+}

@@ -36,5 +36,6 @@ jobs:
             phase10/data/weather-source-audit.json
             phase10/data/official-starter-source-audit.json
             phase10/data/official-injury-page-audit.json
+            phase10/data/official-live-four-input-gate.json
             phase10/data/week11-live-acceptance-audit.json
           retention-days: 7

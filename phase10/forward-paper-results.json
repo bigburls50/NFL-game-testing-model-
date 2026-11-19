@@ -1,0 +1,537 @@
+{
+  "policy": {
+    "version": "forward-betmgm-v1",
+    "bankroll": 1000,
+    "bookKey": "betmgm_ca_on",
+    "maxSingles": 3,
+    "maxExposure": 0.03
+  },
+  "started_at": "2026-11-19T19:11:47.271Z",
+  "model_metadata": {
+    "version": "phase10-elo-matchup-v1",
+    "digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+    "training_games": 2911,
+    "training_cutoff_date": "2026-11-19"
+  },
+  "odds_retrieved_at": "2026-11-19T19:11:47.256Z",
+  "eligible_games": 12,
+  "highest_chance_parlay": {
+    "probability": 0.4402413715070243,
+    "decimal": 1.3566790352504638,
+    "edge": -0.40273376082650925,
+    "stake": 0,
+    "legs": [
+      {
+        "gameId": "2026_11_MIA_BUF",
+        "team": "Buffalo Bills",
+        "home_team": "Buffalo Bills",
+        "away_team": "Miami Dolphins",
+        "kickoff_utc": "2026-11-22T18:00:00.000Z",
+        "probability": 0.7819666664578152,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 1.0714285714285714,
+        "price": -1400,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      },
+      {
+        "gameId": "2026_11_ARI_KC",
+        "team": "Kansas City Chiefs",
+        "home_team": "Kansas City Chiefs",
+        "away_team": "Arizona Cardinals",
+        "kickoff_utc": "2026-11-22T18:00:00.000Z",
+        "probability": 0.7590968262379965,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 1.0714285714285714,
+        "price": -1400,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      },
+      {
+        "gameId": "2026_11_LV_DEN",
+        "team": "Denver Broncos",
+        "home_team": "Denver Broncos",
+        "away_team": "Las Vegas Raiders",
+        "kickoff_utc": "2026-11-22T21:25:00.000Z",
+        "probability": 0.7416609903105413,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 1.1818181818181819,
+        "price": -550,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      }
+    ]
+  },
+  "value_parlay": {
+    "probability": 0.062003919547211475,
+    "decimal": 56,
+    "edge": 2.4722194946438427,
+    "stake": 2.5,
+    "legs": [
+      {
+        "gameId": "2026_11_IND_HOU",
+        "team": "Indianapolis Colts",
+        "home_team": "Houston Texans",
+        "away_team": "Indianapolis Colts",
+        "kickoff_utc": "2026-11-20T01:15:00.000Z",
+        "probability": 0.35278138533101466,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 6.25,
+        "price": 525,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      },
+      {
+        "gameId": "2026_11_PIT_PHI",
+        "team": "Philadelphia Eagles",
+        "home_team": "Philadelphia Eagles",
+        "away_team": "Pittsburgh Steelers",
+        "kickoff_utc": "2026-11-22T18:00:00.000Z",
+        "probability": 0.4480566776924848,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 2.8,
+        "price": 180,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      },
+      {
+        "gameId": "2026_11_JAX_NYG",
+        "team": "New York Giants",
+        "home_team": "New York Giants",
+        "away_team": "Jacksonville Jaguars",
+        "kickoff_utc": "2026-11-22T21:25:00.000Z",
+        "probability": 0.3922658749566881,
+        "model_version": "phase10-elo-matchup-v1",
+        "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+        "prediction_status": "provisional",
+        "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+        "decimal": 3.2,
+        "price": 220,
+        "quote_updated": "2026-11-19T19:11:25Z"
+      }
+    ]
+  },
+  "tickets": [
+    {
+      "kind": "single",
+      "book": "BetMGM Ontario",
+      "stake": 9.16,
+      "legs": [
+        {
+          "gameId": "2026_11_ARI_KC",
+          "team": "Arizona Cardinals",
+          "home_team": "Kansas City Chiefs",
+          "away_team": "Arizona Cardinals",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.24090317376200354,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 10,
+          "price": 900,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ],
+      "status": "pending",
+      "recorded_at": "2026-11-19T19:11:47.271Z"
+    },
+    {
+      "kind": "single",
+      "book": "BetMGM Ontario",
+      "stake": 9.16,
+      "legs": [
+        {
+          "gameId": "2026_11_MIA_BUF",
+          "team": "Miami Dolphins",
+          "home_team": "Buffalo Bills",
+          "away_team": "Miami Dolphins",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.2180333335421848,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 10.5,
+          "price": 950,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ],
+      "status": "pending",
+      "recorded_at": "2026-11-19T19:11:47.271Z"
+    },
+    {
+      "kind": "single",
+      "book": "BetMGM Ontario",
+      "stake": 9.16,
+      "legs": [
+        {
+          "gameId": "2026_11_IND_HOU",
+          "team": "Indianapolis Colts",
+          "home_team": "Houston Texans",
+          "away_team": "Indianapolis Colts",
+          "kickoff_utc": "2026-11-20T01:15:00.000Z",
+          "probability": 0.35278138533101466,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 6.25,
+          "price": 525,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ],
+      "status": "pending",
+      "recorded_at": "2026-11-19T19:11:47.271Z"
+    },
+    {
+      "kind": "parlay",
+      "book": "BetMGM Ontario",
+      "stake": 2.5,
+      "legs": [
+        {
+          "gameId": "2026_11_IND_HOU",
+          "team": "Indianapolis Colts",
+          "home_team": "Houston Texans",
+          "away_team": "Indianapolis Colts",
+          "kickoff_utc": "2026-11-20T01:15:00.000Z",
+          "probability": 0.35278138533101466,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 6.25,
+          "price": 525,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        },
+        {
+          "gameId": "2026_11_PIT_PHI",
+          "team": "Philadelphia Eagles",
+          "home_team": "Philadelphia Eagles",
+          "away_team": "Pittsburgh Steelers",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.4480566776924848,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 2.8,
+          "price": 180,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        },
+        {
+          "gameId": "2026_11_JAX_NYG",
+          "team": "New York Giants",
+          "home_team": "New York Giants",
+          "away_team": "Jacksonville Jaguars",
+          "kickoff_utc": "2026-11-22T21:25:00.000Z",
+          "probability": 0.3922658749566881,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 3.2,
+          "price": 220,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ],
+      "status": "pending",
+      "recorded_at": "2026-11-19T19:11:47.271Z",
+      "estimated_combo": true
+    }
+  ],
+  "observations": [
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_IND_HOU",
+          "team": "Houston Texans",
+          "home_team": "Houston Texans",
+          "away_team": "Indianapolis Colts",
+          "kickoff_utc": "2026-11-20T01:15:00.000Z",
+          "probability": 0.6472186146689853,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.1428571428571428,
+          "price": -700,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_MIA_BUF",
+          "team": "Buffalo Bills",
+          "home_team": "Buffalo Bills",
+          "away_team": "Miami Dolphins",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.7819666664578152,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.0714285714285714,
+          "price": -1400,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_BAL_CAR",
+          "team": "Carolina Panthers",
+          "home_team": "Carolina Panthers",
+          "away_team": "Baltimore Ravens",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.586524731292096,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.6666666666666665,
+          "price": -150,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_NO_CHI",
+          "team": "Chicago Bears",
+          "home_team": "Chicago Bears",
+          "away_team": "New Orleans Saints",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.6889945717649228,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.1538461538461537,
+          "price": -650,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_TEN_DAL",
+          "team": "Dallas Cowboys",
+          "home_team": "Dallas Cowboys",
+          "away_team": "Tennessee Titans",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.6711873301271205,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.2352941176470589,
+          "price": -425,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_TB_DET",
+          "team": "Detroit Lions",
+          "home_team": "Detroit Lions",
+          "away_team": "Tampa Bay Buccaneers",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.6486537540966733,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.3636363636363638,
+          "price": -275,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_ARI_KC",
+          "team": "Kansas City Chiefs",
+          "home_team": "Kansas City Chiefs",
+          "away_team": "Arizona Cardinals",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.7590968262379965,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.0714285714285714,
+          "price": -1400,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_PIT_PHI",
+          "team": "Pittsburgh Steelers",
+          "home_team": "Philadelphia Eagles",
+          "away_team": "Pittsburgh Steelers",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "probability": 0.5519433223075152,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.4545454545454546,
+          "price": -220,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_NYJ_LAC",
+          "team": "Los Angeles Chargers",
+          "home_team": "Los Angeles Chargers",
+          "away_team": "New York Jets",
+          "kickoff_utc": "2026-11-22T21:05:00.000Z",
+          "probability": 0.5979652551877536,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.606060606060606,
+          "price": -165,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_JAX_NYG",
+          "team": "Jacksonville Jaguars",
+          "home_team": "New York Giants",
+          "away_team": "Jacksonville Jaguars",
+          "kickoff_utc": "2026-11-22T21:25:00.000Z",
+          "probability": 0.6077341250433119,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.3636363636363638,
+          "price": -275,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_LV_DEN",
+          "team": "Denver Broncos",
+          "home_team": "Denver Broncos",
+          "away_team": "Las Vegas Raiders",
+          "kickoff_utc": "2026-11-22T21:25:00.000Z",
+          "probability": 0.7416609903105413,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.1818181818181819,
+          "price": -550,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    },
+    {
+      "kind": "observation",
+      "stake": 0,
+      "status": "pending",
+      "legs": [
+        {
+          "gameId": "2026_11_MIN_SF",
+          "team": "San Francisco 49ers",
+          "home_team": "San Francisco 49ers",
+          "away_team": "Minnesota Vikings",
+          "kickoff_utc": "2026-11-23T01:20:00.000Z",
+          "probability": 0.5950230967959838,
+          "model_version": "phase10-elo-matchup-v1",
+          "model_digest": "sha256:77c5f2f8a570479bb173cb59a988cbe3bf0adaddce91e67b849be71dbcff6876",
+          "prediction_status": "provisional",
+          "prediction_created_utc": "2026-11-19T18:36:08.329Z",
+          "decimal": 1.606060606060606,
+          "price": -165,
+          "quote_updated": "2026-11-19T19:11:25Z"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "settled": 0,
+    "won": 0,
+    "pending": 4,
+    "openExposure": 29.98,
+    "pnl": 0,
+    "roi": null
+  },
+  "accuracy": {
+    "decisions": 0,
+    "correct": 0,
+    "ties": 0,
+    "pending": 12,
+    "accuracy": null,
+    "brier": null
+  },
+  "real_money_stake": 0,
+  "warning": "Provisional model and indicative odds. Paper returns only; parlay prices multiply same-book moneylines, not an offered combo."
+}

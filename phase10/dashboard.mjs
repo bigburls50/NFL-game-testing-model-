@@ -3,6 +3,7 @@ import {bestMoneylines} from './moneyline.mjs';
 import {createPaperSlip} from './paper-slip.mjs';
 import {createPaperLedger} from './paper-ledger.mjs';
 import {createStxDemo} from './stx-demo.mjs';
+import {createForwardPaperCard} from './forward-paper-card.mjs';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n};
 const styles=el('link');styles.rel='stylesheet';styles.href='./phase10/dashboard.css';document.head.append(styles);
 const section=el('section',undefined,'p10-board');section.id='phase10';
@@ -20,7 +21,7 @@ const main=document.querySelector('main'),legacy=el('details',undefined,'p10-leg
 const appHeading=document.querySelector('header h1');const appLogo=el('img');appLogo.src='./icons/icon-192.png';appLogo.alt='';appLogo.className='p10-app-icon';appHeading.replaceChildren(appLogo,el('span','NFL Auto Research'));appHeading.classList.add('p10-brand');
 document.querySelector('header .pill').textContent='PHASE 10 · LIVE MODEL';document.title='NFL Auto Research · Phase 10';
 const pct=p=>(p*100).toFixed(1)+'%';let records=[],abstentions=[],market=null,marketLoadedAt=0,marketPending=false;
-const ledger=createPaperLedger();const slip=createPaperSlip({getRecords:()=>records,getMarket:()=>market,onChange:render,recordPaper:ledger.add});const layout=el('div',undefined,'p10-slip-layout');grid.replaceWith(layout);layout.append(grid,slip.root);section.insertBefore(slip.featured,toolbar);section.append(ledger.root,createStxDemo(),slip.float);
+const ledger=createPaperLedger();const slip=createPaperSlip({getRecords:()=>records,getMarket:()=>market,onChange:render,recordPaper:ledger.add});const layout=el('div',undefined,'p10-slip-layout');grid.replaceWith(layout);layout.append(grid,slip.root);section.insertBefore(slip.featured,toolbar);section.insertBefore(createForwardPaperCard(),toolbar);section.append(ledger.root,createStxDemo(),slip.float);
 function stat(label,value,cls=''){const cell=el('div',undefined,'p10-stat '+cls);cell.append(el('span',label),el('strong',String(value)));return cell}
 function team(g,side,selected){const box=el('div',undefined,'p10-team'+(selected?' p10-team-selected':''));const logo=el('div',g[side+'_abbr']??g[side+'_team'].slice(0,3).toUpperCase(),'p10-logo');const url=g[side+'_logo'];if(url){const image=el('img');image.src=url;image.alt='';image.loading='lazy';image.decoding='async';image.addEventListener('error',()=>image.remove());logo.append(image)}const text=el('div',undefined,'p10-team-name');text.append(el('strong',g[side+'_team']),el('small',side.toUpperCase()+(selected?' • MODEL PICK':'')));box.append(logo,text);return box}
 function matchup(g,selected){const row=el('div',undefined,'p10-matchup');row.append(team(g,'away',selected===g.away_team),el('span','@','p10-versus'),team(g,'home',selected===g.home_team));return row}

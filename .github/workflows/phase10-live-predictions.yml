@@ -20,6 +20,14 @@ jobs:
         with:
           node-version: '22'
       - run: node --test phase10/*.test.mjs
+      - name: Settle existing forward paper trial from final scores
+        run: |
+          node phase10/run-forward-paper-test.mjs
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add phase10/forward-paper-results.json
+          git diff --cached --quiet || git commit -m 'Update fixed-slate paper test settlements'
+          git push origin HEAD:main
       - run: node phase10/generate-provisional-feed.mjs
       - name: Publish timestamped snapshot for Cloudflare assets
         run: |

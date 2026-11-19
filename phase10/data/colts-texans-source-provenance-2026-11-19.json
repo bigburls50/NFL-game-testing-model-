@@ -1,0 +1,52 @@
+{
+  "game_id": "2026_11_IND_HOU",
+  "as_of_utc": "2026-11-19T12:40:00Z",
+  "sources": [
+    {
+      "kind": "starter",
+      "team": "IND",
+      "player_name": "Daniel Jones",
+      "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/colts-to-stick-with-daniel-jones-as-their-starter-for-thursday-nights-game",
+      "published_at": "2026-11-15T20:30:00-05:00",
+      "publication_verified_from_page": true,
+      "official_team_announcement": false,
+      "verified_roster_id": null,
+      "accepted": false,
+      "reason": "secondary source, older than 48-hour freshness threshold"
+    },
+    {
+      "kind": "starter",
+      "team": "HOU",
+      "player_name": "C.J. Stroud",
+      "url": "https://www.nbc.com/nbc-insider/nfl-starting-quarterbacks-full-list",
+      "published_at": "2026-11-13T11:43:00-05:00",
+      "publication_verified_from_page": true,
+      "official_team_announcement": false,
+      "verified_roster_id": null,
+      "accepted": false,
+      "reason": "weekly secondary list, not game-specific official confirmation"
+    },
+    {
+      "kind": "injury",
+      "team": "HOU",
+      "url": "https://www.houstontexans.com/news/week-11-injury-report-texans-vs-colts",
+      "published_at": "2026-11-16T17:48:00-06:00",
+      "publication_verified_from_page": true,
+      "accepted": false,
+      "reason": "Monday practice report, not independently verified complete final game status"
+    },
+    {
+      "kind": "injury",
+      "team": "IND",
+      "url": "https://www.colts.com/news/colts-rule-out-5-players-for-week-11-thursday-night-football-game-vs-houston-texans",
+      "published_at": "2026-11-18T13:30:00-05:00",
+      "publication_verified_from_page": true,
+      "accepted": false,
+      "reason": "final status article, not independently verified complete official player table"
+    }
+  ],
+  "decision": "abstain",
+  "verified_roster_ids": 0,
+  "verified_complete_final_team_reports": 0,
+  "notice": "Article publication times are independently visible; these are not signed source snapshots or player-ID verified starter records."
+}

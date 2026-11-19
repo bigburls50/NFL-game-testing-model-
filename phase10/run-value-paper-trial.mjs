@@ -3,8 +3,10 @@ import {publicPredictions} from './public-predictions.mjs';
 import {createValueTrial,settleValueTrials,verifyValueTrial} from './value-paper-trial.mjs';
 import {createCheckpoint,needsCheckpoint,summarizeCheckpoints} from './value-price-checkpoints.mjs';
 import {resultDate} from './paper-ledger.mjs';
+import {scoreFavouriteForward} from './favourite-forward.mjs';
 const base='https://nfl-game-testing-model.iprorealtydave.workers.dev',dir=new URL('./value-paper-trials/',import.meta.url),resultFile=new URL('./value-paper-trial-results.json',import.meta.url);
 const checkpointDir=new URL('./value-price-checkpoints/',import.meta.url),checkpointResult=new URL('./value-price-checkpoint-results.json',import.meta.url);
+const favouriteResult=new URL('./favourite-forward-results.json',import.meta.url);
 async function get(path){const r=await fetch(base+path,{signal:AbortSignal.timeout(20000),headers:{Accept:'application/json'}});if(!r.ok)throw Error(path+' HTTP '+r.status);return r.json()}
 await mkdir(dir,{recursive:true});
 let market;
@@ -17,9 +19,11 @@ if(process.argv.includes('--capture')){
 }
 const files=(await readdir(dir)).filter(f=>/^\d{4}_\d{2}\.json$/.test(f)).sort(),trials=[];for(const f of files)trials.push(JSON.parse(await readFile(new URL(f,dir),'utf8')));
 let previous={slates:{}};try{previous=JSON.parse(await readFile(resultFile,'utf8'))}catch(e){if(e.code!=='ENOENT')throw e}
-const pending=trials.flatMap(t=>Object.entries(t.strategies).flatMap(([k,v])=>(previous.slates?.[t.slate]?.[k]??v.tickets).filter(t=>t.status==='pending').flatMap(t=>t.legs))).filter(l=>Date.parse(l.kickoff_utc)<Date.now()),results=[];
+let previousFavourite={};try{previousFavourite=JSON.parse(await readFile(favouriteResult,'utf8'))}catch(e){if(e.code!=='ENOENT')throw e}
+const frozen=scoreFavouriteForward(trials,previousFavourite),pending=[...trials.flatMap(t=>Object.entries(t.strategies).flatMap(([k,v])=>(previous.slates?.[t.slate]?.[k]??v.tickets).filter(t=>t.status==='pending').flatMap(t=>t.legs))),...frozen.games.filter(g=>g.outcome==='pending')].filter(l=>Date.parse(l.kickoff_utc)<Date.now()),results=[];
 for(const date of new Set(pending.map(l=>resultDate(l.kickoff_utc))))try{results.push(...(await get('/api/results?date='+date)).games)}catch(e){console.warn('Unconfirmed score date '+date+': '+e.message)}
 const next=settleValueTrials(trials,previous,results);if(JSON.stringify(next)!==JSON.stringify(previous))await writeFile(resultFile,JSON.stringify(next,null,2)+'\n');console.log(JSON.stringify({slates:trials.length,summary:next.summary}));
+const favourite=scoreFavouriteForward(trials,previousFavourite,results);if(JSON.stringify(favourite)!==JSON.stringify(previousFavourite))await writeFile(favouriteResult,JSON.stringify(favourite,null,2)+'\n');
 await mkdir(checkpointDir,{recursive:true});
 if(process.argv.includes('--capture')&&needsCheckpoint(trials))try{
  market??=await get('/api/odds');const point=createCheckpoint(trials,market);

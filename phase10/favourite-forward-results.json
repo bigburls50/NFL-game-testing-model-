@@ -1,0 +1,185 @@
+{
+  "version": "phase10-favourite-forward-v1",
+  "games": [
+    {
+      "game_id": "2026_11_IND_HOU",
+      "home_team": "Houston Texans",
+      "away_team": "Indianapolis Colts",
+      "kickoff_utc": "2026-11-20T01:15:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.7266847410825212,
+      "market": 0.8438891592831211,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "home_team": "Buffalo Bills",
+      "away_team": "Miami Dolphins",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.8629572854167563,
+      "market": 0.9020434798930214,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "home_team": "Carolina Panthers",
+      "away_team": "Baltimore Ravens",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.584350109950729,
+      "market": 0.5673461479299647,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "home_team": "Chicago Bears",
+      "away_team": "New Orleans Saints",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.7872226333833431,
+      "market": 0.8304588832123957,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "home_team": "Dallas Cowboys",
+      "away_team": "Tennessee Titans",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.720723842086958,
+      "market": 0.7699708857722886,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "home_team": "Detroit Lions",
+      "away_team": "Tampa Bay Buccaneers",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.6427019369053759,
+      "market": 0.7046170175870499,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "home_team": "Kansas City Chiefs",
+      "away_team": "Arizona Cardinals",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.8410057714708112,
+      "market": 0.8965962653204977,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "home_team": "Philadelphia Eagles",
+      "away_team": "Pittsburgh Steelers",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.41984028230643744,
+      "market": 0.34114692293572774,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "home_team": "Los Angeles Chargers",
+      "away_team": "New York Jets",
+      "kickoff_utc": "2026-11-22T21:05:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.6206218129867674,
+      "market": 0.5995144604956524,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_JAX_NYG",
+      "home_team": "New York Giants",
+      "away_team": "Jacksonville Jaguars",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.26752803558952815,
+      "market": 0.30179636031184204,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_LV_DEN",
+      "home_team": "Denver Broncos",
+      "away_team": "Las Vegas Raiders",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.7976379620498109,
+      "market": 0.8143372634337206,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "home_team": "San Francisco 49ers",
+      "away_team": "Minnesota Vikings",
+      "kickoff_utc": "2026-11-23T01:20:00.000Z",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "locked_at_utc": "2026-11-19T21:08:21.911Z",
+      "v2": 0.559073804863465,
+      "market": 0.5963450404243588,
+      "outcome": "pending"
+    }
+  ],
+  "summary": {
+    "locked": 12,
+    "scored": 0,
+    "ties": 0,
+    "pending": 12,
+    "metrics": {
+      "market": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      },
+      "v2": {
+        "n": 0,
+        "accuracy": null,
+        "brier": null,
+        "log_loss": null
+      }
+    },
+    "bands": [
+      {
+        "label": "50–60%",
+        "locked": 3,
+        "scored": 0,
+        "favourite_win_rate": null,
+        "market_favourite_probability": null,
+        "v2_favourite_probability": null
+      },
+      {
+        "label": "60–75%",
+        "locked": 3,
+        "scored": 0,
+        "favourite_win_rate": null,
+        "market_favourite_probability": null,
+        "v2_favourite_probability": null
+      },
+      {
+        "label": "75–100%",
+        "locked": 6,
+        "scored": 0,
+        "favourite_win_rate": null,
+        "market_favourite_probability": null,
+        "v2_favourite_probability": null
+      }
+    ]
+  },
+  "real_money_stake": 0,
+  "warning": "No new betting strategy. Scores frozen V2 and three-book no-vig consensus against confirmed finals; skips ties for binary accuracy."
+}

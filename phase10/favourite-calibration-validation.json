@@ -1,0 +1,723 @@
+{
+  "version": "phase10-favourite-calibration-research-v1",
+  "weights_by_season": {
+    "2023": {
+      "slope": [
+        0.018415047859867476,
+        0
+      ],
+      "residual": [
+        0.018415047859867476,
+        0
+      ],
+      "training_games": 1100
+    },
+    "2024": {
+      "slope": [
+        0.009677381837667467,
+        0
+      ],
+      "residual": [
+        0.009677381837667467,
+        0
+      ],
+      "training_games": 1385
+    },
+    "2025": {
+      "slope": [
+        0.04508786294930058,
+        0
+      ],
+      "residual": [
+        0.04508786294930058,
+        0
+      ],
+      "training_games": 1670
+    },
+    "2026": {
+      "slope": [
+        0.03809194476316572,
+        0
+      ],
+      "residual": [
+        0.03809194476316572,
+        0
+      ],
+      "training_games": 1954
+    }
+  },
+  "development_seasons": [
+    2023,
+    2024
+  ],
+  "holdout_seasons": [
+    2025,
+    2026
+  ],
+  "development": {
+    "games": 570,
+    "metrics": {
+      "v2": {
+        "n": 570,
+        "accuracy": 0.6421052631578947,
+        "brier": 0.2226714082831469,
+        "log_loss": 0.6358259847439407
+      },
+      "market": {
+        "n": 570,
+        "accuracy": 0.6894736842105263,
+        "brier": 0.20980656120743807,
+        "log_loss": 0.6080921947970853
+      },
+      "slope": {
+        "n": 570,
+        "accuracy": 0.6894736842105263,
+        "brier": 0.20974774782234354,
+        "log_loss": 0.6079717496695978
+      },
+      "residual": {
+        "n": 570,
+        "accuracy": 0.6894736842105263,
+        "brier": 0.20974774782234354,
+        "log_loss": 0.6079717496695978
+      }
+    },
+    "bands": [
+      {
+        "label": "50–60%",
+        "games": 215,
+        "favourite_win_rate": 0.5906976744186047,
+        "predicted_favourite": {
+          "v2": 0.5235106828007924,
+          "market": 0.5587289815169731,
+          "slope": 0.5595633479942995,
+          "residual": 0.5595633479942995
+        },
+        "metrics": {
+          "v2": {
+            "n": 215,
+            "accuracy": 0.5162790697674419,
+            "brier": 0.25837552203361497,
+            "log_loss": 0.7125111262758458
+          },
+          "market": {
+            "n": 215,
+            "accuracy": 0.5906976744186047,
+            "brier": 0.24120914974338267,
+            "log_loss": 0.6754618999327663
+          },
+          "slope": {
+            "n": 215,
+            "accuracy": 0.5906976744186047,
+            "brier": 0.2411432691451588,
+            "log_loss": 0.6753274080398229
+          },
+          "residual": {
+            "n": 215,
+            "accuracy": 0.5906976744186047,
+            "brier": 0.2411432691451588,
+            "log_loss": 0.6753274080398229
+          }
+        }
+      },
+      {
+        "label": "60–75%",
+        "games": 252,
+        "favourite_win_rate": 0.7380952380952381,
+        "predicted_favourite": {
+          "v2": 0.6298444514975575,
+          "market": 0.6691958315841561,
+          "slope": 0.6712719105169521,
+          "residual": 0.6712719105169521
+        },
+        "metrics": {
+          "v2": {
+            "n": 252,
+            "accuracy": 0.7063492063492064,
+            "brier": 0.21246779613012187,
+            "log_loss": 0.6164778984670267
+          },
+          "market": {
+            "n": 252,
+            "accuracy": 0.7380952380952381,
+            "brier": 0.20067190995219789,
+            "log_loss": 0.591568294783274
+          },
+          "slope": {
+            "n": 252,
+            "accuracy": 0.7380952380952381,
+            "brier": 0.20050907915909075,
+            "log_loss": 0.5912218214544699
+          },
+          "residual": {
+            "n": 252,
+            "accuracy": 0.7380952380952381,
+            "brier": 0.20050907915909075,
+            "log_loss": 0.5912218214544699
+          }
+        }
+      },
+      {
+        "label": "75–100%",
+        "games": 103,
+        "favourite_win_rate": 0.7766990291262136,
+        "predicted_favourite": {
+          "v2": 0.7364882597596365,
+          "market": 0.808811121598707,
+          "slope": 0.8118850733026186,
+          "residual": 0.8118850733026186
+        },
+        "metrics": {
+          "v2": {
+            "n": 103,
+            "accuracy": 0.7475728155339806,
+            "brier": 0.17310758115898864,
+            "log_loss": 0.5230921236995063
+          },
+          "market": {
+            "n": 103,
+            "accuracy": 0.7766990291262136,
+            "brier": 0.16660632413066592,
+            "log_loss": 0.5078935171204719
+          },
+          "slope": {
+            "n": 103,
+            "accuracy": 0.7766990291262136,
+            "brier": 0.16681675188772527,
+            "log_loss": 0.5083553939474058
+          },
+          "residual": {
+            "n": 103,
+            "accuracy": 0.7766990291262136,
+            "brier": 0.16681675188772527,
+            "log_loss": 0.5083553939474058
+          }
+        }
+      }
+    ],
+    "paper": {
+      "v2": {
+        "all": {
+          "bets": 124,
+          "wins": 34,
+          "losses": 90,
+          "pushes": 0,
+          "win_rate": 0.27419354838709675,
+          "turnover": 1220.5699999999997,
+          "pnl": -102.87346552814674,
+          "roi": -0.08428313454217846,
+          "flat_unit_roi": -0.06737456897431189,
+          "weekly_drawdown": 0.20295824979072172,
+          "weekly_roi_bootstrap_95": [
+            -0.3460598435677947,
+            0.21247504527853872
+          ],
+          "ending_virtual_balance": 897.1265344718532
+        },
+        "underdogs": {
+          "bets": 120,
+          "wins": 33,
+          "losses": 87,
+          "pushes": 0,
+          "win_rate": 0.275,
+          "turnover": 1180.5699999999997,
+          "pnl": -79.32507843137255,
+          "roi": -0.0671921854963048,
+          "flat_unit_roi": -0.04999673202614381,
+          "weekly_drawdown": 0.19624387073149044,
+          "weekly_roi_bootstrap_95": [
+            -0.3378176617114238,
+            0.23380361421328077
+          ],
+          "ending_virtual_balance": 920.6749215686275
+        },
+        "favourites": {
+          "bets": 4,
+          "wins": 1,
+          "losses": 3,
+          "pushes": 0,
+          "win_rate": 0.25,
+          "turnover": 40,
+          "pnl": -23.548387096774196,
+          "roi": -0.5887096774193549,
+          "flat_unit_roi": -0.5887096774193549,
+          "weekly_drawdown": 0.023548387096774148,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 976.4516129032259
+        }
+      },
+      "market": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      },
+      "slope": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      },
+      "residual": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      }
+    }
+  },
+  "holdout": {
+    "games": 435,
+    "metrics": {
+      "v2": {
+        "n": 433,
+        "accuracy": 0.628175519630485,
+        "brier": 0.2191100105631805,
+        "log_loss": 0.62745986873323
+      },
+      "market": {
+        "n": 433,
+        "accuracy": 0.6651270207852193,
+        "brier": 0.21137946963554122,
+        "log_loss": 0.6098341641856275
+      },
+      "slope": {
+        "n": 433,
+        "accuracy": 0.6651270207852193,
+        "brier": 0.2114100711773115,
+        "log_loss": 0.6098020402785427
+      },
+      "residual": {
+        "n": 433,
+        "accuracy": 0.6651270207852193,
+        "brier": 0.2114100711773115,
+        "log_loss": 0.6098020402785427
+      }
+    },
+    "bands": [
+      {
+        "label": "50–60%",
+        "games": 149,
+        "favourite_win_rate": 0.5771812080536913,
+        "predicted_favourite": {
+          "v2": 0.5397793324791035,
+          "market": 0.55811524305683,
+          "slope": 0.5605372062869192,
+          "residual": 0.5605372062869192
+        },
+        "metrics": {
+          "v2": {
+            "n": 149,
+            "accuracy": 0.5100671140939598,
+            "brier": 0.25105038959717196,
+            "log_loss": 0.6952882648413166
+          },
+          "market": {
+            "n": 149,
+            "accuracy": 0.5771812080536913,
+            "brier": 0.24037486344834644,
+            "log_loss": 0.6737142263166851
+          },
+          "slope": {
+            "n": 149,
+            "accuracy": 0.5771812080536913,
+            "brier": 0.24016157396732957,
+            "log_loss": 0.6732693240944378
+          },
+          "residual": {
+            "n": 149,
+            "accuracy": 0.5771812080536913,
+            "brier": 0.24016157396732957,
+            "log_loss": 0.6732693240944378
+          }
+        }
+      },
+      {
+        "label": "60–75%",
+        "games": 183,
+        "favourite_win_rate": 0.6721311475409836,
+        "predicted_favourite": {
+          "v2": 0.6279826703251126,
+          "market": 0.6683803973866668,
+          "slope": 0.6748140541766099,
+          "residual": 0.6748140541766099
+        },
+        "metrics": {
+          "v2": {
+            "n": 183,
+            "accuracy": 0.644808743169399,
+            "brier": 0.21908524245834707,
+            "log_loss": 0.6292311646894072
+          },
+          "market": {
+            "n": 183,
+            "accuracy": 0.6721311475409836,
+            "brier": 0.2145746391243727,
+            "log_loss": 0.619487726150111
+          },
+          "slope": {
+            "n": 183,
+            "accuracy": 0.6721311475409836,
+            "brier": 0.2144924620991638,
+            "log_loss": 0.6192041298157851
+          },
+          "residual": {
+            "n": 183,
+            "accuracy": 0.6721311475409836,
+            "brier": 0.2144924620991638,
+            "log_loss": 0.6192041298157851
+          }
+        }
+      },
+      {
+        "label": "75–100%",
+        "games": 101,
+        "favourite_win_rate": 0.7821782178217822,
+        "predicted_favourite": {
+          "v2": 0.7479064683124186,
+          "market": 0.8111515312707508,
+          "slope": 0.8203191866913427,
+          "residual": 0.8203191866913427
+        },
+        "metrics": {
+          "v2": {
+            "n": 101,
+            "accuracy": 0.7722772277227723,
+            "brier": 0.1720349223168421,
+            "log_loss": 0.5241868174452555
+          },
+          "market": {
+            "n": 101,
+            "accuracy": 0.7821782178217822,
+            "brier": 0.1628148191943128,
+            "log_loss": 0.4981041533239629
+          },
+          "slope": {
+            "n": 101,
+            "accuracy": 0.7821782178217822,
+            "brier": 0.16340956172768983,
+            "log_loss": 0.4991366177648449
+          },
+          "residual": {
+            "n": 101,
+            "accuracy": 0.7821782178217822,
+            "brier": 0.16340956172768983,
+            "log_loss": 0.4991366177648449
+          }
+        }
+      }
+    ],
+    "paper": {
+      "v2": {
+        "all": {
+          "bets": 92,
+          "wins": 27,
+          "losses": 64,
+          "pushes": 1,
+          "win_rate": 0.2967032967032967,
+          "turnover": 914.5100000000001,
+          "pnl": 2.80463447350769,
+          "roi": 0.003066816626945238,
+          "flat_unit_roi": -0.00044061470270901037,
+          "weekly_drawdown": 0.08235689816904948,
+          "weekly_roi_bootstrap_95": [
+            -0.2568131868131868,
+            0.25259604913851
+          ],
+          "ending_virtual_balance": 1002.8046344735077
+        },
+        "underdogs": {
+          "bets": 90,
+          "wins": 25,
+          "losses": 64,
+          "pushes": 1,
+          "win_rate": 0.2808988764044944,
+          "turnover": 894.5100000000001,
+          "pnl": -13.166190476190494,
+          "roi": -0.01471888573206615,
+          "flat_unit_roi": -0.018195767195767192,
+          "weekly_drawdown": 0.08357835647805227,
+          "weekly_roi_bootstrap_95": [
+            -0.2700955675263301,
+            0.2411718601054928
+          ],
+          "ending_virtual_balance": 986.8338095238095
+        },
+        "favourites": {
+          "bets": 2,
+          "wins": 2,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": 1,
+          "turnover": 20,
+          "pnl": 15.970824949698187,
+          "roi": 0.7985412474849094,
+          "flat_unit_roi": 0.7985412474849094,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1015.9708249496982
+        }
+      },
+      "market": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      },
+      "slope": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      },
+      "residual": {
+        "all": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "underdogs": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        },
+        "favourites": {
+          "bets": 0,
+          "wins": 0,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": null,
+          "turnover": 0,
+          "pnl": 0,
+          "roi": null,
+          "flat_unit_roi": null,
+          "weekly_drawdown": 0,
+          "weekly_roi_bootstrap_95": null,
+          "ending_virtual_balance": 1000
+        }
+      }
+    }
+  },
+  "selected_on_development": "slope",
+  "retrospective_gate": {
+    "passed": false,
+    "reason": "No preselected adjustment improved both proper scores on development and holdout; retain market baseline."
+  },
+  "production_gate": {
+    "passed": false,
+    "reason": "No forward verification; historical moneylines have unknown quote timing and sportsbook identity."
+  },
+  "warning": "Historical price proxy, not verified Ontario prices. No actual wagers. The holdout has been used in earlier model research.",
+  "source": {
+    "url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+    "sha256": "bb32d79ad8a0a2ab121f79032b84c01c8570f2c3f8eb1560149e38afcc1002a8"
+  }
+}

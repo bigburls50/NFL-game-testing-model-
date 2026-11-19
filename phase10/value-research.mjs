@@ -33,9 +33,13 @@ export function summarizeValueBets(bets,initial=1000){
  const values=[...weeks.values()],samples=[];let seed=1729;if(values.length>=5)for(let i=0;i<2000;i++){let sum=0,stake=0;for(let j=0;j<values.length;j++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const w=values[Math.floor(seed/2**32*values.length)];sum+=w.pnl;stake+=w.risk}if(stake>0)samples.push(sum/stake)}samples.sort((a,b)=>a-b);
  return {bets:bets.length,wins,losses,pushes,win_rate:wins+losses?wins/(wins+losses):null,turnover:risk,pnl,roi:risk?pnl/risk:null,flat_unit_roi:bets.length?flat/bets.length:null,weekly_drawdown:drawdown,weekly_roi_bootstrap_95:samples.length?[samples[Math.floor(.025*samples.length)],samples[Math.floor(.975*samples.length)]]:null,ending_virtual_balance:initial+pnl};
 }
-export function evaluateValueResearch(schedule){
+export function buildValueRecords(schedule){
  const history=completedRows(schedule).filter(r=>Number(r.season)>=2016),features=buildCausalFeatures(history,{includeTies:true}).data,fixtures=new Map(history.map(g=>[g.game_id,g])),records=[];
  for(let season=2019;season<=2026;season++){const training=features.filter(r=>r.season>2016&&r.season<season&&r.y!==null),weights=fitLogistic(training);for(const r of features.filter(r=>r.season===season)){const g=fixtures.get(r.game_id),home=decimal(r.home_moneyline),away=decimal(r.away_moneyline),market=noVigProbability(r.home_moneyline,r.away_moneyline);if(home&&away&&market!==null)records.push({game_id:r.game_id,season,week:Number(g.week),date:r.date,y:r.y,v2:predictLogistic(r.x,weights),market,home_decimal:home,away_decimal:away})}}
+ return records;
+}
+export function evaluateValueResearch(schedule){
+ const records=buildValueRecords(schedule);
  const fitBySeason={},scored=[];for(let season=2023;season<=2026;season++){const weight=fitBlendWeight(records.filter(r=>r.season<season));fitBySeason[season]=weight;for(const r of records.filter(r=>r.season===season))scored.push({...r,blend:blendProbability(r.v2,r.market,weight)})}
  function summary(rows){return {games:rows.length,probability_metrics:Object.fromEntries(['v2','market','blend'].map(k=>[k,scorePredictions(rows.filter(r=>r.y!==null).map(r=>({p:r[k],y:r.y})))])),paper:Object.fromEntries(['v2','market','blend'].map(k=>[k,summarizeValueBets(pickWeeklySingles(rows,k))]))}}
  const dev=summary(scored.filter(r=>r.season<=2024)),holdout=summary(scored.filter(r=>r.season>=2025));

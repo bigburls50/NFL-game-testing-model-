@@ -45,5 +45,6 @@ jobs:
           if [ -f phase10/value-paper-trial-results.json ]; then git add phase10/value-paper-trial-results.json; fi
           if [ -d phase10/value-price-checkpoints ]; then git add phase10/value-price-checkpoints; fi
           if [ -f phase10/value-price-checkpoint-results.json ]; then git add phase10/value-price-checkpoint-results.json; fi
+          if [ -f phase10/favourite-forward-results.json ]; then git add phase10/favourite-forward-results.json; fi
           git diff --cached --quiet || git commit -m 'Refresh Phase 10 provisional prediction snapshot'
           git push origin HEAD:main

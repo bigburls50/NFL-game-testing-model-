@@ -1,0 +1,32 @@
+name: Phase 10 Historical NFL Data
+on:
+  workflow_dispatch:
+    inputs:
+      first_season:
+        description: First NFL season
+        required: true
+        default: '1999'
+      last_season:
+        description: Last NFL season
+        required: true
+        default: '2025'
+permissions:
+  contents: read
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch and validate completed historical games
+        run: node phase10/fetch-games.mjs "${{ inputs.first_season }}" "${{ inputs.last_season }}"
+      - name: Publish data as downloadable workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nfl-historical-games
+          path: |
+            phase10/data/historical-games.csv
+            phase10/data/source-summary.json
+          retention-days: 30

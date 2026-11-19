@@ -1,0 +1,47 @@
+name: Live source probes (non-blocking research)
+on:
+  pull_request:
+    paths:
+      - 'phase10/**'
+      - '.github/workflows/live-source-probes.yml'
+  schedule:
+    - cron: '17 */3 * * 4,5,6,0,1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify offline probe tests
+        run: node --test phase10/probe-injuries.test.mjs phase10/probe-weather.test.mjs phase10/confirmed-starters.test.mjs phase10/forecast-input-gate.test.mjs phase10/verified-model-scoring.test.mjs phase10/nflverse-injuries-adapter.test.mjs phase10/official-starter-intake.test.mjs phase10/production-safety-gates.test.mjs phase10/official-feed-parsers.test.mjs phase10/live-feed-integration.test.mjs phase10/game-feed-acceptance.test.mjs phase10/real-game-evidence-acceptance.test.mjs phase10/official-week11-team-table-check.test.mjs phase10/colts-texans-source-provenance.test.mjs phase10/official-nfl-table-header-regression.test.mjs phase10/sportradar-weekly-injuries.test.mjs phase10/free-evidence-verification.test.mjs phase10/pregame-evidence-gate.test.mjs
+      - name: Probe 2026 injury release
+        run: node phase10/probe-injuries.mjs phase10/upcoming-week11-2026.json phase10/data/injury-source-audit.json
+      - name: Probe Open-Meteo hourly stadium forecasts
+        run: node phase10/probe-weather.mjs phase10/upcoming-week11-2026.json phase10/data/weather-source-audit.json
+      - name: Probe official NFL injury and quarterback announcements
+        run: node phase10/probe-official-feeds.mjs
+      - name: Collect preliminary nflverse pregame snapshot
+        run: node phase10/collect-pregame-snapshot.mjs
+      - name: Check real Week 11 games abstain without verified official inputs
+        run: node phase10/run-week11-live-acceptance.mjs
+      - name: Archive live provider evidence even if incomplete
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-2026-source-probes
+          path: |
+            phase10/data/injury-source-audit.json
+            phase10/data/weather-source-audit.json
+            phase10/data/official-starter-source-audit.json
+            phase10/data/official-injury-page-audit.json
+            phase10/data/sportradar-injury-audit.json
+            phase10/data/pregame-snapshot-audit.json
+            phase10/data/official-live-four-input-gate.json
+            phase10/data/week11-live-acceptance-audit.json
+          retention-days: 7

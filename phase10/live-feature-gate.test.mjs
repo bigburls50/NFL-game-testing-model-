@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {auditLiveFeatures} from './live-feature-gate.mjs';
+const game={game_id:'2026_11_IND_HOU',home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z'};
+const base={game_id:game.game_id,observed_at_utc:'2026-11-18T16:00:00Z',retrieved_at_utc:'2026-11-18T17:00:00Z',source_url:'https://www.nfl.com/injuries/'};
+const qb=team=>({...base,team,kind:'qb',player_id:'id-'+team,player_name:'Test QB',prior_epa_per_dropback:0.1,prior_dropbacks:120});
+const injury=team=>({...base,team,kind:'injury',player_id:'inj-'+team,player_name:'Test player',game_status:'questionable',report_date:'2026-11-18'});
+const weather={...base,team:'HOU',kind:'weather',venue_type:'indoor',wind_mph:0,temperature_f:70,precip_probability:0};
+const complete=[qb('HOU'),qb('IND'),injury('HOU'),injury('IND'),weather];
+test('complete verified feature snapshots pass the provenance gate',()=>{const r=auditLiveFeatures([game],complete,{asOf:'2026-11-18T18:00:00Z'});assert.equal(r.ready,true);assert.equal(r.accepted.length,5);});
+test('missing injury report does not imply healthy roster',()=>{const r=auditLiveFeatures([game],complete.filter(x=>!(x.kind==='injury'&&x.team==='IND')),{asOf:'2026-11-18T18:00:00Z'});assert.equal(r.ready,false);assert.equal(r.coverage[0].away_injuries,false);});
+test('future and postkickoff reports are rejected',()=>{const r=auditLiveFeatures([game],[{...qb('IND'),retrieved_at_utc:'2026-11-20T02:00:00Z'}],{asOf:'2026-11-20T03:00:00Z'});assert.equal(r.ready,false);assert.ok(r.errors[0].reasons.includes('future_or_postkickoff_data'));});
+test('stale and fabricated quarterback observations are rejected',()=>{const r=auditLiveFeatures([game],[{...qb('IND'),prior_dropbacks:0}],{asOf:'2026-11-19T23:00:00Z',maxAgeHours:24});assert.ok(r.errors[0].reasons.includes('unverified_qb'));assert.ok(r.errors[0].reasons.includes('stale_data'));});
+test('invalid weather measurements are rejected',()=>{const r=auditLiveFeatures([game],[{...weather,precip_probability:2}],{asOf:'2026-11-18T18:00:00Z'});assert.ok(r.errors[0].reasons.includes('invalid_weather'));});

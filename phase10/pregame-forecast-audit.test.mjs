@@ -1,0 +1,39 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {auditPregameForecasts} from './pregame-forecast-audit.mjs';
+const row={game_id:'2026_11_IND_HOU',season:2026,home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z',generated_at_utc:'2026-11-18T16:00:00Z',features_asof_utc:'2026-11-18T15:00:00Z',home_win_probability:.62,model_version:'research-v1',source_digest:'sha256:'+'a'.repeat(64)};
+const opts={season:2026,asOf:'2026-11-18T17:00:00Z',expectedGameIds:[row.game_id]};
+test('accepts timestamped pregame research forecast',()=>assert.equal(auditPregameForecasts([row],opts).ready,true));
+test('rejects missing predictions for scheduled games',()=>assert.equal(auditPregameForecasts([] ,opts).ready,false));
+test('rejects predictions created after kickoff',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-20T02:00:00Z'}],{...opts,asOf:'2026-11-21T00:00:00Z'}).ready,false));
+test('rejects features unavailable at prediction time',()=>assert.equal(auditPregameForecasts([{...row,features_asof_utc:'2026-11-18T16:01:00Z'}],opts).ready,false));
+test('rejects future dated predictions',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-19T16:00:00Z'}],opts).ready,false));
+test('rejects missing probability instead of coercing blank to zero',()=>assert.equal(auditPregameForecasts([{...row,home_win_probability:''}],opts).ready,false));
+test('rejects wrong season and missing provenance',()=>assert.equal(auditPregameForecasts([{...row,season:2025,source_digest:''}],opts).ready,false));
+test('rejects duplicate game ids',()=>assert.equal(auditPregameForecasts([row,row],opts).ready,false));
+test('rejects schedule mismatch',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:['another']}).ready,false));
+test('fails closed when no independently verified schedule is supplied',()=>assert.equal(auditPregameForecasts([row],{season:2026,asOf:opts.asOf}).errors.flatMap(x=>x.reasons).includes('missing_verified_schedule'),true));
+test('fails closed when kickoff has passed at display time',()=>assert.equal(auditPregameForecasts([row],{...opts,asOf:'2026-11-20T02:00:00Z'}).ready,false));
+test('rejects duplicate game IDs in expected schedule',()=>assert.equal(auditPregameForecasts([row],{...opts,expectedGameIds:[row.game_id,row.game_id]}).ready,false));
+test('rejects placeholder digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:example'}],opts).ready,false));
+test('rejects short digest',()=>assert.equal(auditPregameForecasts([{...row,source_digest:'sha256:'+'a'.repeat(63)}],opts).ready,false));
+test('rejects blank model version',()=>assert.equal(auditPregameForecasts([{...row,model_version:' '}],opts).ready,false));
+
+const verifiedSchedule=[{game_id:row.game_id,home_team:row.home_team,away_team:row.away_team,kickoff_utc:row.kickoff_utc}];
+test('accepts matching independently supplied schedule details',()=>assert.equal(auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).ready,true));
+test('rejects swapped home and away against verified schedule',()=>assert.ok(auditPregameForecasts([{...row,home_team:'IND',away_team:'HOU'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).errors.some(x=>x.reasons.includes('verified_schedule_details_mismatch'))));
+test('rejects kickoff mismatch even when game id matches',()=>assert.equal(auditPregameForecasts([{...row,kickoff_utc:'2026-11-20T02:15:00Z'}],{season:2026,asOf:opts.asOf,expectedGames:verifiedSchedule}).ready,false));
+test('rejects duplicate verified schedule entries',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[...verifiedSchedule,...verifiedSchedule]}),/Invalid or duplicate/));
+
+test('rejects timezone-less kickoff in verified schedule',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[{...verifiedSchedule[0],kickoff_utc:'2026-11-20T01:15:00'}]}),/Invalid or duplicate/));
+test('rejects timezone-less forecast generation time',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00'}],opts).ready,false));
+test('rejects offset-based feature timestamp to require canonical UTC',()=>assert.equal(auditPregameForecasts([{...row,features_asof_utc:'2026-11-18T10:00:00-05:00'}],opts).ready,false));
+test('rejects timezone-less audit as-of',()=>assert.throws(()=>auditPregameForecasts([row],{...opts,asOf:'2026-11-18T17:00:00'}),/Invalid as-of/));
+
+test('rejects impossible UTC calendar date in forecast timestamp',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-02-30T16:00:00Z'}],opts).errors.some(x=>x.reasons.includes('invalid_timestamps')),true));
+test('rejects impossible UTC calendar date in verified schedule',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[{...verifiedSchedule[0],kickoff_utc:'2026-02-30T01:15:00Z'}]}),/Invalid or duplicate/));
+test('rejects impossible UTC calendar date in audit as-of',()=>assert.throws(()=>auditPregameForecasts([row],{...opts,asOf:'2026-02-30T17:00:00Z'}),/Invalid as-of/));
+
+test('accepts canonical millisecond UTC forecast timestamps',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00.123Z',features_asof_utc:'2026-11-18T15:00:00.001Z'}],opts).ready,true));
+test('rejects malformed fractional seconds with literal backslash',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00\\123Z'}],opts).ready,false));
+test('rejects more than three fractional second digits',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00.1234Z'}],opts).ready,false));

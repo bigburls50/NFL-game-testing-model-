@@ -1,0 +1,37 @@
+name: Upcoming NFL feature collection (research only)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 12,18,23 * 9-12,1-2 *'
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate collector and feature gate
+        run: node --test phase10/collect-live-features.test.mjs phase10/live-feature-gate.test.mjs
+      - name: Probe live nflverse current-season injury release
+        run: node phase10/probe-injuries.mjs phase10/upcoming-week11-2026.json phase10/data/injury-source-audit.json
+      - name: Probe live Open-Meteo forecasts for stadiums
+        run: node phase10/probe-weather.mjs phase10/upcoming-week11-2026.json phase10/data/weather-source-audit.json
+      - name: Collect configured credential-free JSON sources
+        env:
+          NFL_QB_JSON_URL: ${{ vars.NFL_QB_JSON_URL }}
+          NFL_INJURY_JSON_URL: ${{ vars.NFL_INJURY_JSON_URL }}
+          NFL_WEATHER_JSON_URL: ${{ vars.NFL_WEATHER_JSON_URL }}
+        run: node phase10/collect-live-features.mjs phase10/upcoming-week11-2026.json phase10/data/live-features-audit.json
+      - name: Upload research-only audit (never a forecast)
+        uses: actions/upload-artifact@v4
+        with:
+          name: upcoming-feature-audit
+          path: |
+            phase10/data/live-features-audit.json
+            phase10/data/injury-source-audit.json
+            phase10/data/weather-source-audit.json
+          retention-days: 7

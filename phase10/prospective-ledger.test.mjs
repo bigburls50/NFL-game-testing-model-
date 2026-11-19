@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {auditProspective} from './prospective-ledger.mjs';
+const sample={game_id:'g1',home_team:'A',away_team:'B',home_win_probability:'0.7',kickoff_utc:'2026-11-22T18:00:00Z',prediction_locked_utc:'2026-11-21T18:00:00Z',model_version:'v1',prediction_sha256:'a'.repeat(64)};
+const now=Date.parse('2026-11-22T19:00:00Z');
+test('well-formed pregame commitment passes format audit',()=>assert.equal(auditProspective([sample],{now}).ready,true));
+test('empty ledger fails closed',()=>assert.equal(auditProspective([],{now}).ready,false));
+test('late prediction rejected',()=>assert.equal(auditProspective([{...sample,prediction_locked_utc:sample.kickoff_utc}],{now}).ready,false));
+test('duplicate game rejected',()=>assert.equal(auditProspective([sample,sample],{now}).rejected,1));
+test('future-dated lock rejected',()=>assert.equal(auditProspective([sample],{now:Date.parse('2026-11-20T00:00:00Z')}).ready,false));
+test('missing commitment and version rejected',()=>assert.equal(auditProspective([{...sample,prediction_sha256:'',model_version:''}],{now}).ready,false));
+test('invalid probability and team rejected',()=>assert.equal(auditProspective([{...sample,home_win_probability:'1',away_team:'A'}],{now}).ready,false));

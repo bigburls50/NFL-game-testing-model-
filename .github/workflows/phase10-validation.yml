@@ -1,0 +1,354 @@
+name: Phase 10 validation
+on:
+  push:
+    paths:
+      - 'phase10/**'
+      - 'research/**'
+      - '.github/workflows/phase10-validation.yml'
+  pull_request:
+    paths:
+      - 'phase10/**'
+      - 'research/**'
+      - '.github/workflows/phase10-validation.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prospective evaluator regression tests
+        run: python3 -m unittest discover -s research -p 'test_*.py' -v
+      - name: Syntax check
+        run: node --check phase10/evaluate.mjs
+      - name: Automated validation tests
+        run: |
+          mkdir -p phase10/data
+          set -o pipefail
+          node --test --test-reporter=tap phase10/*.test.mjs 2>&1 | tee phase10/data/unit-test-results.tap
+      - name: Archive unit test diagnostics even when tests fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-unit-test-diagnostics
+          path: phase10/data/unit-test-results.tap
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Season comparison regression checks
+        run: node phase10/test-season-review.mjs
+      - name: Pregame EPA point-in-time leakage regression checks
+        run: node phase10/test-epa-asof.mjs
+      - name: EPA augmented model integration smoke test
+        run: node phase10/epa-integration-smoke.mjs
+      - name: EPA feature construction smoke test
+        run: |
+          node --input-type=module -e "import {rollingEpa} from './phase10/rolling-epa.mjs'; const g=[{game_id:'a',gameday:'2025-09-01',season:2025,home_team:'A',away_team:'B'},{game_id:'b',gameday:'2025-09-08',season:2025,home_team:'A',away_team:'C'}];const t=[{game_id:'a',team:'A',offense_epa_per_play:0.3,qb_epa_per_dropback:0.4},{game_id:'a',team:'B',offense_epa_per_play:-0.1,qb_epa_per_dropback:-0.2}];const r=rollingEpa(g,t);if(r[0].home_prior_games!==0||r[1].home_qb_epa_per_dropback!==0.4)process.exit(1);"
+      - name: End-to-end CSV evaluation smoke test
+        run: |
+          node phase10/evaluate.mjs phase10/fixtures/sample-pregame-predictions.csv > phase10-result.json
+          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('phase10-result.json','utf8')); if(r.n!==2 || r.excluded.late!==1 || r.accuracy!==1) process.exit(1);"
+      - name: Import real nflverse historical outcomes (1999–2025)
+        run: node phase10/fetch-games.mjs 1999 2025
+      - name: Archive real historical games and provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-real-nfl-games
+          path: |
+            phase10/data/historical-games.csv
+            phase10/data/source-summary.json
+          retention-days: 30
+      - name: Build point-in-time team rest features
+        run: |
+          node phase10/pregame-rest.mjs phase10/data/historical-games.csv phase10/data/pregame-rest.csv
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const r=parseCSV(fs.readFileSync('phase10/data/pregame-rest.csv','utf8'));
+          if(r.length<5000||r.filter(x=>x.rest_days_edge!=='').length<4000||r.some(x=>x.home_rest_days!==''&&Number(x.home_rest_days)<0))throw Error('Pregame rest coverage audit failed');
+          console.log(JSON.stringify({games:r.length,rest_both_teams:r.filter(x=>x.rest_days_edge!=='').length}));
+          EOF
+      - name: Archive historical pregame rest features
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-pregame-rest
+          path: phase10/data/pregame-rest.csv
+          retention-days: 30
+      - name: Evaluate leakage-safe historical baseline
+        run: node phase10/baseline.mjs phase10/data/historical-games.csv phase10/data/baseline-predictions.csv
+      - name: Archive baseline predictions
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-baseline-predictions
+          path: phase10/data/baseline-predictions.csv
+          retention-days: 30
+      - name: Audit performance by NFL season
+        run: node phase10/audit-seasons.mjs phase10/data/baseline-predictions.csv > phase10/data/season-audit.json
+      - name: Archive season-by-season audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-season-audit
+          path: phase10/data/season-audit.json
+          retention-days: 30
+      - name: Evaluate chronological Elo model
+        run: node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo-predictions.csv > phase10/data/elo-summary.json
+      - name: Archive Elo model evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-elo-evaluation
+          path: |
+            phase10/data/elo-predictions.csv
+            phase10/data/elo-summary.json
+          retention-days: 30
+      - name: Evaluate offensive and defensive matchup model
+        run: node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup-predictions.csv > phase10/data/matchup-summary.json
+      - name: Archive matchup model evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-matchup-evaluation
+          path: |
+            phase10/data/matchup-predictions.csv
+            phase10/data/matchup-summary.json
+          retention-days: 30
+      - name: Generate fixed-weight ensemble
+        run: node phase10/ensemble.mjs phase10/data/elo-predictions.csv phase10/data/matchup-predictions.csv phase10/data/ensemble-predictions.csv
+      - name: Compare models on common historical games
+        run: |
+          node phase10/compare-models.mjs baseline=phase10/data/baseline-predictions.csv elo=phase10/data/elo-predictions.csv matchup=phase10/data/matchup-predictions.csv ensemble=phase10/data/ensemble-predictions.csv > phase10/data/model-comparison.json
+          cat phase10/data/model-comparison.json
+      - name: Compare experimental ensemble plus rest on identical historical games
+        run: |
+          node phase10/compare-rest.mjs phase10/data/ensemble-predictions.csv phase10/data/pregame-rest.csv phase10/data/rest-comparison.json
+      - name: Archive experimental rest comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-rest-comparison
+          path: phase10/data/rest-comparison.json
+          retention-days: 30
+      - name: Archive model comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-model-comparison
+          path: |
+            phase10/data/model-comparison.json
+            phase10/data/ensemble-predictions.csv
+          retention-days: 30
+      - name: Evaluate fixed ensemble on 2023–2025 held-out seasons
+        run: |
+          node phase10/holdout.mjs phase10/data/ensemble-predictions.csv 2023 > phase10/data/ensemble-holdout.json
+          cat phase10/data/ensemble-holdout.json
+      - name: Experimental expanding-window calibration of ensemble
+        run: |
+          node phase10/walk-forward-calibration.mjs phase10/data/ensemble-predictions.csv phase10/data/walk-forward-ensemble.csv 2023 > phase10/data/walk-forward-ensemble-report.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const r=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const p=parseCSV(fs.readFileSync('phase10/data/walk-forward-ensemble.csv','utf8'));
+          if(r.folds.length!==3||r.folds.some(f=>f.status!=='evaluated'||f.training_last_season>=f.season)||p.length<800||p.some(x=>Number(x.training_last_season)>=Number(x.season)))throw Error('Walk-forward chronological audit failed');
+          console.log(JSON.stringify({folds:r.folds.map(f=>({season:f.season,training_games:f.training_games,test_games:f.test_games})),accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci,warning:'Exploratory only: underlying ensemble training predictions are not proven out-of-sample.'}));
+          EOF
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble-predictions.csv recalibrated=phase10/data/walk-forward-ensemble.csv > phase10/data/walk-forward-comparison.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const c=r.comparison;
+          if(!c||c.games<800||r.report.games!==c.games||r.original_report.games!==c.games)throw Error('Paired calibration game count mismatch');
+          for(const key of ['brier_change','log_loss_change','accuracy_change','high_confidence_coverage_change']){
+            if(!Number.isFinite(c[key]))throw Error('Missing paired calibration metric: '+key);
+          }
+          if(c.original_high_confidence_games!==r.original_report.high_confidence_games||c.calibrated_high_confidence_games!==r.report.high_confidence_games)throw Error('High-confidence selection counts mismatch');
+          console.log('PAIRED_CALIBRATION_METRICS '+JSON.stringify({games:c.games,original:{accuracy:r.original_report.accuracy,brier:r.original_report.brier,log_loss:r.original_report.log_loss,high_confidence_games:r.original_report.high_confidence_games,high_confidence_coverage:r.original_report.high_confidence_coverage,high_confidence_accuracy:r.original_report.high_confidence_accuracy,high_confidence_95ci:r.original_report.high_confidence_95ci},calibrated:{accuracy:r.report.accuracy,brier:r.report.brier,log_loss:r.report.log_loss,high_confidence_games:r.report.high_confidence_games,high_confidence_coverage:r.report.high_confidence_coverage,high_confidence_accuracy:r.report.high_confidence_accuracy,high_confidence_95ci:r.report.high_confidence_95ci},delta:c,warning:r.warning}));
+          EOF
+      - name: Quantify paired calibration uncertainty without tuning
+        run: |
+          node phase10/paired-calibration-uncertainty.mjs phase10/data/ensemble-predictions.csv phase10/data/walk-forward-ensemble.csv > phase10/data/paired-calibration-uncertainty.json
+          cat phase10/data/paired-calibration-uncertainty.json
+      - name: Archive paired calibration uncertainty
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-paired-calibration-uncertainty
+          path: phase10/data/paired-calibration-uncertainty.json
+          retention-days: 30
+      - name: Report fail-closed model release readiness (non-blocking research audit)
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {releaseGate} from './phase10/release-gate.mjs';
+          const input=JSON.parse(fs.readFileSync('phase10/data/walk-forward-ensemble-report.json','utf8'));
+          const decision=releaseGate(input.report,{prospective:false,point_in_time_features:false,no_test_season_tuning:false,android_pwa_verified:false,ci_passed:false});
+          if(decision.ready)throw Error('Retrospective experiment must never authorize model promotion');
+          fs.writeFileSync('phase10/data/release-readiness.json',JSON.stringify({decision,source:'experimental walk-forward ensemble',status:'RESEARCH_ONLY',warning:'This workflow does not establish prospective accuracy or authorize model deployment.'},null,2)+'\\n');
+          console.log(JSON.stringify(decision));
+          EOF
+      - name: Archive release-readiness audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-release-readiness
+          path: phase10/data/release-readiness.json
+          retention-days: 30
+      - name: Archive experimental walk-forward evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-walk-forward-experiment
+          path: |
+            phase10/data/walk-forward-ensemble.csv
+            phase10/data/walk-forward-ensemble-report.json
+            phase10/data/walk-forward-comparison.json
+          retention-days: 30
+      - name: Archive ensemble holdout report
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-ensemble-holdout
+          path: phase10/data/ensemble-holdout.json
+          retention-days: 30
+  real-epa-import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch verified nflverse 2024 play-by-play
+        run: |
+          mkdir -p phase10/data
+          node phase10/fetch-pbp.mjs 2024 phase10/data/team-qb-epa-2024.csv
+      - name: Fetch completed-game schedules
+        run: node phase10/fetch-games.mjs 2024 2024
+      - name: Build strictly lagged real EPA features
+        run: node phase10/rolling-epa.mjs phase10/data/historical-games.csv phase10/data/team-qb-epa-2024.csv phase10/data/pregame-epa-2024.csv
+      - name: Verify source coverage
+        run: |
+          node --input-type=module -e "import fs from 'node:fs';import {parseCSV} from './phase10/baseline.mjs';const r=parseCSV(fs.readFileSync('phase10/data/pregame-epa-2024.csv','utf8'));const n=r.filter(x=>Number(x.home_prior_games)>0&&Number(x.away_prior_games)>0).length;console.log(JSON.stringify({games:r.length,with_both_teams_prior_epa:n}));if(n<100)process.exit(1)"
+      - name: Build 2024 Elo and matchup baselines
+        run: |
+          node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo-2024.csv
+          node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup-2024.csv
+          node phase10/ensemble.mjs phase10/data/elo-2024.csv phase10/data/matchup-2024.csv phase10/data/ensemble-2024.csv
+      - name: Compare fixed-coefficient EPA model on 2024 games
+        run: |
+          node phase10/epa-augmented.mjs phase10/data/ensemble-2024.csv phase10/data/pregame-epa-2024.csv phase10/data/epa-ensemble-2024.csv
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble-2024.csv epa_augmented=phase10/data/epa-ensemble-2024.csv > phase10/data/epa-comparison-2024.json
+          cat phase10/data/epa-comparison-2024.json
+      - name: Archive 2024 EPA model comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-epa-comparison-2024
+          path: |
+            phase10/data/epa-comparison-2024.json
+            phase10/data/epa-ensemble-2024.csv
+          retention-days: 30
+      - name: Archive verified real EPA feature sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-real-pregame-epa-2024
+          path: |
+            phase10/data/team-qb-epa-2024.csv
+            phase10/data/pregame-epa-2024.csv
+          retention-days: 30
+  multi-season-epa-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download completed 2023–2025 games
+        run: |
+          mkdir -p phase10/data
+          node phase10/fetch-games.mjs 2023 2025
+      - name: Download 2023–2025 play-by-play aggregates
+        run: |
+          for year in 2023 2024 2025; do
+            node phase10/fetch-pbp.mjs "$year" "phase10/data/pbp-$year.csv"
+          done
+          head -n 1 phase10/data/pbp-2023.csv > phase10/data/pbp-all.csv
+          for year in 2023 2024 2025; do tail -n +2 "phase10/data/pbp-$year.csv" >> phase10/data/pbp-all.csv; done
+      - name: Fail closed on missing multi-season source coverage
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import {parseCSV} from './phase10/baseline.mjs';
+          const games=parseCSV(fs.readFileSync('phase10/data/historical-games.csv','utf8'));
+          const pbp=parseCSV(fs.readFileSync('phase10/data/pbp-all.csv','utf8'));
+          const report={};
+          for(const [year,minGames] of [[2023,250],[2024,250],[2025,100]]){
+            const g=games.filter(r=>Number(r.season)===year);
+            const p=pbp.filter(r=>Number(r.season)===year);
+            const covered=new Set(p.map(r=>r.game_id));
+            const overlap=g.filter(r=>covered.has(r.game_id));
+            report[year]={schedule_games:g.length,pbp_team_games:p.length,matched_games:overlap.length};
+            if(g.length<minGames||p.length<minGames*2*.85||overlap.length<minGames*.85)
+              throw Error('Insufficient independent NFL source coverage for '+year+': '+JSON.stringify(report[year]));
+          }
+          console.log(JSON.stringify({coverage:report,warning:'Coverage checks do not establish point-in-time correctness or prospective accuracy.'}));
+          EOF
+      - name: Build pregame EPA and fixed ensemble
+        run: |
+          node phase10/rolling-epa.mjs phase10/data/historical-games.csv phase10/data/pbp-all.csv phase10/data/epa-rolling.csv
+          node phase10/elo.mjs phase10/data/historical-games.csv phase10/data/elo.csv
+          node phase10/matchups.mjs phase10/data/historical-games.csv phase10/data/matchup.csv
+          node phase10/ensemble.mjs phase10/data/elo.csv phase10/data/matchup.csv phase10/data/ensemble.csv
+          node phase10/epa-augmented.mjs phase10/data/ensemble.csv phase10/data/epa-rolling.csv phase10/data/epa-ensemble.csv
+      - name: Compare multi-season models and high-confidence coverage
+        run: |
+          node phase10/compare-models.mjs ensemble=phase10/data/ensemble.csv epa_augmented=phase10/data/epa-ensemble.csv > phase10/data/epa-comparison-2023-2025.json
+          cat phase10/data/epa-comparison-2023-2025.json
+          node phase10/season-compare.mjs ensemble=phase10/data/ensemble.csv epa_augmented=phase10/data/epa-ensemble.csv > phase10/data/epa-season-comparison.json
+          cat phase10/data/epa-season-comparison.json
+          node phase10/holdout.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-report.json
+          cat phase10/data/epa-season-report.json
+      - name: Report fixed-bin calibration and high-confidence uncertainty
+        run: |
+          node phase10/calibration-diagnostics.mjs phase10/data/ensemble.csv > phase10/data/ensemble-calibration.json
+          node phase10/calibration-diagnostics.mjs phase10/data/epa-ensemble.csv > phase10/data/epa-calibration.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for (const model of ['ensemble','epa']) {
+            const r=JSON.parse(fs.readFileSync('phase10/data/'+model+'-calibration.json','utf8'));
+            if(r.games<250||r.calibration.reduce((s,b)=>s+b.count,0)!==r.games||!Number.isFinite(r.expected_calibration_error))throw Error('Invalid calibration report: '+model);
+            console.log(JSON.stringify({model,games:r.games,accuracy:r.accuracy,accuracy_95ci:r.accuracy_95ci,brier:r.brier,log_loss:r.log_loss,ece:r.expected_calibration_error,high_confidence_games:r.high_confidence_games,high_confidence_coverage:r.high_confidence_coverage,high_confidence_accuracy:r.high_confidence_accuracy,high_confidence_95ci:r.high_confidence_95ci}));
+          }
+          EOF
+      - name: Archive calibration diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-calibration-diagnostics
+          path: |
+            phase10/data/ensemble-calibration.json
+            phase10/data/epa-calibration.json
+          retention-days: 30
+      - name: Audit chronological per-season calibration and confidence coverage
+        run: |
+          node phase10/season-calibration.mjs phase10/data/ensemble.csv 2023 > phase10/data/ensemble-season-calibration.json
+          node phase10/season-calibration.mjs phase10/data/epa-ensemble.csv 2023 > phase10/data/epa-season-calibration.json
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for(const name of ['ensemble','epa']){
+            const r=JSON.parse(fs.readFileSync('phase10/data/'+name+'-season-calibration.json','utf8'));
+            if(r.years.length!==3||r.combined.games<800||r.years.some(y=>r.by_season[y].games<200))throw Error('Incomplete season calibration '+name);
+            console.log(JSON.stringify({model:name,years:r.years,games:r.combined.games,accuracy:r.combined.accuracy,high_confidence_coverage:r.combined.high_confidence_coverage}));
+          }
+          EOF
+      - name: Archive chronological calibration
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-season-calibration
+          path: |
+            phase10/data/ensemble-season-calibration.json
+            phase10/data/epa-season-calibration.json
+          retention-days: 30
+      - name: Archive multi-season evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase10-epa-multi-season-2023-2025
+          path: |
+            phase10/data/epa-comparison-2023-2025.json
+            phase10/data/epa-season-report.json
+            phase10/data/epa-season-comparison.json
+            phase10/data/epa-ensemble.csv
+          retention-days: 30

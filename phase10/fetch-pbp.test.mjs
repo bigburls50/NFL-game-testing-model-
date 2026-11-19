@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {aggregatePbp} from './fetch-pbp.mjs';
+test('aggregates real-style nflverse plays by team game',()=>{const base={game_id:'g',season:'2025',week:'1',posteam:'A',defteam:'B'};const r=aggregatePbp([{...base,epa:'1',qb_dropback:'1',cpoe:'4'},{...base,epa:'-0.5',qb_dropback:'0',cpoe:''},{...base,epa:'0.5',qb_dropback:'1',cpoe:'6'}]);assert.equal(r.length,1);assert.equal(r[0].offense_epa_per_play,1/3);assert.equal(r[0].qb_epa_per_dropback,.75);assert.equal(r[0].qb_cpoe,5)});
+test('does not treat missing EPA as zero',()=>{const r=aggregatePbp([{game_id:'g',posteam:'A',defteam:'B',epa:'',qb_dropback:'1'}]);assert.equal(r.length,0)});

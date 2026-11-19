@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {bestMoneylines} from './moneyline.mjs';
+const now=Date.parse('2026-11-19T18:00:00Z');const game={home_team:'Home',away_team:'Away',kickoff_utc:'2026-11-20T01:00:00Z'};
+const book=(title,last_update,price)=>({title,last_update,outcomes:[{name:'Home',price},{name:'Away',price:130}]});
+test('selects best fresh price, excludes stale quotes and mismatched games',()=>{const market={games:[{...game,commence_time:game.kickoff_utc,bookmakers:[book('One','2026-11-19T17:55:00Z',-155),book('Two','2026-11-19T17:59:00Z',-140),book('Stale','2026-11-19T16:00:00Z',500)]}]};assert.equal(bestMoneylines(game,market,now).home.price,-140);assert.equal(bestMoneylines(game,market,now).home.book,'Two');assert.deepEqual(bestMoneylines({...game,kickoff_utc:'2026-11-22T01:00:00Z'},market,now),{});assert.deepEqual(bestMoneylines(game,market,now+3600000),{})});

@@ -1,25 +1,41 @@
 // Phase 10 is independent of the legacy ESPN heuristic and odds availability.
+import {bestMoneylines} from './moneyline.mjs';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n};
-const section=el('section',undefined,'card');section.id='phase10';
-const title=el('h2','Phase 10 · Model predictions');const summary=el('p','Loading current model snapshot…','muted');summary.setAttribute('aria-live','polite');
-const refresh=el('button','Refresh Phase 10');refresh.type='button';
-const grid=el('div',undefined,'value-results');section.append(title,el('p','Ranked by estimated win probability. Projected quarterbacks and recent injury data are not final official confirmations. All selections are research only; HOLD until Ontario odds and final evidence are verified.','muted'),refresh,summary,grid);
-document.querySelector('main').prepend(section);
-document.querySelector('header h1').textContent='🏈 NFL Auto Research · Phase 10';
-document.title='NFL Auto Research · Phase 10';
-const pct=p=>(p*100).toFixed(1)+'%';
-async function load(){refresh.disabled=true;summary.textContent='Retrieving fitted model predictions…';grid.replaceChildren();
- try{
-  const r=await fetch('/api/predictions',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();
-  const predictions=(data.predictions??[]).filter(p=>['verified','provisional'].includes(p.status)&&Number.isFinite(p.home_win_probability)&&p.home_win_probability>0&&p.home_win_probability<1&&Date.parse(p.kickoff_utc)>Date.now()).map(p=>({...p,selection:p.home_win_probability>=.5?p.home_team:p.away_team,probability:Math.max(p.home_win_probability,1-p.home_win_probability)})).sort((a,b)=>b.probability-a.probability);
-  const abstain=(data.games??[]).filter(g=>g.status==='abstain'&&!predictions.some(p=>p.game_id===g.game_id));
-  summary.textContent=`${predictions.length} model predictions · ${abstain.length} abstaining · ${data.model_metadata?.training_games??'—'} historical games · ${data.snapshot_generated_at_utc?new Date(data.snapshot_generated_at_utc).toLocaleString('en-CA'):'No current snapshot'}`;
-  for(const p of predictions){const card=el('article',undefined,'ev-card');const score=Math.round(p.probability*10);if(score>=7)card.classList.add('ev-highlight');if(p.status==='verified')card.classList.add('ev-model-verified');
-   card.append(el('span',p.status==='verified'?'VERIFIED MODEL':'PHASE 10 · PROVISIONAL','ev-badge'),el('h3',p.selection),el('p',`${score}/10 · ${pct(p.probability)} estimated win probability`,'ev-rating'),el('p',`${p.away_team} @ ${p.home_team} · ${new Date(p.kickoff_utc).toLocaleString('en-CA')}`,'ev-meta'),el('p','Model: '+p.model_version,'source-note'));
-   if(p.status==='provisional'){const qbs=Object.values(p.team_evidence??{}).map(e=>e.projected_qb_name).filter(Boolean);if(qbs.length)card.append(el('p','Projected QBs: '+qbs.join(' / '),'source-note'));}
-   card.append(el('p','HOLD · Not an actionable Ontario bet','ev-caution'));grid.append(card);
-  }
-  for(const g of abstain){const card=el('article',undefined,'ev-card');card.append(el('h3',`${g.away_team} @ ${g.home_team}`),el('p','ABSTAIN · No model probability','orange'),el('p',(g.reasons??[]).join(' · ').replaceAll('_',' '),'muted'));grid.append(card);}
-  if(!predictions.length&&!abstain.length)grid.append(el('p',data.reason||'No eligible live Phase 10 predictions.','muted'));
- }catch(e){summary.textContent='Phase 10 unavailable · '+e.message+' · ABSTAIN'}finally{refresh.disabled=false}}
-refresh.addEventListener('click',load);load();document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!refresh.disabled)load()});
+const styles=el('link');styles.rel='stylesheet';styles.href='./phase10/dashboard.css';document.head.append(styles);
+const section=el('section',undefined,'p10-board');section.id='phase10';
+const hero=el('div',undefined,'p10-hero'),head=el('div',undefined,'p10-heading'),controls=el('div',undefined,'p10-controls');
+head.append(el('span','NFL AUTO RESEARCH  /  PHASE 10','p10-kicker'),el('h2','Game predictions'),el('p','Live matchup research · ranked by estimated win probability','p10-subtitle'));
+const refresh=el('button','↻ Refresh predictions','p10-refresh');refresh.type='button';controls.append(el('span','●  MODEL FEED','p10-feed-label'),refresh);hero.append(head,controls);
+const summary=el('p','Loading current model snapshot…','p10-meta');summary.setAttribute('aria-live','polite');
+const marketStatus=el('p','Moneylines: loading regional sportsbook quotes…','p10-market-status');marketStatus.setAttribute('aria-live','polite');
+const stats=el('div',undefined,'p10-stats'),grid=el('div',undefined,'p10-grid');
+const toolbar=el('div',undefined,'p10-toolbar'),heading=el('h3','Top matchups');
+const filter=el('select',undefined,'p10-filter');filter.setAttribute('aria-label','Filter predictions');for(const [value,label] of [['all','All games'],['top','Scores 7–10'],['abstain','Abstaining']]){const o=el('option',label);o.value=value;filter.append(o)}
+toolbar.append(heading,filter);section.append(hero,stats,summary,marketStatus,toolbar,grid,el('p','Research only. Projected starters and recent injury reports are not final confirmations. Injury and QB evidence gates eligibility, but is not a trained probability adjustment. HOLD until Ontario offers and final evidence are verified. Team logos supplied by ESPN.','p10-disclaimer'));
+const main=document.querySelector('main'),legacy=el('details',undefined,'p10-legacy');legacy.append(el('summary','Odds comparison, live scores & earlier research tools'));for(const child of [...main.children])legacy.append(child);main.append(section,legacy);
+const appHeading=document.querySelector('header h1');const appLogo=el('img');appLogo.src='./icons/icon-192.png';appLogo.alt='';appLogo.className='p10-app-icon';appHeading.replaceChildren(appLogo,el('span','NFL Auto Research'));appHeading.classList.add('p10-brand');
+document.querySelector('header .pill').textContent='PHASE 10 · LIVE MODEL';document.title='NFL Auto Research · Phase 10';
+const pct=p=>(p*100).toFixed(1)+'%';let records=[],abstentions=[],market=null,marketLoadedAt=0,marketPending=false;
+function stat(label,value,cls=''){const cell=el('div',undefined,'p10-stat '+cls);cell.append(el('span',label),el('strong',String(value)));return cell}
+function team(g,side,selected){const box=el('div',undefined,'p10-team'+(selected?' p10-team-selected':''));const logo=el('div',g[side+'_abbr']??g[side+'_team'].slice(0,3).toUpperCase(),'p10-logo');const url=g[side+'_logo'];if(url){const image=el('img');image.src=url;image.alt='';image.loading='lazy';image.decoding='async';image.addEventListener('error',()=>image.remove());logo.append(image)}const text=el('div',undefined,'p10-team-name');text.append(el('strong',g[side+'_team']),el('small',side.toUpperCase()+(selected?' • MODEL PICK':'')));box.append(logo,text);return box}
+function matchup(g,selected){const row=el('div',undefined,'p10-matchup');row.append(team(g,'away',selected===g.away_team),el('span','@','p10-versus'),team(g,'home',selected===g.home_team));return row}
+function moneylines(g){const quotes=bestMoneylines(g,market),panel=el('div',undefined,'p10-market');panel.append(el('div','MONEYLINE  ·  REGIONAL QUOTES','p10-market-title'));const row=el('div',undefined,'p10-market-row');for(const side of ['away','home']){const q=quotes[side],box=el('div',undefined,'p10-market-box');box.append(el('small',g[side+'_abbr']??g[side+'_team']),el('strong',q?(q.price>0?'+':'')+q.price:'—'),el('span',q?.book??'No fresh quote'));row.append(box)}panel.append(row);return panel}
+function cardFor(p,i){const card=el('article',undefined,'p10-card'),score=Math.round(p.probability*10);if(score>=7)card.classList.add('p10-card-top');
+ const status=el('div',undefined,'p10-card-status');status.append(el('span',score>=7?'★ HIGHER WIN SCORE':'#'+(i+1)+' MATCHUP','p10-rank'),el('span',p.status==='verified'?'VERIFIED':'PROVISIONAL','p10-status'));
+ const date=el('p',new Date(p.kickoff_utc).toLocaleString('en-CA',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}),'p10-date');
+ const prediction=el('div',undefined,'p10-prediction'),labels=el('div',undefined,'p10-pick');labels.append(el('small','MODEL SELECTION'),el('h4',p.selection),el('span',pct(p.probability)+' win probability','p10-pct'));const rating=el('div',undefined,'p10-score');rating.append(el('strong',String(score)),el('span','/ 10'));prediction.append(labels,rating);
+ const bar=el('div',undefined,'p10-bar');bar.setAttribute('role','meter');bar.setAttribute('aria-label','Estimated win probability');bar.setAttribute('aria-valuemin','0');bar.setAttribute('aria-valuemax','100');bar.setAttribute('aria-valuenow',String(Math.round(p.probability*100)));const fill=el('div');fill.style.width=pct(p.probability);bar.append(fill);
+ card.append(status,date,matchup(p,p.selection),moneylines(p),prediction,bar);
+ const qbs=Object.values(p.team_evidence??{}).map(e=>e.projected_qb_name).filter(Boolean);if(qbs.length)card.append(el('p','Projected QBs: '+qbs.join(' / '),'p10-qbs'));
+ card.append(el('p','HOLD · Ontario odds unverified','p10-hold'));return card;
+}
+function render(){grid.replaceChildren();const mode=filter.value;for(const [i,p] of records.entries())if(mode==='all'||mode==='top'&&Math.round(p.probability*10)>=7)grid.append(cardFor(p,i));if(mode!=='top')for(const g of abstentions){const card=el('article',undefined,'p10-card p10-abstain');card.append(el('span','ABSTAIN','p10-status'),el('p',new Date(g.kickoff_utc).toLocaleString('en-CA',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}),'p10-date'),matchup(g),moneylines(g),el('h4','No model probability'),el('p',(g.reasons??[]).join(' · ').replaceAll('_',' '),'p10-qbs'));grid.append(card)}if(!grid.children.length)grid.append(el('p','No games match this view.','p10-meta'))}
+async function loadMarket(force=false){if(marketPending||!force&&Date.now()-marketLoadedAt<5*60000)return;marketPending=true;marketStatus.textContent='Moneylines: retrieving regional sportsbook quotes…';try{const r=await fetch('/api/odds',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('HTTP '+r.status);market=await r.json();marketLoadedAt=Date.now();marketStatus.textContent='MONEYLINE • Best available regional quote per team · '+new Date(market.retrieved_at).toLocaleTimeString('en-CA',{hour:'numeric',minute:'2-digit'})+' · Ontario availability unverified';}catch{market=null;marketStatus.textContent='MONEYLINE • Regional quotes unavailable; model predictions are unaffected.'}finally{marketPending=false;render()}}
+async function load(){refresh.disabled=true;summary.textContent='Retrieving fitted model predictions…';
+ try{const r=await fetch('/api/predictions',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();
+  records=(data.predictions??[]).filter(p=>['verified','provisional'].includes(p.status)&&Number.isFinite(p.home_win_probability)&&p.home_win_probability>0&&p.home_win_probability<1&&Date.parse(p.kickoff_utc)>Date.now()).map(p=>({...p,selection:p.home_win_probability>=.5?p.home_team:p.away_team,probability:Math.max(p.home_win_probability,1-p.home_win_probability)})).sort((a,b)=>b.probability-a.probability);
+  abstentions=(data.games??[]).filter(g=>g.status==='abstain'&&!records.some(p=>p.game_id===g.game_id));
+  stats.replaceChildren(stat('MODEL PREDICTIONS',records.length,'p10-stat-good'),stat('SCORES 7–10',records.filter(p=>Math.round(p.probability*10)>=7).length,'p10-stat-good'),stat('ABSTAINING',abstentions.length,'p10-stat-hold'),stat('HISTORICAL GAMES',Number(data.model_metadata?.training_games??0).toLocaleString('en-CA')));
+  summary.textContent=`${data.model_metadata?.version??'Phase 10'} · ${data.snapshot_generated_at_utc?'Updated '+new Date(data.snapshot_generated_at_utc).toLocaleString('en-CA'):'No current snapshot'}`;render();
+ }catch(e){records=[];abstentions=[];stats.replaceChildren();grid.replaceChildren(el('p','No current predictions available.','p10-meta'));summary.textContent='Phase 10 unavailable · '+e.message+' · ABSTAIN'}finally{refresh.disabled=false}}
+filter.addEventListener('change',render);refresh.addEventListener('click',()=>{load();loadMarket(true)});load();loadMarket();document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!refresh.disabled){load();loadMarket()}});

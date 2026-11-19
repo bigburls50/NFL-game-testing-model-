@@ -16,6 +16,7 @@ export async function runProvisionalPipeline(manifest,{historicalGames,rosterFet
  const model=fitEnsemble(historicalGames,{asOf,season:manifest.season});
  const snapshot=await collectPregameSnapshot(manifest,{rosterFetch,depthFetch,injuryFetch,asOf});
  const games=manifest.games.map(game=>{
+  if(game.schedule_conflict)return {...game,status:'abstain',reasons:['schedule_kickoff_conflict']};
   if(!snapshot.evidence)return {...game,status:'abstain',reasons:['pregame_collector_unavailable']};
   try{return {...game,...assessProvisionalPrediction(game,{prediction:model.predict(game),...snapshot.evidence,asOf})}}
   catch{return {...game,status:'abstain',reasons:['model_inputs_unavailable']}}

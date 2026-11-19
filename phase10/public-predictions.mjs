@@ -3,7 +3,8 @@ export function publicPredictions(feed,now=Date.now()){
  const fresh=(t,hours)=>Number.isFinite(Date.parse(t))&&Date.parse(t)<=now&&now-Date.parse(t)<=hours*3600000;
  if(!feed||!Array.isArray(feed.games))return {predictions:[],games:[],reason:'No Phase 10 snapshot'};
  const games=feed.games.filter(g=>Date.parse(g.kickoff_utc)>now).map(g=>{
-  const names={game_id:g.game_id,home_team:TEAM_NAMES[g.home_team]??g.home_team,away_team:TEAM_NAMES[g.away_team]??g.away_team,kickoff_utc:g.kickoff_utc};
+  const logo=value=>typeof value==='string'&&/^https:\/\/a\.espncdn\.com\/i\/teamlogos\/nfl\/500\/(?:scoreboard\/)?[a-z0-9]+\.png$/.test(value)?value:undefined;
+  const names={game_id:g.game_id,home_team:TEAM_NAMES[g.home_team]??g.home_team,away_team:TEAM_NAMES[g.away_team]??g.away_team,home_abbr:g.home_team,away_abbr:g.away_team,home_logo:logo(g.home_logo),away_logo:logo(g.away_logo),kickoff_utc:g.kickoff_utc};
   const eligible=g.status==='provisional'&&fresh(feed.generated_at_utc,24)&&fresh(g.generated_at_utc,24)&&g.model_version===feed.model?.version&&g.model_digest===feed.model?.digest&&/^sha256:[a-f0-9]{64}$/.test(g.model_digest)&&g.home_win_probability>0&&g.home_win_probability<1&&[g.home_team,g.away_team].every(t=>{const e=g.team_evidence?.[t];return e&&/^00-\d{7}$/.test(e.projected_qb_id)&&fresh(e.injury_updated_at_utc,36)&&fresh(e.injury_checked_at_utc,36)});
   return eligible?{...names,status:'provisional',home_win_probability:g.home_win_probability,model_version:g.model_version,model_digest:g.model_digest,prediction_created_utc:g.generated_at_utc,team_evidence:g.team_evidence,betting_status:'hold'}:{...names,status:'abstain',reasons:g.status==='provisional'?['stale_or_invalid_snapshot']:g.reasons??['missing_evidence']};
  });

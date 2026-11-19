@@ -7,7 +7,7 @@ test('verified Week 11 fixture manifest has 13 unique matchups and kickoff insta
  assert.equal(manifest.season,2026);assert.equal(manifest.week,11);assert.equal(manifest.schedule_verified,true);
  assert.equal(manifest.games.length,13);
  assert.equal(new Set(manifest.games.map(g=>g.game_id)).size,13);
- for(const g of manifest.games){assert.equal(g.season,2026);assert.equal(g.week,11);assert.notEqual(g.home_team,g.away_team);assert.match(g.kickoff_utc,/^2026-11-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/);assert.ok(Number.isFinite(Date.parse(g.kickoff_utc)));}
+ for(const g of manifest.games){assert.equal(g.season,2026);assert.equal(g.week,11);assert.notEqual(g.home_team,g.away_team);assert.match(g.kickoff_utc,/^2026-11-\d{2}T\d{2}:\d{2}:\d{2}Z$/);assert.ok(Number.isFinite(Date.parse(g.kickoff_utc)));}
 });
 test('upcoming UI fails closed when model forecasts have not been verified',()=>{
  assert.equal(manifest.model_forecasts_verified,false);

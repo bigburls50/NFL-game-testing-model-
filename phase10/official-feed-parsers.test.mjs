@@ -24,3 +24,10 @@ test('team domain without independent verification is rejected',()=>{
  const r=extractConfirmedStarter({...doc,source_url:'https://www.houstontexans.com/news/qb',verified_team_domain:'www.houstontexans.com'},options);
  assert.equal(r.status,'unconfirmed');
 });
+
+test('unverified no-injuries placeholder cannot assert an explicit clean report',()=>{
+ const r=parseOfficialInjuryHtml('<h3>Colts</h3>No Injuries Reported',[game],{publishedAt:'2026-11-18T16:00:00Z'});
+ assert.equal(r.ready_for_forecast,false);
+ assert.ok(r.reports.every(x=>x.explicit_no_injuries===false && x.complete_report===false));
+ assert.equal(r.reports.find(x=>x.team==='IND').placeholder_observed,true);
+});

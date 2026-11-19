@@ -47,3 +47,11 @@ test('non-quarterback roster identity cannot be promoted to confirmed starter',(
  const qb=extractConfirmedStarter(doc,{...options,roster:[{...options.roster[0],position:'QB'}]});
  assert.equal(qb.status,'confirmed');
 });
+
+
+test('official starter evidence for a team outside the matchup is rejected',()=>{
+ const otherTeamDoc={...doc,team:'DAL'};
+ const result=extractConfirmedStarter(otherTeamDoc,{...options,team:'DAL',roster:[{team:'DAL',player_id:'verified-id',player_name:'Example Player',position:'QB'}]});
+ assert.equal(result.status,'unconfirmed');
+ assert.equal(result.reason,'team_not_in_game');
+});

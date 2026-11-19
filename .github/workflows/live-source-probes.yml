@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: '22'
       - name: Verify offline probe tests
-        run: node --test phase10/probe-injuries.test.mjs phase10/probe-weather.test.mjs phase10/confirmed-starters.test.mjs phase10/forecast-input-gate.test.mjs phase10/verified-model-scoring.test.mjs phase10/nflverse-injuries-adapter.test.mjs phase10/official-starter-intake.test.mjs phase10/production-safety-gates.test.mjs phase10/official-feed-parsers.test.mjs phase10/live-feed-integration.test.mjs phase10/game-feed-acceptance.test.mjs phase10/real-game-evidence-acceptance.test.mjs phase10/official-week11-team-table-check.test.mjs
+        run: node --test phase10/probe-injuries.test.mjs phase10/probe-weather.test.mjs phase10/confirmed-starters.test.mjs phase10/forecast-input-gate.test.mjs phase10/verified-model-scoring.test.mjs phase10/nflverse-injuries-adapter.test.mjs phase10/official-starter-intake.test.mjs phase10/production-safety-gates.test.mjs phase10/official-feed-parsers.test.mjs phase10/live-feed-integration.test.mjs phase10/game-feed-acceptance.test.mjs phase10/real-game-evidence-acceptance.test.mjs phase10/official-week11-team-table-check.test.mjs phase10/colts-texans-source-provenance.test.mjs
       - name: Probe 2026 injury release
         run: node phase10/probe-injuries.mjs phase10/upcoming-week11-2026.json phase10/data/injury-source-audit.json
       - name: Probe Open-Meteo hourly stadium forecasts

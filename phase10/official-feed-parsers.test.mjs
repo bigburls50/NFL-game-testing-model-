@@ -7,3 +7,20 @@ const options={game,team:'HOU',roster:[{team:'HOU',player_id:'verified-id',playe
 test('explicit official named starter maps to known player ID',()=>{const r=extractConfirmedStarter(doc,options);assert.equal(r.status,'confirmed');assert.equal(r.player_id,'verified-id');});
 test('projected depth chart and missing roster ID never confirm',()=>{assert.equal(extractConfirmedStarter({...doc,html:'<p>Example Player projected as QB1</p>'},options).status,'unconfirmed');assert.equal(extractConfirmedStarter(doc,{...options,roster:[]}).status,'unconfirmed');});
 test('official injury page no-injuries placeholder is never treated as complete report',()=>{const r=parseOfficialInjuryHtml('<h3>Colts</h3>No Injuries Reported',[game]);assert.equal(r.ready_for_forecast,false);assert.equal(r.reports.length,2);assert.ok(r.reports.every(x=>!x.complete_report));});
+
+test('third-party QB announcement cannot become verified starter',()=>{
+ const r=extractConfirmedStarter({...doc,source_url:'https://example.com/news/qb-confirmed'},options);
+ assert.equal(r.status,'unconfirmed');assert.equal(r.reason,'unverified_source_domain');
+});
+test('lookalike NFL domain cannot become verified starter',()=>{
+ const r=extractConfirmedStarter({...doc,source_url:'https://nfl.com.evil.example/news'},options);
+ assert.equal(r.status,'unconfirmed');assert.equal(r.reason,'unverified_source_domain');
+});
+test('independently verified team domain can confirm explicit announcement',()=>{
+ const r=extractConfirmedStarter({...doc,source_url:'https://www.houstontexans.com/news/qb',verified_team_domain:'www.houstontexans.com',source_verified_independently:true},options);
+ assert.equal(r.status,'confirmed');
+});
+test('team domain without independent verification is rejected',()=>{
+ const r=extractConfirmedStarter({...doc,source_url:'https://www.houstontexans.com/news/qb',verified_team_domain:'www.houstontexans.com'},options);
+ assert.equal(r.status,'unconfirmed');
+});

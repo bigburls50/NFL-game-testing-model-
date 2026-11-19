@@ -4,11 +4,11 @@ const plain=s=>s.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g
 export function parseOfficialInjuryHtml(html,schedule,{publishedAt=null,retrievedAt=new Date().toISOString(),sourceUrl='https://www.nfl.com/injuries/'}={}){
  if(typeof html!=='string'||!Array.isArray(schedule))throw Error('Invalid injury source');
  const rows=[],errors=[];
- const sections=html.split(/<h[1-6]\b[^>]*>/i).map(s=>plain(s.split(/<\/h[1-6]>/i)[0]));
+ const sections=[...html.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>([\s\S]*?)(?=<h[1-6]\b|$)/gi)].map(m=>({heading:plain(m[2]),body:plain(m[3])}));
  for(const game of schedule)for(const team of [game.home_team,game.away_team]){
-  const label=teams[team];const matches=sections.filter(s=>label&&new RegExp('\\b'+label+'\\b','i').test(s));
+  const label=teams[team];const matches=sections.filter(s=>label&&new RegExp('\\b'+label+'\\b','i').test(s.heading));
   // NFL pages often have repeated team names in navigation: no section is trusted without table context.
-  const placeholderObserved=matches.some(s=>/No Injuries Reported/i.test(s));
+  const placeholderObserved=matches.some(s=>/No Injuries Reported/i.test(s.body));
   const candidate={game_id:game.game_id,team,source_url:sourceUrl,published_at_utc:publishedAt,retrieved_at_utc:retrievedAt,players:[],explicit_no_injuries:false,placeholder_observed:placeholderObserved,complete_report:false,source_type:'official_team_or_league',status:'unverified_page_section'};
   rows.push(candidate);
   errors.push({game_id:game.game_id,team,reason:!publishedAt?'missing_official_report_publication_time':'team_section_not_independently_verified'});

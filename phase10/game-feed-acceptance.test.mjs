@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {acceptGameFeeds} from './game-feed-acceptance.mjs';
+const game={game_id:'g',home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z'};
+const asOf='2026-11-19T22:00:00Z';
+const qb=team=>({game_id:'g',team,player_id:team+'-verified-id',player_name:team+' QB',status:'confirmed',source_url:'https://www.nfl.com/news/official',confirmed_at_utc:'2026-11-19T20:00:00Z',retrieved_at_utc:'2026-11-19T21:00:00Z',source_digest:'sha256:abc'});
+const injury=team=>({game_id:'g',team,source_type:'official_team_or_league',source_url:'https://www.nfl.com/injuries/',source_digest:'sha256:abc',published_at_utc:'2026-11-19T19:00:00Z',retrieved_at_utc:'2026-11-19T21:00:00Z',players:[{player_name:'Sample',injury:'Knee',practice_status:'Full'}],complete_report:true,team_section_verified:true,game_section_verified:true,report_date_verified:true});
+const run=(starterReports,injuryReports)=>acceptGameFeeds([game],{starterReports,injuryReports,asOf}).games[0];
+test('missing all evidence abstains with four reasons',()=>{const r=run([],[]);assert.equal(r.decision,'abstain');assert.equal(r.reasons.length,4);});
+test('both QBs but only one injury report abstains',()=>{const r=run([qb('HOU'),qb('IND')],[injury('HOU')]);assert.equal(r.decision,'abstain');assert.ok(r.reasons.includes('away_injury_report_unverified'));});
+test('both injuries but only one QB abstains',()=>{const r=run([qb('HOU')],[injury('HOU'),injury('IND')]);assert.equal(r.decision,'abstain');assert.ok(r.reasons.includes('away_qb_unconfirmed'));});
+test('complete synthetic evidence is eligible for downstream gates, not a prediction',()=>{const r=run([qb('HOU'),qb('IND')],[injury('HOU'),injury('IND')]);assert.equal(r.decision,'feeds_verified');});
+test('unverified zero-injury placeholder abstains',()=>{const r=run([qb('HOU'),qb('IND')],[injury('HOU'),{...injury('IND'),players:[],explicit_no_injuries:true}]);assert.equal(r.decision,'abstain');});

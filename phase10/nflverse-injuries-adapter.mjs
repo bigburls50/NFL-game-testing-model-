@@ -13,7 +13,7 @@ export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
  const decoded=raw[0]===0x1f&&raw[1]===0x8b?gunzipSync(raw):raw;
  const rows=parseCSV(decoded.toString('utf8'));
  const fields=rows[0]??{};
- if(!['team','week','gsis_id','full_name','report_status','practice_status','date_modified'].every(k=>k in fields))throw Error('Unexpected injury source schema: '+Object.keys(fields).join(','));
+ if(!['team','week','gsis_id','full_name','report_status','practice_status'].every(k=>k in fields))throw Error('Unexpected injury source schema: '+Object.keys(fields).join(','));
  return {source_url:url,source_digest:'sha256:'+createHash('sha256').update(raw).digest('hex'),rows,warning:'Player injuries are candidate data, not a complete verified weekly team report. Confirm published dates and player IDs before forecast use.'};
 }
 export function injuryCandidates(source,week,teams){

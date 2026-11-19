@@ -20,6 +20,6 @@ if(process.argv[1]?.endsWith('collect-pregame-snapshot.mjs')){
  const manifest=JSON.parse(fs.readFileSync(process.argv[2]??'phase10/upcoming-week11-2026.json','utf8'));
  const output=process.argv[3]??'phase10/data/pregame-snapshot-audit.json';
  const result=await collectPregameSnapshot(manifest);
- fs.mkdirSync('phase10/data',{recursive:true});fs.writeFileSync(output,JSON.stringify(result,null,2)+'\\n');
+ fs.mkdirSync('phase10/data',{recursive:true});fs.writeFileSync(output,JSON.stringify(result,null,2)+'\n');
  console.log(JSON.stringify({ready:result.ready,errors:result.errors??[],games:result.games.map(g=>({game_id:g.game_id,decision:g.decision,reasons:g.reasons}))}));
 }

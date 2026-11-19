@@ -1,0 +1,114 @@
+{
+  "season": 2026,
+  "week": 11,
+  "source": "https://media.nfl.com/content/dam/communications/documents/2026/Week%2011%20Schedule%20Change.pdf",
+  "source_date": "2026-11-09",
+  "schedule_verified": true,
+  "model_forecasts_verified": false,
+  "games": [
+    {
+      "game_id": "2026_11_IND_HOU",
+      "season": 2026,
+      "week": 11,
+      "away_team": "IND",
+      "home_team": "HOU",
+      "kickoff_utc": "2026-11-20T01:15:00Z"
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "season": 2026,
+      "week": 11,
+      "away_team": "MIA",
+      "home_team": "BUF",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "season": 2026,
+      "week": 11,
+      "away_team": "BAL",
+      "home_team": "CAR",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "season": 2026,
+      "week": 11,
+      "away_team": "NO",
+      "home_team": "CHI",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "season": 2026,
+      "week": 11,
+      "away_team": "TEN",
+      "home_team": "DAL",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "season": 2026,
+      "week": 11,
+      "away_team": "TB",
+      "home_team": "DET",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "season": 2026,
+      "week": 11,
+      "away_team": "ARI",
+      "home_team": "KC",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "season": 2026,
+      "week": 11,
+      "away_team": "PIT",
+      "home_team": "PHI",
+      "kickoff_utc": "2026-11-22T18:00:00Z"
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "season": 2026,
+      "week": 11,
+      "away_team": "NYJ",
+      "home_team": "LAC",
+      "kickoff_utc": "2026-11-22T21:05:00Z"
+    },
+    {
+      "game_id": "2026_11_LV_DEN",
+      "season": 2026,
+      "week": 11,
+      "away_team": "LV",
+      "home_team": "DEN",
+      "kickoff_utc": "2026-11-22T21:25:00Z"
+    },
+    {
+      "game_id": "2026_11_JAX_NYG",
+      "season": 2026,
+      "week": 11,
+      "away_team": "JAX",
+      "home_team": "NYG",
+      "kickoff_utc": "2026-11-22T21:25:00Z"
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "season": 2026,
+      "week": 11,
+      "away_team": "MIN",
+      "home_team": "SF",
+      "kickoff_utc": "2026-11-23T01:20:00Z"
+    },
+    {
+      "game_id": "2026_11_CIN_WAS",
+      "season": 2026,
+      "week": 11,
+      "away_team": "CIN",
+      "home_team": "WAS",
+      "kickoff_utc": "2026-11-24T01:15:00Z"
+    }
+  ]
+}

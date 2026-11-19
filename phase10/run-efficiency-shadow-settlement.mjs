@@ -9,7 +9,7 @@ export function matchFinalScores(slate,results,previous=[],now=Date.now()){
   if(settled.has(g.game_id)||Date.parse(g.kickoff_utc)>=now)continue;
   const matches=results.filter(r=>r.final===true&&normalize(r.home_team)===normalize(TEAM_NAMES[g.home_team])&&normalize(r.away_team)===normalize(TEAM_NAMES[g.away_team])&&Math.abs(Date.parse(r.kickoff_utc)-Date.parse(g.kickoff_utc))<3600000&&[r.home_score,r.away_score].every(n=>Number.isInteger(n)&&n>=0));
   if(matches.length!==1)continue;const r=matches[0];
-  settled.set(g.game_id,{game_id:g.game_id,gameday:resultDate(g.kickoff_utc).replace(/^(\d{4})(\d{2})(\d{2})$/,'$1-$2-$3'),game_type:'REG',season:2026,home_team:g.home_team,away_team:g.away_team,home_score:r.home_score,away_score:r.away_score});
+  settled.set(g.game_id,{game_id:g.game_id,gameday:resultDate(g.kickoff_utc).replace(/^(\d{4})(\d{2})(\d{2})$/,'$1-$2-$3'),game_type:'REG',season:Number(g.season??g.game_id.split('_')[0])||2026,home_team:g.home_team,away_team:g.away_team,home_score:r.home_score,away_score:r.away_score});
  }
  return slate.games.flatMap(g=>settled.has(g.game_id)?[settled.get(g.game_id)]:[]);
 }

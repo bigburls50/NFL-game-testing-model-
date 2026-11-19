@@ -24,6 +24,8 @@ export function projectedQuarterbacks(source,week,{asOf=new Date().toISOString()
   return (dated?(Number.isFinite(date)&&date<=cutoff&&cutoff-date<=14*86400000):Number(r[weekKey])===Number(week))&&r[positionKey]==='QB'&&Number(r[rankKey])===1&&/^00-\d{7}$/.test(r[idKey]??'');
  });
  if(!dated)return valid.map(r=>({team:r[teamKey],position:'QB',player_id:r[idKey],depth_rank:1}));
- const newest=new Map();for(const r of valid){const team=r[teamKey],date=Date.parse(r[weekKey]);if(!newest.has(team)||date>newest.get(team))newest.set(team,date)}
- return valid.filter(r=>Date.parse(r[weekKey])===newest.get(r[teamKey])).map(r=>({team:r[teamKey],position:'QB',player_id:r[idKey],depth_rank:1}));
+ // Select newest full team snapshot (not newest valid QB). Missing/ambiguous rank one must not revive stale depth.
+ const newest=new Map();for(const r of source.rows){const team=r[teamKey],date=Date.parse(r[weekKey]);if(Number.isFinite(date)&&date<=cutoff&&cutoff-date<=7*86400000&&(!newest.has(team)||date>newest.get(team)))newest.set(team,date)}
+ const candidates=new Map();for(const r of valid){const team=r[teamKey],date=Date.parse(r[weekKey]);if(date!==newest.get(team))continue;if(!candidates.has(team))candidates.set(team,new Set());candidates.get(team).add(r[idKey])}
+ return [...candidates].filter(([,ids])=>ids.size===1).map(([team,ids])=>({team,position:'QB',player_id:[...ids][0],depth_rank:1,snapshot_at_utc:new Date(newest.get(team)).toISOString()}));
 }

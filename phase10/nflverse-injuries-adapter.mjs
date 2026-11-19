@@ -20,7 +20,7 @@ export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
 export function injuryCandidates(source,week,teams){
  const teamSet=new Set(teams);
  return source.rows.filter(r=>Number(r.week)===week&&teamSet.has(r.team)).map(r=>({
- team:r.team,week:Number(r.week),player_id:r.gsis_id||r.player_id||null,player_name:r.full_name||r.player_name||null,
+ team:r.team,week:Number(r.week),player_id:r.gsis_id||r.player_id||null,player_name:r.full_name||r.player_name||null,position:r.position||null,
  practice_status:r.practice_status||null,game_status:r.report_status||null,
  report_date:r.date_modified||r.report_date||null,source_url:source.source_url,source_digest:source.source_digest
  }));

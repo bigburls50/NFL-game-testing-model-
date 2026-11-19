@@ -27,7 +27,7 @@ export function selectProductionModel(historicalGames,options){
  if(validation.model_version===LEARNED_VERSION&&validation.promotion_gate.passed===true&&seasons.size>=5)return fitLearnedModel(historicalGames,options);
  return fitEnsemble(historicalGames,options);
 }
-export async function runProvisionalPipeline(manifest,{historicalGames,rosterFetch,depthFetch,injuryFetch,asOf=new Date().toISOString()}={}){
+export async function runProvisionalPipeline(manifest,{historicalGames,rosterFetch,depthFetch,injuryFetch,asOf=new Date().toISOString(),includeResearchEvidence=false}={}){
  const model=selectProductionModel(historicalGames,{asOf,season:manifest.season});
  const snapshot=await collectPregameSnapshot(manifest,{rosterFetch,depthFetch,injuryFetch,asOf});
  const games=manifest.games.map(game=>{
@@ -37,5 +37,5 @@ export async function runProvisionalPipeline(manifest,{historicalGames,rosterFet
   catch{return {...game,status:'abstain',reasons:['model_inputs_unavailable']}}
  });
  const {predict,...metadata}=model;
- return {status:games.some(g=>g.status==='provisional')?'available':'unavailable',generated_at_utc:asOf,model:metadata,source_provenance:snapshot.source_provenance,errors:snapshot.errors??[],games,warning:'Research-only versioned model. QB and injury inputs remain eligibility checks, not trained probability adjustments. Market prices are not model inputs. HOLD for real-money bets.'};
+ return {status:games.some(g=>g.status==='provisional')?'available':'unavailable',generated_at_utc:asOf,model:metadata,source_provenance:snapshot.source_provenance,errors:snapshot.errors??[],games,...(includeResearchEvidence?{research_evidence:snapshot.evidence??null}:{}),warning:'Research-only versioned model. QB and injury inputs remain eligibility checks, not trained probability adjustments. Market prices are not model inputs. HOLD for real-money bets.'};
 }

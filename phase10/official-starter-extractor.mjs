@@ -13,7 +13,7 @@ export function extractConfirmedStarter(document,{game,team,roster,asOf=new Date
  if(!sourceOfficial)return reject('unverified_source_domain');
  if(!document.html)return reject('source_text_not_archived');
  const text=clean(document.html);
- const candidates=roster.filter(r=>r.team===team&&r.player_id&&r.player_name).filter(r=>{
+ const candidates=roster.filter(r=>r.team===team&&r.player_id&&r.player_name&&(!r.position||String(r.position).toUpperCase()==='QB')).filter(r=>{
   const escaped=r.player_name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const name=new RegExp('\\b'+escaped+'\\b','i');
   if(!name.test(text))return false;

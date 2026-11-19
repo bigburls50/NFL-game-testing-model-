@@ -1,0 +1,372 @@
+{
+  "mode": "research_only_no_stakes",
+  "locked_at_utc": "2026-11-19T20:07:49.645Z",
+  "model_version": "phase10-efficiency-v3",
+  "model_digest": "sha256:c305ea8c3ca47bb9b140714b3a19a901be4311913283698d3ddc8abd1e993809",
+  "baseline_version": "phase10-causal-logistic-v2",
+  "baseline_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+  "baseline_generated_at_utc": "2026-11-19T19:55:41.467Z",
+  "training_games": 2486,
+  "history_cutoff_date": "2026-11-19",
+  "coverage": {
+    "team_games": 2911,
+    "total_games": 2911,
+    "qb_starts": 5739,
+    "total_starts": 5822
+  },
+  "sources": [
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+      "sha256": "e6751c84ebf2320bfc5a1aa5b132063443b90ec05504767e1172ab7fd408deea"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2016.csv",
+      "sha256": "1a6f704d6eda8d26820ffadba05fbb42e6e60d1dc33dc93bc365c244d25349db"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2016.csv",
+      "sha256": "eb0264c65d1ef593196afcd4ba24e9f2e9b7942923bf6f4bb4639684e2c4d470"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2017.csv",
+      "sha256": "c09fa261c37069b1ffc4ee340b8c90458d7453333321e97d13d6fb8a0aab51f4"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2017.csv",
+      "sha256": "592b0916065987b0b3afb0480162f03350d16b12250dc42b0f194e2ab1378563"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2018.csv",
+      "sha256": "d2df3adf2fbadfb597bc334807f5020aefe2b2ae13d28155f7f01cb981f00555"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2018.csv",
+      "sha256": "c53021bcfc9f89d30edd6f1fe145a1d7d6ce469efeec75974fe9f0adac568642"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2019.csv",
+      "sha256": "d3311b008de52dd95729d76d225b45f51eb91932e8fa3c38c18548397aa00a06"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2019.csv",
+      "sha256": "a05558126b1209b80fe11a8f18938cb35816370bf9990975a87de49e9eed7376"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2020.csv",
+      "sha256": "a8f2cc2055404fc293105af25f14ff28593c32961912e752e2e50f4a6ba461ad"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2020.csv",
+      "sha256": "05b992676faccc8940efbf6242cb76358069372d31d7c2e02c1a4acdcd3cbe18"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2021.csv",
+      "sha256": "a094523217f7f351a79f5e667dbe67267e0861a3b76a7a3b62a1cfe49f289673"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2021.csv",
+      "sha256": "41915fb49238902ad1f129ebf0405b11a1e710454ae0fe8f7b3e4f9145875f48"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2022.csv",
+      "sha256": "9803875bd0b74aa49230288d45359c75e45910f1cf1953ea0f07b9d3db35e4d1"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2022.csv",
+      "sha256": "ad426c3fe5bf1cc30c3f137fdfe96d054e19d400879ee4413129da49fa7b54be"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2023.csv",
+      "sha256": "dc5a387daabe8663deaddac492ad7020d47fb1a66048690b355b406cd8e4c454"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2023.csv",
+      "sha256": "f19cb71a5de0dce7fd09376026237c9ee9d5a93fe13815a2ea3ec2d37204cb17"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2024.csv",
+      "sha256": "b207a1430c2715d03bbf1844c4eae98695f364851ff6025f422febc2c13f5255"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2024.csv",
+      "sha256": "3ddc45a84f759aa348ce465ae001752c530575455717657cdfe1f8abfcdb4759"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2025.csv",
+      "sha256": "91058a59d894855377b2f39f40c4e7bdbeef96d12144289dc68215209a1c93cb"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2025.csv",
+      "sha256": "e5e0615b3d96a3eaebfaee91e55afb4a4e7fe0caf057454177bcd7d6ad4bcfc2"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2026.csv",
+      "sha256": "f18900fc9f13c0612c288c0594f0cd2f9345631b430dded8387ea9e70395e6f4"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+      "sha256": "057b1cd6d10703921a631b020a222a27f2209bd576e305400607a5e98482e5ea"
+    }
+  ],
+  "weights": {
+    "team": [
+      0.11372067687127556,
+      0.08091113916323919,
+      0.39358936720191917,
+      0.6960243146954649,
+      0.32150309218902007,
+      0.1389284013243807,
+      0.13149617552919865,
+      0.5514141062888948,
+      0.15672196565161595,
+      0.16062008898129682,
+      -0.12332174817427234
+    ],
+    "qb": [
+      0.12016556987343467,
+      0.07625386336239674,
+      0.38269905434560764,
+      0.6729064235604526,
+      0.27639555884781974,
+      0.10548292117979474,
+      0.12649443429352697,
+      0.3466265473555537,
+      0.17349466958360757,
+      0.09521966581837318,
+      -0.15707634513457133,
+      0.32819065768012784,
+      0.2613621343854788
+    ]
+  },
+  "games": [
+    {
+      "game_id": "2026_11_IND_HOU",
+      "home_team": "HOU",
+      "away_team": "IND",
+      "kickoff_utc": "2026-11-20T01:15:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.7266847410825212,
+        "team": 0.7583177370253963,
+        "qb": 0.7680546992859566
+      },
+      "prior_starter_ids": {
+        "HOU": "00-0039163",
+        "IND": "00-0035710"
+      },
+      "projected_starter_ids": {
+        "HOU": "00-0039163",
+        "IND": "00-0035710"
+      }
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "home_team": "BUF",
+      "away_team": "MIA",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.8629572854167563,
+        "team": 0.8611142289627469,
+        "qb": 0.8615976232390248
+      },
+      "prior_starter_ids": {
+        "BUF": "00-0034857",
+        "MIA": "00-0040014"
+      },
+      "projected_starter_ids": {
+        "BUF": "00-0034857",
+        "MIA": "00-0040014"
+      }
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "home_team": "CAR",
+      "away_team": "BAL",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.584350109950729,
+        "team": 0.5830926394522516,
+        "qb": 0.5720944952240418
+      },
+      "prior_starter_ids": {
+        "CAR": "00-0039150",
+        "BAL": null
+      },
+      "projected_starter_ids": {
+        "CAR": "00-0039150",
+        "BAL": "00-0033119"
+      }
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "home_team": "CHI",
+      "away_team": "NO",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.7872226333833431,
+        "team": 0.7799854841562724,
+        "qb": 0.7801270402478477
+      },
+      "prior_starter_ids": {
+        "CHI": "00-0039918",
+        "NO": "00-0040743"
+      },
+      "projected_starter_ids": {
+        "CHI": "00-0039918",
+        "NO": "00-0040743"
+      }
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "home_team": "DAL",
+      "away_team": "TEN",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.720723842086958,
+        "team": 0.7329208604952735,
+        "qb": 0.7265097444655165
+      },
+      "prior_starter_ids": {
+        "DAL": "00-0033077",
+        "TEN": "00-0040676"
+      },
+      "projected_starter_ids": {
+        "DAL": "00-0033077",
+        "TEN": "00-0040676"
+      }
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "home_team": "DET",
+      "away_team": "TB",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.6427019369053759,
+        "team": 0.7009859637643877,
+        "qb": 0.6902491871986776
+      },
+      "prior_starter_ids": {
+        "DET": "00-0033106",
+        "TB": "00-0034855"
+      },
+      "projected_starter_ids": {
+        "DET": "00-0033106",
+        "TB": "00-0034855"
+      }
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "home_team": "KC",
+      "away_team": "ARI",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.8410057714708112,
+        "team": 0.8385211934341902,
+        "qb": 0.8291927001307099
+      },
+      "prior_starter_ids": {
+        "KC": "00-0033873",
+        "ARI": null
+      },
+      "projected_starter_ids": {
+        "KC": "00-0033873",
+        "ARI": "00-0041561"
+      }
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "home_team": "PHI",
+      "away_team": "PIT",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.41984028230643744,
+        "team": 0.41872532514161465,
+        "qb": 0.44587009313249404
+      },
+      "prior_starter_ids": {
+        "PHI": "00-0039398",
+        "PIT": "00-0023459"
+      },
+      "projected_starter_ids": {
+        "PHI": "00-0039398",
+        "PIT": "00-0023459"
+      }
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "home_team": "LAC",
+      "away_team": "NYJ",
+      "kickoff_utc": "2026-11-22T21:05:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.6206218129867674,
+        "team": 0.5699302467358031,
+        "qb": 0.5624404973456568
+      },
+      "prior_starter_ids": {
+        "LAC": "00-0036355",
+        "NYJ": "00-0030565"
+      },
+      "projected_starter_ids": {
+        "LAC": "00-0036355",
+        "NYJ": "00-0030565"
+      }
+    },
+    {
+      "game_id": "2026_11_JAX_NYG",
+      "home_team": "NYG",
+      "away_team": "JAX",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.26752803558952815,
+        "team": 0.2667333420367758,
+        "qb": 0.2575982229077271
+      },
+      "prior_starter_ids": {
+        "NYG": "00-0039923",
+        "JAX": "00-0036971"
+      },
+      "projected_starter_ids": {
+        "NYG": "00-0039923",
+        "JAX": "00-0036971"
+      }
+    },
+    {
+      "game_id": "2026_11_LV_DEN",
+      "home_team": "DEN",
+      "away_team": "LV",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.7976379620498109,
+        "team": 0.769514111769275,
+        "qb": 0.7757240537408497
+      },
+      "prior_starter_ids": {
+        "DEN": "00-0039732",
+        "LV": "00-0041562"
+      },
+      "projected_starter_ids": {
+        "DEN": "00-0039732",
+        "LV": "00-0041562"
+      }
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "home_team": "SF",
+      "away_team": "MIN",
+      "kickoff_utc": "2026-11-23T01:20:00.000Z",
+      "home_win_probabilities": {
+        "v2": 0.559073804863465,
+        "team": 0.6434309643667573,
+        "qb": 0.6340315031370584
+      },
+      "prior_starter_ids": {
+        "SF": "00-0037834",
+        "MIN": "00-0029604"
+      },
+      "projected_starter_ids": {
+        "SF": "00-0037834",
+        "MIN": "00-0029604"
+      }
+    }
+  ],
+  "warning": "Challengers failed retrospective promotion gate. Frozen comparison only; QB candidate uses prior-game starter, not projected starter; no bet selection, stake or real-money authorization."
+}

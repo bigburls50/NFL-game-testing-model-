@@ -1,0 +1,170 @@
+{
+  "model_version": "phase10-efficiency-v3",
+  "history_last_date": "2026-11-16",
+  "development_seasons": [
+    2023,
+    2024
+  ],
+  "holdout_seasons": [
+    2025,
+    2026
+  ],
+  "coverage": {
+    "team_games": 2911,
+    "total_games": 2911,
+    "qb_starts": 5739,
+    "total_starts": 5822
+  },
+  "development": {
+    "v2": {
+      "n": 570,
+      "accuracy": 0.6421052631578947,
+      "brier": 0.2226714082831469,
+      "log_loss": 0.6358259847439407
+    },
+    "team": {
+      "n": 570,
+      "accuracy": 0.6543859649122807,
+      "brier": 0.2228324452558758,
+      "log_loss": 0.6360949258329155
+    },
+    "qb": {
+      "n": 570,
+      "accuracy": 0.656140350877193,
+      "brier": 0.2226737741751251,
+      "log_loss": 0.6357484762541734
+    },
+    "market": {
+      "n": 570,
+      "accuracy": 0.6894736842105263,
+      "brier": 0.20980656120743807,
+      "log_loss": 0.6080921947970853
+    }
+  },
+  "holdout": {
+    "v2": {
+      "n": 433,
+      "accuracy": 0.628175519630485,
+      "brier": 0.2191100105631805,
+      "log_loss": 0.62745986873323
+    },
+    "team": {
+      "n": 433,
+      "accuracy": 0.6235565819861432,
+      "brier": 0.2219932464798372,
+      "log_loss": 0.6333245857314247
+    },
+    "qb": {
+      "n": 433,
+      "accuracy": 0.6235565819861432,
+      "brier": 0.2217762785968153,
+      "log_loss": 0.6327001141089282
+    },
+    "market": {
+      "n": 433,
+      "accuracy": 0.6651270207852193,
+      "brier": 0.21137946963554122,
+      "log_loss": 0.6098341641856275
+    }
+  },
+  "selected": null,
+  "promotion_gate": {
+    "passed": false,
+    "requirements": "Select by development Brier only, improve Brier and log loss versus V2 on both splits, accuracy within 1pp, >=98% team coverage, >=90% prior starter coverage for QB variant."
+  },
+  "warning": "Retrospective prior-season fitting. QB features use previous completed-game starter, not actual or rumored future starter; no historical as-published timestamp archive. Historical moneylines only a benchmark, not a tradable result.",
+  "sources": [
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+      "sha256": "e6751c84ebf2320bfc5a1aa5b132063443b90ec05504767e1172ab7fd408deea"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2016.csv",
+      "sha256": "1a6f704d6eda8d26820ffadba05fbb42e6e60d1dc33dc93bc365c244d25349db"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2016.csv",
+      "sha256": "eb0264c65d1ef593196afcd4ba24e9f2e9b7942923bf6f4bb4639684e2c4d470"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2017.csv",
+      "sha256": "c09fa261c37069b1ffc4ee340b8c90458d7453333321e97d13d6fb8a0aab51f4"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2017.csv",
+      "sha256": "592b0916065987b0b3afb0480162f03350d16b12250dc42b0f194e2ab1378563"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2018.csv",
+      "sha256": "d2df3adf2fbadfb597bc334807f5020aefe2b2ae13d28155f7f01cb981f00555"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2018.csv",
+      "sha256": "c53021bcfc9f89d30edd6f1fe145a1d7d6ce469efeec75974fe9f0adac568642"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2019.csv",
+      "sha256": "d3311b008de52dd95729d76d225b45f51eb91932e8fa3c38c18548397aa00a06"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2019.csv",
+      "sha256": "a05558126b1209b80fe11a8f18938cb35816370bf9990975a87de49e9eed7376"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2020.csv",
+      "sha256": "a8f2cc2055404fc293105af25f14ff28593c32961912e752e2e50f4a6ba461ad"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2020.csv",
+      "sha256": "05b992676faccc8940efbf6242cb76358069372d31d7c2e02c1a4acdcd3cbe18"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2021.csv",
+      "sha256": "a094523217f7f351a79f5e667dbe67267e0861a3b76a7a3b62a1cfe49f289673"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2021.csv",
+      "sha256": "41915fb49238902ad1f129ebf0405b11a1e710454ae0fe8f7b3e4f9145875f48"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2022.csv",
+      "sha256": "9803875bd0b74aa49230288d45359c75e45910f1cf1953ea0f07b9d3db35e4d1"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2022.csv",
+      "sha256": "ad426c3fe5bf1cc30c3f137fdfe96d054e19d400879ee4413129da49fa7b54be"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2023.csv",
+      "sha256": "dc5a387daabe8663deaddac492ad7020d47fb1a66048690b355b406cd8e4c454"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2023.csv",
+      "sha256": "f19cb71a5de0dce7fd09376026237c9ee9d5a93fe13815a2ea3ec2d37204cb17"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2024.csv",
+      "sha256": "b207a1430c2715d03bbf1844c4eae98695f364851ff6025f422febc2c13f5255"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2024.csv",
+      "sha256": "3ddc45a84f759aa348ce465ae001752c530575455717657cdfe1f8abfcdb4759"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2025.csv",
+      "sha256": "91058a59d894855377b2f39f40c4e7bdbeef96d12144289dc68215209a1c93cb"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2025.csv",
+      "sha256": "e5e0615b3d96a3eaebfaee91e55afb4a4e7fe0caf057454177bcd7d6ad4bcfc2"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_team/stats_team_week_2026.csv",
+      "sha256": "f18900fc9f13c0612c288c0594f0cd2f9345631b430dded8387ea9e70395e6f4"
+    },
+    {
+      "url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+      "sha256": "057b1cd6d10703921a631b020a222a27f2209bd576e305400607a5e98482e5ea"
+    }
+  ]
+}

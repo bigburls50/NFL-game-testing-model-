@@ -22,7 +22,7 @@ export function buildCausalFeatures(rows,{forecasts=[]}={}){
 }
 export function fitLogistic(data,{lambda=.003,iterations=450,rate=.55}={}){
  if(data.length<100||lambda<0)throw Error('Insufficient labeled training games');
- const n=FEATURE_NAMES.length;let w=Array(n+1).fill(0);
+ const n=data[0].x.length;if(!n||data.some(r=>r.x.length!==n||r.x.some(v=>!Number.isFinite(v))||![0,1].includes(r.y)))throw Error('Invalid feature matrix');let w=Array(n+1).fill(0);
  for(let i=0;i<iterations;i++){const gradient=Array(n+1).fill(0);for(const r of data){const p=sigmoid(w[0]+r.x.reduce((z,v,j)=>z+w[j+1]*v,0)),d=p-r.y;gradient[0]+=d;for(let j=0;j<n;j++)gradient[j+1]+=d*r.x[j]}
   w=w.map((v,j)=>v-rate*(gradient[j]/data.length+(j===0?0:lambda*v)));}
  if(w.some(v=>!Number.isFinite(v)))throw Error('Nonfinite fitted coefficients');return w;

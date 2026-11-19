@@ -1,0 +1,42 @@
+{
+  "locked_at_utc": "2026-11-19T20:07:49.645Z",
+  "scored_games": 0,
+  "ties": [],
+  "pending": [
+    "2026_11_IND_HOU",
+    "2026_11_MIA_BUF",
+    "2026_11_BAL_CAR",
+    "2026_11_NO_CHI",
+    "2026_11_TEN_DAL",
+    "2026_11_TB_DET",
+    "2026_11_ARI_KC",
+    "2026_11_PIT_PHI",
+    "2026_11_NYJ_LAC",
+    "2026_11_JAX_NYG",
+    "2026_11_LV_DEN",
+    "2026_11_MIN_SF"
+  ],
+  "metrics": {
+    "v2": {
+      "n": 0,
+      "accuracy": null,
+      "brier": null,
+      "log_loss": null
+    },
+    "team": {
+      "n": 0,
+      "accuracy": null,
+      "brier": null,
+      "log_loss": null
+    },
+    "qb": {
+      "n": 0,
+      "accuracy": null,
+      "brier": null,
+      "log_loss": null
+    }
+  },
+  "final_scores": [],
+  "source": "Cloudflare /api/results (ESPN final scoreboard)",
+  "real_money_stake": 0
+}

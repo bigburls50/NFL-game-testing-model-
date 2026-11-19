@@ -12,9 +12,11 @@ export async function collectOfficialStarterEvidence(sources,{fetchImpl=fetch,as
  for(const [i,s] of sources.entries()){
   try{
    const url=new URL(s.url);
-   if(url.protocol!=='https:'||!(url.hostname==='nfl.com'||url.hostname.endsWith('.nfl.com')||s.approved_team_hostname===url.hostname))throw Error('unapproved_host');
+   if(url.protocol!=='https:'||!(url.hostname==='nfl.com'||url.hostname.endsWith('.nfl.com')||(s.approved_team_hostname===url.hostname&&s.approved_team_hostname?.endsWith('.com')&&s.official_domain_reviewed===true)))throw Error('unapproved_host');
    const response=await fetchImpl(url.toString(),{redirect:'follow',signal:AbortSignal.timeout(12000)});
    if(!response.ok)throw Error('HTTP '+response.status);
+   const finalUrl=new URL(response.url??url.toString());
+   if(finalUrl.hostname!==url.hostname)throw Error('redirected_to_unverified_host');
    const html=await response.text();
    if(html.length>2000000)throw Error('oversized_document');
    const published=publishedFromHtml(html);

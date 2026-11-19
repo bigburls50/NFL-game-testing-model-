@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Auto Research football analytics shield">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b3f6d"/>
+      <stop offset="0.55" stop-color="#0d2242"/>
+      <stop offset="1" stop-color="#061329"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.53" stop-color="#eef6ff"/>
+      <stop offset="1" stop-color="#9eb4cc"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e94b4a"/>
+      <stop offset="1" stop-color="#ad172d"/>
+    </linearGradient>
+  </defs>
+  <!-- Full-bleed tile remains legible in Android circular and squircle masks. -->
+  <path fill="url(#bg)" d="M0 0h512v512H0z"/>
+  <path d="M0 0h512L0 512z" fill="#dfeaff" opacity=".035"/>
+  <!-- Original shield silhouette, designed for the central mask-safe area. -->
+  <path d="M256 49 416 108v125c0 106-61 174-160 230C157 407 96 339 96 233V108z" fill="#030c1d" opacity=".6" transform="translate(0 6)"/>
+  <path d="M256 57 411 112v122c0 98-56 164-155 220C157 398 101 332 101 234V112z" fill="url(#silver)"/>
+  <path d="M256 71 398 122v112c0 91-51 150-142 203-91-53-142-112-142-203V122z" fill="url(#red)"/>
+  <path d="M256 82 387 130v104c0 83-47 139-131 189-84-50-131-106-131-189V130z" fill="#10284c"/>
+  <!-- League-style football crest, with distinct football laces and two stars. -->
+  <path d="m156 150 5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1Zm200 0 5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1Z" fill="#eef6ff"/>
+  <g transform="translate(256 159) rotate(-35)">
+    <path d="M-77 0C-58-37-22-50 0-50S58-37 77 0C58 37 22 50 0 50S-58 37-77 0Z" fill="url(#silver)" stroke="#061329" stroke-width="4"/>
+    <path d="M-51-25h9v50h-9zm93 0h9v50h-9z" fill="#b71e34"/>
+    <path d="M-28 0h56M-18-10v20M-6-10v20M6-10v20M18-10v20" fill="none" stroke="#142b4c" stroke-width="5.5" stroke-linecap="round"/>
+  </g>
+  <path d="M141 229h230l-8 10H149z" fill="#d72740"/>
+  <!-- AR letterforms are paths, not fonts: consistent rendering at all sizes. -->
+  <g fill="url(#silver)" fill-rule="evenodd">
+    <path d="M147 326l35-75h31l34 75h-25l-6-15h-38l-6 15zm39-32h22l-11-28z"/>
+    <path d="M253 251h53c29 0 44 14 44 35 0 14-8 24-20 29l24 11h-29l-24-28h-23v28h-25zm25 18v13h28c12 0 18-3 18-7s-6-6-18-6z"/>
+  </g>
+  <!-- Research/analytics motif at base of shield. -->
+  <path d="M207 359h13v16h-13zm21-10h13v26h-13zm21-10h14v36h-14zm22-8h13v44h-13zm21-14h13v58h-13z" fill="#e5edf7" opacity=".8" transform="translate(0 8)"/>
+  <path d="m202 360 33-23 21 7 39-29" fill="none" stroke="#ed4256" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 8)"/>
+</svg>

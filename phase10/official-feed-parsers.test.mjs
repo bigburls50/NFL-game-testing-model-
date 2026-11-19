@@ -67,3 +67,12 @@ test('duplicate official injury team headings remain ambiguous and cannot assert
  assert.equal(result.ready_for_forecast,false);
  assert.ok(result.reports.every(x=>x.complete_report===false && x.explicit_no_injuries===false));
 });
+
+
+test('absent injury team section is explicitly missing and never forecast-ready',()=>{
+ const result=parseOfficialInjuryHtml('<h3>Colts</h3><p>No Injuries Reported</p>',[game],{publishedAt:'2026-11-18T16:00:00Z'});
+ assert.equal(result.errors.find(x=>x.team==='HOU').reason,'missing_team_section');
+ assert.equal(result.reports.find(x=>x.team==='HOU').placeholder_observed,false);
+ assert.equal(result.ready_for_forecast,false);
+ assert.ok(result.reports.every(x=>x.complete_report===false));
+});

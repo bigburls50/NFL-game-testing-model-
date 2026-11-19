@@ -1,0 +1,82 @@
+{
+  "version": "phase10-pregame-price-proxy-v1",
+  "summary": {
+    "v2": {
+      "tickets": 3,
+      "benchmarked": 1,
+      "positive_same_book": 0,
+      "mean_same_book_price_edge": -0.07407407407407407,
+      "mean_fair_price_edge": -0.019552655718873546,
+      "mean_minutes_before_kickoff": 133.47498333333334
+    },
+    "market_anchor": {
+      "tickets": 3,
+      "benchmarked": 0,
+      "positive_same_book": 0,
+      "mean_same_book_price_edge": null,
+      "mean_fair_price_edge": null,
+      "mean_minutes_before_kickoff": null
+    }
+  },
+  "slates": {
+    "2026_11": {
+      "v2": [
+        {
+          "game_id": "2026_11_IND_HOU",
+          "team": "Indianapolis Colts",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-20T01:15:00.000Z",
+          "benchmark": {
+            "captured_at_utc": "2026-11-19T23:01:31.501Z",
+            "minutes_before_kickoff": 133.47498333333334,
+            "locked_decimal": 6.25,
+            "later_decimal": 6.75,
+            "same_book_price_edge": -0.07407407407407407,
+            "reference_fair_probability": 0.15687157508498023,
+            "fair_price_edge": -0.019552655718873546,
+            "checkpoint_sha256": "2a61d92695b9d7aee291a6c9ed0d981ff449543ad80d53ce07b3e1420297cc69"
+          }
+        },
+        {
+          "game_id": "2026_11_ARI_KC",
+          "team": "Arizona Cardinals",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "benchmark": null
+        },
+        {
+          "game_id": "2026_11_MIA_BUF",
+          "team": "Miami Dolphins",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "benchmark": null
+        }
+      ],
+      "market_anchor": [
+        {
+          "game_id": "2026_11_ARI_KC",
+          "team": "Arizona Cardinals",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "benchmark": null
+        },
+        {
+          "game_id": "2026_11_MIA_BUF",
+          "team": "Miami Dolphins",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "benchmark": null
+        },
+        {
+          "game_id": "2026_11_TB_DET",
+          "team": "Tampa Bay Buccaneers",
+          "book_key": "betrivers_ca_on",
+          "kickoff_utc": "2026-11-22T18:00:00.000Z",
+          "benchmark": null
+        }
+      ]
+    }
+  },
+  "real_money_stake": 0,
+  "warning": "Latest archived price within four hours before kickoff; NOT verified closing odds. Same-book price movement and other-book no-vig comparison are research signals, not proof of profit."
+}

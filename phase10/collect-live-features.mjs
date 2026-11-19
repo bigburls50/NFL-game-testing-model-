@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {auditLiveFeatures} from './live-feature-gate.mjs';
+import {collectStadiumWeather} from './open-meteo-adapter.mjs';
 
 const MAX_BYTES=3_000_000;
 export async function fetchJson(url,{fetchImpl=fetch,timeoutMs=15000}={}){
@@ -20,7 +21,14 @@ export async function collectLiveFeatures(schedule,{sources={},fetchImpl=fetch,a
  const observations=[],sourcesAudit=[];
  for(const kind of ['qb','injury','weather']){
   const url=sources[kind];
-  if(!url){sourcesAudit.push({kind,status:'unconfigured'});continue;}
+  if(!url){
+   if(kind==='weather'){
+    const weather=await collectStadiumWeather(schedule,{fetchImpl,asOf});
+    observations.push(...weather.rows);
+    sourcesAudit.push({kind,status:weather.failures.length?'partial':'retrieved',rows:weather.rows.length,failed_games:weather.failures.length,provider:'Open-Meteo',failures:weather.failures});
+   }else sourcesAudit.push({kind,status:'unconfigured'});
+   continue;
+  }
   try{
    const result=await fetchJson(url,{fetchImpl});
    if(!Array.isArray(result.data))throw Error('Source must return a JSON array');

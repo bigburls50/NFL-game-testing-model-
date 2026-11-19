@@ -20,3 +20,8 @@ test('missing metrics and threshold changes cannot pass',()=>{
  assert.equal(releaseGate({...report,high_confidence_accuracy:null},evidence).ready,false);
  assert.equal(releaseGate({...report,threshold:.70},evidence).ready,false);
 });
+
+test('confidence interval excluding reported accuracy is rejected',()=>{
+ const r=releaseGate({...report,high_confidence_accuracy:.83,high_confidence_95ci:{lower:.90,upper:.97}},evidence);
+ assert.equal(r.ready,false);assert.ok(r.issues.some(x=>x.includes('inside its confidence interval')));
+});

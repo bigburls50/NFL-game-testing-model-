@@ -15,9 +15,9 @@ const evaluations=starters.evidence.map(d=>{
 });
 const confirmed=evaluations.filter(e=>e.status==='confirmed');
 const gate=acceptGameFeeds(manifest.games,{starterReports:confirmed,injuryReports:[],asOf:new Date().toISOString()});
-const starterAudit={...starters,roster_source_url:rosterResult.source_url??null,roster_source_digest:rosterResult.source_digest??null,roster_error:rosterResult.error??null,evaluations,confirmed_starters:confirmed.length,ready_for_forecast:false,warning:'Roster team assignment and article context require further verification before any forecast gate is opened.'};
+const starterAudit={...starters,roster_source_url:rosterResult.source_url??null,roster_source_digest:rosterResult.source_digest??null,roster_error:rosterResult.error??null,roster_diagnostic:rosterResult.diagnostic??null,evaluations,confirmed_starters:confirmed.length,ready_for_forecast:false,warning:'Roster team assignment and article context require further verification before any forecast gate is opened.'};
 fs.mkdirSync('phase10/data',{recursive:true});
 fs.writeFileSync('phase10/data/official-starter-source-audit.json',JSON.stringify(starterAudit,null,2)+'\n');
 fs.writeFileSync('phase10/data/official-injury-page-audit.json',JSON.stringify(injuries,null,2)+'\n');
 fs.writeFileSync('phase10/data/official-live-four-input-gate.json',JSON.stringify(gate,null,2)+'\n');
-console.log(JSON.stringify({starter_documents:starters.evidence.length,starter_errors:starters.errors.length,roster_ids:rosterResult.players.length,starter_candidates:confirmed.length,injury_page_digest:injuries.source_digest,verified_team_reports:0,gate_ready:gate.ready,gate_decisions:gate.games,ready_for_forecast:false}));
+console.log(JSON.stringify({starter_documents:starters.evidence.length,starter_errors:starters.errors.length,roster_ids:rosterResult.players.length,roster_diagnostic:rosterResult.diagnostic??null,starter_candidates:confirmed.length,injury_page_digest:injuries.source_digest,verified_team_reports:0,gate_ready:gate.ready,gate_decisions:gate.games,ready_for_forecast:false}));

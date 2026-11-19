@@ -13,6 +13,7 @@ export function releaseGate(report, evidence={}){
  if(!Number.isFinite(coverage)||coverage<.05||Math.abs(coverage-selected/n)>1e-8)issues.push('High-confidence coverage must be >=5% and consistent');
  if(!Number.isFinite(hit)||hit<.75)issues.push('High-confidence accuracy must be >=75%');
  if(!ci||!Number.isFinite(ci.lower)||!Number.isFinite(ci.upper)||ci.lower<.75||ci.upper>1||ci.lower>ci.upper)issues.push('95% confidence lower bound must be >=75%');
+ if(ci&&Number.isFinite(ci.lower)&&Number.isFinite(ci.upper)&&Number.isFinite(hit)&&(hit<ci.lower||hit>ci.upper))issues.push('Reported high-confidence accuracy must fall inside its confidence interval');
  if(evidence.prospective!==true)issues.push('Prospective predictions must be timestamped and locked before kickoff');
  if(evidence.point_in_time_features!==true)issues.push('All features must be proven available before kickoff');
  if(evidence.no_test_season_tuning!==true)issues.push('No test-season fitting or threshold selection');

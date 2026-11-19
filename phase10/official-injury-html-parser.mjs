@@ -11,7 +11,7 @@ export function parseOfficialInjuryHtml(html,schedule,{publishedAt=null,retrieve
   const placeholderObserved=matches.length===1 && /No Injuries Reported/i.test(matches[0].body);
   const candidate={game_id:game.game_id,team,source_url:sourceUrl,published_at_utc:publishedAt,retrieved_at_utc:retrievedAt,players:[],explicit_no_injuries:false,placeholder_observed:placeholderObserved,complete_report:false,source_type:'official_team_or_league',status:'unverified_page_section'};
   rows.push(candidate);
-  errors.push({game_id:game.game_id,team,reason:matches.length>1?'ambiguous_team_sections':!publishedAt?'missing_official_report_publication_time':'team_section_not_independently_verified'});
+  errors.push({game_id:game.game_id,team,reason:matches.length>1?'ambiguous_team_sections':matches.length===0?'missing_team_section':!publishedAt?'missing_official_report_publication_time':'team_section_not_independently_verified'});
  }
  return {reports:rows,errors,ready_for_forecast:false,warning:'No Injuries Reported may mean no report has been filed. HTML sections are never promoted to complete without an official timestamp and full game-specific report validation.'};
 }

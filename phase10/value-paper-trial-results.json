@@ -1,0 +1,231 @@
+{
+  "version": "phase10-market-anchor-research-v1",
+  "slates": {
+    "2026_11": {
+      "v2": [
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_IND_HOU",
+              "team": "Indianapolis Colts",
+              "home_team": "Houston Texans",
+              "away_team": "Indianapolis Colts",
+              "kickoff_utc": "2026-11-20T01:15:00.000Z",
+              "probability": 0.27331525891747876,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 6.25,
+              "price": 525,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8431284249150197,
+              "edge": 0.7082203682342423,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_ARI_KC",
+              "team": "Arizona Cardinals",
+              "home_team": "Kansas City Chiefs",
+              "away_team": "Arizona Cardinals",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.15899422852918876,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10,
+              "price": 900,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8932814947549402,
+              "edge": 0.5899422852918876,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_MIA_BUF",
+              "team": "Miami Dolphins",
+              "home_team": "Buffalo Bills",
+              "away_team": "Miami Dolphins",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.13704271458324369,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10.5,
+              "price": 950,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8993615161358283,
+              "edge": 0.43894850312405875,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        }
+      ],
+      "market_anchor": [
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 1.86,
+          "legs": [
+            {
+              "gameId": "2026_11_ARI_KC",
+              "team": "Arizona Cardinals",
+              "home_team": "Kansas City Chiefs",
+              "away_team": "Arizona Cardinals",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.10671850524505966,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10,
+              "price": 900,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8932814947549402,
+              "edge": 0.06718505245059658,
+              "stake": 1.86
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 1.49,
+          "legs": [
+            {
+              "gameId": "2026_11_MIA_BUF",
+              "team": "Miami Dolphins",
+              "home_team": "Buffalo Bills",
+              "away_team": "Miami Dolphins",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.10063848386417173,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10.5,
+              "price": 950,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8993615161358283,
+              "edge": 0.05670408057380327,
+              "stake": 1.49
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetRivers Ontario",
+          "stake": 3.3,
+          "legs": [
+            {
+              "gameId": "2026_11_TB_DET",
+              "team": "Tampa Bay Buccaneers",
+              "home_team": "Detroit Lions",
+              "away_team": "Tampa Bay Buccaneers",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.30343786527487626,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetRivers Ontario",
+              "book_key": "betrivers_ca_on",
+              "decimal": 3.4,
+              "price": 240,
+              "quote_updated": "2026-11-19T21:07:59Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betmgm_ca_on"
+              ],
+              "reference_home_probability": 0.6965621347251238,
+              "edge": 0.03168874193457927,
+              "stake": 3.3
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "v2": {
+      "settled": 0,
+      "won": 0,
+      "pending": 3,
+      "openExposure": 30,
+      "pnl": 0,
+      "roi": null,
+      "tickets": 3,
+      "turnover": 0,
+      "flat_unit_roi": null,
+      "completed_week_drawdown": 0
+    },
+    "market_anchor": {
+      "settled": 0,
+      "won": 0,
+      "pending": 3,
+      "openExposure": 6.65,
+      "pnl": 0,
+      "roi": null,
+      "tickets": 3,
+      "turnover": 0,
+      "flat_unit_roi": null,
+      "completed_week_drawdown": 0
+    }
+  },
+  "real_money_stake": 0,
+  "warning": "Locked quotes and paper stakes; results from final-score feed only. No real-money betting."
+}

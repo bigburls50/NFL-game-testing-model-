@@ -1,0 +1,171 @@
+{
+  "version": "phase10-market-anchor-research-v1",
+  "policy": {
+    "min_ev": 0.03,
+    "max_singles": 3,
+    "virtual_weekly_bankroll": 1000
+  },
+  "fit_weights_by_season": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+  },
+  "development_seasons": [
+    2023,
+    2024
+  ],
+  "holdout_seasons": [
+    2025,
+    2026
+  ],
+  "development": {
+    "games": 570,
+    "probability_metrics": {
+      "v2": {
+        "n": 570,
+        "accuracy": 0.6421052631578947,
+        "brier": 0.2226714082831469,
+        "log_loss": 0.6358259847439407
+      },
+      "market": {
+        "n": 570,
+        "accuracy": 0.6894736842105263,
+        "brier": 0.20980656120743807,
+        "log_loss": 0.6080921947970853
+      },
+      "blend": {
+        "n": 570,
+        "accuracy": 0.6894736842105263,
+        "brier": 0.20980656120743807,
+        "log_loss": 0.6080921947970853
+      }
+    },
+    "paper": {
+      "v2": {
+        "bets": 124,
+        "wins": 34,
+        "losses": 90,
+        "pushes": 0,
+        "win_rate": 0.27419354838709675,
+        "turnover": 1220.5699999999997,
+        "pnl": -102.87346552814674,
+        "roi": -0.08428313454217846,
+        "flat_unit_roi": -0.06737456897431189,
+        "weekly_drawdown": 0.20295824979072172,
+        "weekly_roi_bootstrap_95": [
+          -0.3460598435677947,
+          0.21247504527853872
+        ],
+        "ending_virtual_balance": 897.1265344718532
+      },
+      "market": {
+        "bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "turnover": 0,
+        "pnl": 0,
+        "roi": null,
+        "flat_unit_roi": null,
+        "weekly_drawdown": 0,
+        "weekly_roi_bootstrap_95": null,
+        "ending_virtual_balance": 1000
+      },
+      "blend": {
+        "bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "turnover": 0,
+        "pnl": 0,
+        "roi": null,
+        "flat_unit_roi": null,
+        "weekly_drawdown": 0,
+        "weekly_roi_bootstrap_95": null,
+        "ending_virtual_balance": 1000
+      }
+    }
+  },
+  "holdout": {
+    "games": 435,
+    "probability_metrics": {
+      "v2": {
+        "n": 433,
+        "accuracy": 0.628175519630485,
+        "brier": 0.2191100105631805,
+        "log_loss": 0.62745986873323
+      },
+      "market": {
+        "n": 433,
+        "accuracy": 0.6651270207852193,
+        "brier": 0.21137946963554122,
+        "log_loss": 0.6098341641856275
+      },
+      "blend": {
+        "n": 433,
+        "accuracy": 0.6651270207852193,
+        "brier": 0.21137946963554122,
+        "log_loss": 0.6098341641856275
+      }
+    },
+    "paper": {
+      "v2": {
+        "bets": 92,
+        "wins": 27,
+        "losses": 64,
+        "pushes": 1,
+        "win_rate": 0.2967032967032967,
+        "turnover": 914.5100000000001,
+        "pnl": 2.80463447350769,
+        "roi": 0.003066816626945238,
+        "flat_unit_roi": -0.00044061470270901037,
+        "weekly_drawdown": 0.08235689816904948,
+        "weekly_roi_bootstrap_95": [
+          -0.2568131868131868,
+          0.25259604913851
+        ],
+        "ending_virtual_balance": 1002.8046344735077
+      },
+      "market": {
+        "bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "turnover": 0,
+        "pnl": 0,
+        "roi": null,
+        "flat_unit_roi": null,
+        "weekly_drawdown": 0,
+        "weekly_roi_bootstrap_95": null,
+        "ending_virtual_balance": 1000
+      },
+      "blend": {
+        "bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "turnover": 0,
+        "pnl": 0,
+        "roi": null,
+        "flat_unit_roi": null,
+        "weekly_drawdown": 0,
+        "weekly_roi_bootstrap_95": null,
+        "ending_virtual_balance": 1000
+      }
+    }
+  },
+  "production_gate": {
+    "passed": false,
+    "reason": "Historical moneylines lack independently verified quote times/bookmaker identity. No proof of executable price or prospective profitability."
+  },
+  "warning": "Retrospective single quoted moneyline proxy, not Ontario quotes. Model and market blend only fitted on earlier seasons. Unit and fixed-bankroll paper bets capped at 3 per week; tied games push. Holdout overlaps previous model research.",
+  "source": {
+    "url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+    "sha256": "e6751c84ebf2320bfc5a1aa5b132063443b90ec05504767e1172ab7fd408deea"
+  }
+}

@@ -32,6 +32,8 @@ jobs:
       - run: node phase10/generate-provisional-feed.mjs --archive
       - run: node phase10/score-pregame-observations.mjs
         continue-on-error: true
+      - run: node phase10/run-value-paper-trial.mjs --capture
+        continue-on-error: true
       - name: Publish timestamped snapshot for Cloudflare assets
         run: |
           git config user.name 'github-actions[bot]'
@@ -39,5 +41,7 @@ jobs:
           git add phase10/live-predictions.json
           if [ -d phase10/pregame-observations ]; then git add phase10/pregame-observations; fi
           if [ -f phase10/pregame-observation-results.json ]; then git add phase10/pregame-observation-results.json; fi
+          if [ -d phase10/value-paper-trials ]; then git add phase10/value-paper-trials; fi
+          if [ -f phase10/value-paper-trial-results.json ]; then git add phase10/value-paper-trial-results.json; fi
           git diff --cached --quiet || git commit -m 'Refresh Phase 10 provisional prediction snapshot'
           git push origin HEAD:main

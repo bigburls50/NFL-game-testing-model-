@@ -1,0 +1,1072 @@
+{
+  "version": "phase10-market-anchor-research-v1",
+  "slate": "2026_11",
+  "locked_at_utc": "2026-11-19T21:08:21.911Z",
+  "model_metadata": {
+    "version": "phase10-causal-logistic-v2",
+    "digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+    "training_games": 2486,
+    "history_games": 2911,
+    "training_cutoff_date": "2026-11-19",
+    "training_last_season": 2025,
+    "feature_names": [
+      "home_venue",
+      "elo_difference",
+      "point_rating_difference",
+      "recent_margin_difference",
+      "opponent_adjusted_margin_difference",
+      "rest_difference"
+    ],
+    "coefficients": [
+      0.1146542476206262,
+      0.07932824252082023,
+      0.4242325105263421,
+      0.7683665169025022,
+      0.37611828483070464,
+      0.19365984087012428,
+      0.12896068003058733
+    ],
+    "validation": {
+      "holdout_seasons": [
+        2025,
+        2026
+      ],
+      "holdout": {
+        "incumbent": {
+          "n": 433,
+          "accuracy": 0.6304849884526559,
+          "brier": 0.22494577308111005,
+          "log_loss": 0.6406517431625892
+        },
+        "learned": {
+          "n": 433,
+          "accuracy": 0.628175519630485,
+          "brier": 0.2191100105631805,
+          "log_loss": 0.62745986873323
+        },
+        "market_on_available_subset": {
+          "n": 433,
+          "accuracy": 0.6651270207852193,
+          "brier": 0.21137946963554122,
+          "log_loss": 0.6098341641856275
+        },
+        "learned_on_market_subset": {
+          "n": 433,
+          "accuracy": 0.628175519630485,
+          "brier": 0.2191100105631805,
+          "log_loss": 0.62745986873323
+        },
+        "incumbent_on_market_subset": {
+          "n": 433,
+          "accuracy": 0.6304849884526559,
+          "brier": 0.22494577308111005,
+          "log_loss": 0.6406517431625892
+        }
+      },
+      "promotion_gate": {
+        "passed": true,
+        "requirements": "Lower Brier and log loss in both splits, no more than 1pp accuracy loss in either split."
+      },
+      "history_last_date": "2026-11-16"
+    }
+  },
+  "market_retrieved_at": "2026-11-19T21:08:21.887Z",
+  "market_source": "The Odds API",
+  "policy": {
+    "min_ev": 0.03,
+    "max_singles": 3,
+    "virtual_weekly_bankroll": 1000
+  },
+  "blend_model_weight": 0,
+  "model_games": 12,
+  "eligible_games": 12,
+  "games": [
+    {
+      "game_id": "2026_11_IND_HOU",
+      "home_team": "Houston Texans",
+      "away_team": "Indianapolis Colts",
+      "kickoff_utc": "2026-11-20T01:15:00.000Z",
+      "home_win_probability": 0.7266847410825212,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -700,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.1428571428571428,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 525,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 6.25,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.8454106280193238
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -714,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.1400560224089635,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 510,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 6.1,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.8425349170116454
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -770,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.12987012987013,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 510,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 6.1,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.8437219328183941
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "home_team": "Buffalo Bills",
+      "away_team": "Miami Dolphins",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.8629572854167563,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -1400,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.0714285714285714,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 950,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 10.5,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.9074074074074076
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -1429,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.0699790062981105,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 800,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 9,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.8937456567060458
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -2000,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.05,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 900,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 10,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.9049773755656108
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "home_team": "Carolina Panthers",
+      "away_team": "Baltimore Ravens",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.584350109950729,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -143,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.6993006993006992,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 118,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 2.1799999999999997,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.5619569528067202
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -145,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.6896551724137931,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 125,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.25,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.5711159737417943
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -150,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.6666666666666665,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 120,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 2.2,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.5689655172413793
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "home_team": "Chicago Bears",
+      "away_team": "New Orleans Saints",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.7872226333833431,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -625,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.16,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 450,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 5.5,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.8258258258258259
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -625,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.16,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 475,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 5.75,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.8321273516642547
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -670,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.1492537313432836,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 475,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 5.75,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.8334234721471064
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "home_team": "Dallas Cowboys",
+      "away_team": "Tennessee Titans",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.720723842086958,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -400,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.25,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 300,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 4,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.7619047619047619
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -417,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.2398081534772183,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 315,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 4.15,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.7699717470134146
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -425,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.2352941176470589,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 333,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 4.33,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.7780361483986893
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "home_team": "Detroit Lions",
+      "away_team": "Tampa Bay Buccaneers",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.6427019369053759,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -263,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.3802281368821292,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 210,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 3.1,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.6919290503267419
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -275,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.3636363636363638,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 220,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 3.2,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.7011952191235059
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -315,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.3174603174603174,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 240,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 3.4,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.7207267833109018
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "home_team": "Kansas City Chiefs",
+      "away_team": "Arizona Cardinals",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.8410057714708112,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -1400,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.0714285714285714,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 900,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 10,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.9032258064516129
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -1429,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.0699790062981105,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 775,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 8.75,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.891040601450179
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -2000,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.05,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 800,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 9,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.8955223880597014
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "home_team": "Philadelphia Eagles",
+      "away_team": "Pittsburgh Steelers",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "home_win_probability": 0.41984028230643744,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": 180,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 2.8,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": -222,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.4504504504504505,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.34124629080118696
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": 180,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 2.8,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": -225,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.4444444444444444,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.3403141361256544
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": 180,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.8,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": -220,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.4545454545454546,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.3418803418803419
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "home_team": "Los Angeles Chargers",
+      "away_team": "New York Jets",
+      "kickoff_utc": "2026-11-22T21:05:00.000Z",
+      "home_win_probability": 0.6206218129867674,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -165,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.606060606060606,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 140,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.4,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.5990922844175491
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -167,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.5988023952095807,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 140,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 2.4,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.6001796945193172
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -175,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.5714285714285714,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 135,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 2.35,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.599271402550091
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_JAX_NYG",
+      "home_team": "New York Giants",
+      "away_team": "Jacksonville Jaguars",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "home_win_probability": 0.26752803558952815,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": 225,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 3.25,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": -286,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.3496503496503496,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.29342455340174833
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": 220,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 3.2,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": -275,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.3636363636363638,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.298804780876494
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": 205,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 3.05,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": -256,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.390625,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.3131597466572837
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_LV_DEN",
+      "home_team": "Denver Broncos",
+      "away_team": "Las Vegas Raiders",
+      "kickoff_utc": "2026-11-22T21:25:00.000Z",
+      "home_win_probability": 0.7976379620498109,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -550,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.1818181818181819,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 425,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 5.25,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.8162544169611309
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -588,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.1700680272108843,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 420,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 5.2,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.81631781290047
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -590,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.1694915254237288,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 400,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 5,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.8104395604395604
+        }
+      ]
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "home_team": "San Francisco 49ers",
+      "away_team": "Minnesota Vikings",
+      "kickoff_utc": "2026-11-23T01:20:00.000Z",
+      "home_win_probability": 0.559073804863465,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -161,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.62111801242236,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "away": {
+            "price": 135,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 2.35,
+            "updated": "2026-11-19T21:07:58Z"
+          },
+          "no_vig_home_probability": 0.59177289434582
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -165,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.606060606060606,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "away": {
+            "price": 140,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.4,
+            "updated": "2026-11-19T21:07:57Z"
+          },
+          "no_vig_home_probability": 0.5990922844175491
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -167,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.5988023952095807,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "away": {
+            "price": 138,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 2.38,
+            "updated": "2026-11-19T21:07:59Z"
+          },
+          "no_vig_home_probability": 0.5981699425097072
+        }
+      ]
+    }
+  ],
+  "strategies": {
+    "v2": {
+      "tickets": [
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_IND_HOU",
+              "team": "Indianapolis Colts",
+              "home_team": "Houston Texans",
+              "away_team": "Indianapolis Colts",
+              "kickoff_utc": "2026-11-20T01:15:00.000Z",
+              "probability": 0.27331525891747876,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 6.25,
+              "price": 525,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8431284249150197,
+              "edge": 0.7082203682342423,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_ARI_KC",
+              "team": "Arizona Cardinals",
+              "home_team": "Kansas City Chiefs",
+              "away_team": "Arizona Cardinals",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.15899422852918876,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10,
+              "price": 900,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8932814947549402,
+              "edge": 0.5899422852918876,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_11_MIA_BUF",
+              "team": "Miami Dolphins",
+              "home_team": "Buffalo Bills",
+              "away_team": "Miami Dolphins",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.13704271458324369,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10.5,
+              "price": 950,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8993615161358283,
+              "edge": 0.43894850312405875,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        }
+      ],
+      "eligible_selections": 3
+    },
+    "market_anchor": {
+      "tickets": [
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 1.86,
+          "legs": [
+            {
+              "gameId": "2026_11_ARI_KC",
+              "team": "Arizona Cardinals",
+              "home_team": "Kansas City Chiefs",
+              "away_team": "Arizona Cardinals",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.10671850524505966,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10,
+              "price": 900,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8932814947549402,
+              "edge": 0.06718505245059658,
+              "stake": 1.86
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 1.49,
+          "legs": [
+            {
+              "gameId": "2026_11_MIA_BUF",
+              "team": "Miami Dolphins",
+              "home_team": "Buffalo Bills",
+              "away_team": "Miami Dolphins",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.10063848386417173,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 10.5,
+              "price": 950,
+              "quote_updated": "2026-11-19T21:07:57Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betrivers_ca_on"
+              ],
+              "reference_home_probability": 0.8993615161358283,
+              "edge": 0.05670408057380327,
+              "stake": 1.49
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetRivers Ontario",
+          "stake": 3.3,
+          "legs": [
+            {
+              "gameId": "2026_11_TB_DET",
+              "team": "Tampa Bay Buccaneers",
+              "home_team": "Detroit Lions",
+              "away_team": "Tampa Bay Buccaneers",
+              "kickoff_utc": "2026-11-22T18:00:00.000Z",
+              "probability": 0.30343786527487626,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:8d08f822a666313f689dec8fe9e8386eae2dd5470b72161aa77347910a51f4c0",
+              "prediction_created_utc": "2026-11-19T20:30:41.198Z",
+              "book": "BetRivers Ontario",
+              "book_key": "betrivers_ca_on",
+              "decimal": 3.4,
+              "price": 240,
+              "quote_updated": "2026-11-19T21:07:59Z",
+              "reference_books": [
+                "betano_ca_on",
+                "betmgm_ca_on"
+              ],
+              "reference_home_probability": 0.6965621347251238,
+              "edge": 0.03168874193457927,
+              "stake": 3.3
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-19T21:08:21.911Z"
+        }
+      ],
+      "eligible_selections": 3
+    }
+  },
+  "real_money_stake": 0,
+  "warning": "Paper trial only; indicative Ontario quotes, no execution. Market anchor uses other books as reference, not true known probability. No wagers. Weekly stakes fixed to virtual $1,000.",
+  "sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423"
+}

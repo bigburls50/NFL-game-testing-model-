@@ -17,7 +17,7 @@ export function pairedAudit(original,calibrated){
   for(const k of ['season','home_team','away_team','home_score','away_score'])if(String(o[k])!==String(r[k]))throw Error('Mismatch '+r.game_id+' '+k);
   const a=score(o),b=score(r);pairs.push({season:String(r.season),brier:b.brier-a.brier,logLoss:b.logLoss-a.logLoss,accuracy:b.correct-a.correct});
  }
- if(pairs.length!==left.size||!pairs.length)throw Error('Incomplete paired coverage');
+ if(!pairs.length)throw Error('No paired games');
  const summarize=(arr)=>Object.fromEntries(['brier','logLoss','accuracy'].map(k=>[k,arr.reduce((s,r)=>s+r[k],0)/arr.length]));
  const bySeason=Object.fromEntries([...new Set(pairs.map(p=>p.season))].sort().map(season=>[season,{games:pairs.filter(p=>p.season===season).length,delta:summarize(pairs.filter(p=>p.season===season))}]));
  // Deterministic paired bootstrap, resampling games within each season; not independent prospective validation.

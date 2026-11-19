@@ -7,7 +7,7 @@ export async function fetchNflverseDepthCharts(season,{fetchImpl=fetch}={}){
  const url=`https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_${season}.csv`;
  const response=await fetchImpl(url,{redirect:'follow',signal:AbortSignal.timeout(15000)});
  if(!response.ok)throw Error('depth_chart_http_'+response.status);
- const raw=Buffer.from(await response.arrayBuffer());if(raw.length>20000000)throw Error('depth_chart_too_large');
+ const raw=Buffer.from(await response.arrayBuffer());if(raw.length>100000000)throw Error('depth_chart_too_large');
  const rows=parseCSV((raw[0]===31&&raw[1]===139?gunzipSync(raw):raw).toString('utf8'));
  const columns=Object.keys(rows[0]??{});
  const pick=(...keys)=>keys.find(k=>columns.includes(k));

@@ -2,6 +2,7 @@
 // Candidate observations remain research-only until player IDs and report timestamps verify.
 import {parseCSV} from './baseline.mjs';
 import {createHash} from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
 export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
  if(!Number.isInteger(season)||season<2020||season>2100)throw Error('Invalid season');
  const url='https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_'+season+'.csv';
@@ -9,7 +10,8 @@ export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
  if(!response.ok)throw Error('Injury source HTTP '+response.status);
  const raw=Buffer.from(await response.arrayBuffer());
  if(raw.length>15_000_000)throw Error('Injury file exceeds size limit');
- const rows=parseCSV(raw.toString('utf8'));
+ const decoded=raw[0]===0x1f&&raw[1]===0x8b?gunzipSync(raw):raw;
+ const rows=parseCSV(decoded.toString('utf8'));
  const fields=rows[0]??{};
  if(!('team' in fields)||!('week' in fields))throw Error('Unexpected injury source schema');
  return {source_url:url,source_digest:'sha256:'+createHash('sha256').update(raw).digest('hex'),rows,warning:'Player injuries are candidate data, not a complete verified weekly team report. Confirm published dates and player IDs before forecast use.'};

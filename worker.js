@@ -4,6 +4,25 @@ export default {
  async fetch(request,env){
   const url=new URL(request.url);
   if(url.pathname==='/api/health')return reply({status:'ok',service:'nfl-game-testing-model',hosting:'cloudflare-workers',time:new Date().toISOString(),odds_configured:Boolean(env.ODDS_API_KEY)});
+  if(url.pathname==='/api/predictions'){
+   if(request.method!=='GET')return reply({error:'Method not allowed'},405);
+   // Phase 10 historical evaluation is not a live prediction feed.
+   // Never manufacture a live pick from retrospective calibration artifacts.
+   if(!env.VERIFIED_PREDICTIONS_JSON)return reply({status:'unavailable',model:'phase10',verified:false,predictions:[],reason:'No independently verified, timestamped live prediction feed is configured.'});
+   let records;
+   try{records=JSON.parse(env.VERIFIED_PREDICTIONS_JSON)}catch{return reply({error:'Invalid prediction feed configuration',predictions:[]},503)}
+   if(!Array.isArray(records))return reply({error:'Prediction feed must be an array',predictions:[]},503);
+   const now=Date.now(),seen=new Set(),predictions=[];
+   for(const p of records){
+    if(!p||typeof p!=='object'||typeof p.game_id!=='string'||!p.game_id||seen.has(p.game_id))continue;
+    const kickoff=Date.parse(p.kickoff_utc),created=Date.parse(p.prediction_created_utc),qb=Date.parse(p.qb_verified_utc),injury=Date.parse(p.injuries_verified_utc);
+    if(![kickoff,created,qb,injury].every(Number.isFinite)||created>=kickoff||qb>=kickoff||injury>=kickoff||now>=kickoff||now-created>24*3600000||now-qb>48*3600000||now-injury>48*3600000)continue;
+    if(p.model_version!=='phase10'||p.qb_verified!==true||p.injuries_verified===undefined||p.injuries_verified!==true||p.source_verified!==true||!p.qb_source||!p.injury_source)continue;
+    if(typeof p.home_team!=='string'||typeof p.away_team!=='string'||!Number.isFinite(p.home_win_probability)||p.home_win_probability<=0||p.home_win_probability>=1)continue;
+    seen.add(p.game_id);predictions.push({game_id:p.game_id,kickoff_utc:p.kickoff_utc,home_team:p.home_team,away_team:p.away_team,home_win_probability:p.home_win_probability,model_version:p.model_version,prediction_created_utc:p.prediction_created_utc,status:'verified',qb_verified_utc:p.qb_verified_utc,injuries_verified_utc:p.injuries_verified_utc});
+   }
+   return reply({status:predictions.length?'available':'unavailable',model:'phase10',verified:predictions.length>0,predictions,reason:predictions.length?'':'No eligible independently verified upcoming predictions.'});
+  }
   if(url.pathname==='/.netlify/functions/odds'||url.pathname==='/api/odds'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    if(!env.ODDS_API_KEY)return reply({error:'ODDS_API_KEY is not configured as a Cloudflare Worker secret.'},503);

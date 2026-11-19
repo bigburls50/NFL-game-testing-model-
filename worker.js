@@ -1,3 +1,4 @@
+import {publicPredictions} from './phase10/public-predictions.mjs';
 const JSON_HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 function reply(body,status=200){return new Response(JSON.stringify(body),{status,headers:JSON_HEADERS});}
 export default {
@@ -44,7 +45,9 @@ export default {
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    // Phase 10 historical evaluation is not a live prediction feed.
    // Never manufacture a live pick from retrospective calibration artifacts.
-   if(!env.VERIFIED_PREDICTIONS_JSON)return reply({status:'unavailable',model:'phase10',verified:false,predictions:[],reason:'No independently verified, timestamped live prediction feed is configured.'});
+   let provisional={predictions:[],games:[],reason:'Provisional snapshot unavailable'};
+   try{if(env.ASSETS){const r=await env.ASSETS.fetch(new Request(new URL('/phase10/live-predictions.json',url)));if(r.ok)provisional=publicPredictions(await r.json());}}catch{}
+   if(!env.VERIFIED_PREDICTIONS_JSON)return reply({...provisional,status:provisional.predictions.length?'available':'unavailable',model:'phase10',verified:false});
    let records;
    try{records=JSON.parse(env.VERIFIED_PREDICTIONS_JSON)}catch{return reply({error:'Invalid prediction feed configuration',predictions:[]},503)}
    if(!Array.isArray(records))return reply({error:'Prediction feed must be an array',predictions:[]},503);
@@ -57,7 +60,8 @@ export default {
     if(typeof p.home_team!=='string'||typeof p.away_team!=='string'||!Number.isFinite(p.home_win_probability)||p.home_win_probability<=0||p.home_win_probability>=1)continue;
     seen.add(p.game_id);predictions.push({game_id:p.game_id,kickoff_utc:p.kickoff_utc,home_team:p.home_team,away_team:p.away_team,home_win_probability:p.home_win_probability,model_version:p.model_version,prediction_created_utc:p.prediction_created_utc,status:'verified',qb_verified_utc:p.qb_verified_utc,injuries_verified_utc:p.injuries_verified_utc});
    }
-   return reply({status:predictions.length?'available':'unavailable',model:'phase10',verified:predictions.length>0,predictions,reason:predictions.length?'':'No eligible independently verified upcoming predictions.'});
+   const combined=[...predictions,...provisional.predictions.filter(p=>!predictions.some(v=>v.game_id===p.game_id||(v.home_team===p.home_team&&v.away_team===p.away_team&&Date.parse(v.kickoff_utc)===Date.parse(p.kickoff_utc))))];
+   return reply({...provisional,status:combined.length?'available':'unavailable',model:'phase10',verified:predictions.length>0,predictions:combined});
   }
   if(url.pathname==='/.netlify/functions/odds'||url.pathname==='/api/odds'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);

@@ -1,0 +1,17 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {fitEnsemble,runProvisionalPipeline} from './run-provisional-pipeline.mjs';
+import {eloPredict} from './elo.mjs';
+import {predictMatchups} from './matchups.mjs';
+import {publicPredictions} from './public-predictions.mjs';
+import {kickoffUtc} from './generate-provisional-feed.mjs';
+const asOf='2026-11-19T18:30:00Z';
+const match={game_id:'future',season:2026,week:11,home_team:'BUF',away_team:'MIA',kickoff_utc:'2026-11-22T18:00:00Z'};
+const historicalGames=Array.from({length:104},(_,i)=>({game_id:'history'+i,season:2025,week:1+i%18,game_type:'REG',gameday:new Date(Date.UTC(2025,0,i+1)).toISOString().slice(0,10),home_team:i%2?'BUF':'MIA',away_team:i%2?'MIA':'BUF',home_score:i%2?30:10,away_score:i%2?10:30}));
+const roster= ['BUF','MIA'].map((team,i)=>({team,position:'QB',player_id:'00-123456'+i,player_name:team+' QB'}));
+const rosterFetch=async()=>({players:roster,source_url:'https://github.com/nflverse/roster',source_digest:'digest'});
+const depthFetch=async()=>({rows:roster.map(p=>({...p,rank:1,week:11})),keys:{teamKey:'team',positionKey:'position',idKey:'player_id',rankKey:'rank',weekKey:'week'},source_url:'https://github.com/nflverse/depth',source_digest:'digest'});
+const injuryFetch=async()=>({source_url:'https://github.com/nflverse/injuries',source_digest:'digest',source_updated_at_utc:asOf,rows:roster.map(p=>({team:p.team,week:11,gsis_id:p.player_id,full_name:p.player_name,report_status:'Questionable'}))});
+test('fitted ensemble matches historical backtest algorithms and excludes future results',()=>{const m=fitEnsemble(historicalGames,{asOf,season:2026});const target={...match,gameday:'2026-11-22',game_type:'REG',home_score:20,away_score:10};const e=eloPredict([...historicalGames,target]).at(-1).home_win_probability;const p=predictMatchups([...historicalGames,target]).at(-1).home_win_probability;assert.equal(m.predict(match).home_win_probability,(e+p)/2);const future=fitEnsemble([...historicalGames,target],{asOf,season:2026});assert.equal(future.digest,m.digest);assert.equal(future.predict(match).home_win_probability,m.predict(match).home_win_probability)});
+test('collector -> model -> gate -> public feed; stale data and missing teams abstain',async()=>{const manifest={season:2026,week:11,games:[match]};const options={asOf,historicalGames,rosterFetch,depthFetch,injuryFetch};const feed=await runProvisionalPipeline(manifest,options);assert.equal(feed.games[0].status,'provisional');assert.equal(publicPredictions(feed,Date.parse(asOf)).predictions.length,1);assert.equal(publicPredictions(feed,Date.parse(asOf)+25*3600000).predictions.length,0);const missing=await runProvisionalPipeline(manifest,{...options,injuryFetch:async()=>({...await injuryFetch(),rows:[]})});assert.equal(missing.games[0].status,'abstain');assert.equal(missing.games[0].home_win_probability,undefined);const stale=await runProvisionalPipeline(manifest,{...options,injuryFetch:async()=>({...await injuryFetch(),source_updated_at_utc:'2026-11-15T18:00:00Z'})});assert.equal(stale.games[0].status,'abstain')});
+test('schedule dates interpreted in Eastern time',()=>{assert.equal(kickoffUtc('2026-11-19','20:15'),'2026-11-20T01:15:00.000Z');assert.equal(kickoffUtc('2026-09-13','13:00'),'2026-09-13T17:00:00.000Z')});

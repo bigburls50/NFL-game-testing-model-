@@ -1,0 +1,11 @@
+export const TEAM_NAMES={ARI:'Arizona Cardinals',ATL:'Atlanta Falcons',BAL:'Baltimore Ravens',BUF:'Buffalo Bills',CAR:'Carolina Panthers',CHI:'Chicago Bears',CIN:'Cincinnati Bengals',CLE:'Cleveland Browns',DAL:'Dallas Cowboys',DEN:'Denver Broncos',DET:'Detroit Lions',GB:'Green Bay Packers',HOU:'Houston Texans',IND:'Indianapolis Colts',JAX:'Jacksonville Jaguars',KC:'Kansas City Chiefs',LA:'Los Angeles Rams',LAR:'Los Angeles Rams',LAC:'Los Angeles Chargers',LV:'Las Vegas Raiders',MIA:'Miami Dolphins',MIN:'Minnesota Vikings',NE:'New England Patriots',NO:'New Orleans Saints',NYG:'New York Giants',NYJ:'New York Jets',PHI:'Philadelphia Eagles',PIT:'Pittsburgh Steelers',SEA:'Seattle Seahawks',SF:'San Francisco 49ers',TB:'Tampa Bay Buccaneers',TEN:'Tennessee Titans',WAS:'Washington Commanders'};
+export function publicPredictions(feed,now=Date.now()){
+ const fresh=(t,hours)=>Number.isFinite(Date.parse(t))&&Date.parse(t)<=now&&now-Date.parse(t)<=hours*3600000;
+ if(!feed||!Array.isArray(feed.games))return {predictions:[],games:[],reason:'No Phase 10 snapshot'};
+ const games=feed.games.filter(g=>Date.parse(g.kickoff_utc)>now).map(g=>{
+  const names={game_id:g.game_id,home_team:TEAM_NAMES[g.home_team]??g.home_team,away_team:TEAM_NAMES[g.away_team]??g.away_team,kickoff_utc:g.kickoff_utc};
+  const eligible=g.status==='provisional'&&fresh(feed.generated_at_utc,24)&&fresh(g.generated_at_utc,24)&&g.model_version===feed.model?.version&&g.model_digest===feed.model?.digest&&/^sha256:[a-f0-9]{64}$/.test(g.model_digest)&&g.home_win_probability>0&&g.home_win_probability<1&&[g.home_team,g.away_team].every(t=>{const e=g.team_evidence?.[t];return e&&/^00-\d{7}$/.test(e.projected_qb_id)&&fresh(e.injury_updated_at_utc,36)&&fresh(e.injury_checked_at_utc,36)});
+  return eligible?{...names,status:'provisional',home_win_probability:g.home_win_probability,model_version:g.model_version,model_digest:g.model_digest,prediction_created_utc:g.generated_at_utc,team_evidence:g.team_evidence,betting_status:'hold'}:{...names,status:'abstain',reasons:g.status==='provisional'?['stale_or_invalid_snapshot']:g.reasons??['missing_evidence']};
+ });
+ return {games,predictions:games.filter(g=>g.status==='provisional'),snapshot_generated_at_utc:feed.generated_at_utc,model_metadata:feed.model,reason:feed.reason??''};
+}

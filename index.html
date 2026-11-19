@@ -72,30 +72,32 @@ const [odds,verifiedFeed,weekly]=await Promise.all([json('/api/odds'),json('/api
 const feeds=weekly.filter(x=>x.status==='fulfilled'&&Array.isArray(x.value.events));if(feeds.length!==18)throw Error('Only '+feeds.length+'/18 weekly feeds loaded. Analysis withheld to avoid incomplete history.');
 const hist=feeds.flatMap(x=>x.value.events.map(gameFromEvent).filter(g=>g&&g.done&&Number.isFinite(g.hs)&&Number.isFinite(g.as)));
 const unique=[...new Map(hist.map(g=>[g.date+'|'+g.a+'|'+g.h,g])).values()];
-const results=[],skipped=[];const verified=new Map((verifiedFeed.predictions||[]).filter(p=>p.status==='verified').map(p=>[norm(p.away_team)+'|'+norm(p.home_team)+'|'+Date.parse(p.kickoff_utc),p]));
+const results=[],skipped=[];const verified=new Map((verifiedFeed.predictions||[]).filter(p=>['verified','provisional'].includes(p.status)).map(p=>[norm(p.away_team)+'|'+norm(p.home_team)+'|'+Date.parse(p.kickoff_utc),p]));
 for(const g of odds.games||[]){if(Date.parse(g.commence_time)<=Date.now())continue;
 const candidate=feeds.flatMap(x=>x.value.events.map(gameFromEvent).filter(Boolean)).find(e=>Math.abs(Date.parse(e.date)-Date.parse(g.commence_time))<36*3600000&&norm(e.an)===norm(g.away_team)&&norm(e.hn)===norm(g.home_team));
 if(!candidate){skipped.push(g.home_team+': unmatched schedule');continue}
 const date=Date.parse(g.commence_time),a=strength(candidate.a,unique,date),h=strength(candidate.h,unique,date);
-if(Math.min(a.n,h.n)<3){skipped.push(g.home_team+': insufficient prior games');continue}
+const live=[...verified.values()].find(p=>norm(p.away_team)===norm(g.away_team)&&norm(p.home_team)===norm(g.home_team)&&Math.abs(Date.parse(p.kickoff_utc)-date)<3600000);
+if(!live&&(verifiedFeed.games||[]).some(p=>p.status==='abstain'&&norm(p.away_team)===norm(g.away_team)&&norm(p.home_team)===norm(g.home_team)&&Math.abs(Date.parse(p.kickoff_utc)-date)<3600000)){skipped.push(g.home_team+': Phase 10 abstain');continue}
+if(!live&&Math.min(a.n,h.n)<3){skipped.push(g.home_team+': insufficient prior games');continue}
 const margin=2+.72*(h.v-a.v),rawHp=Math.max(.15,Math.min(.85,1/(1+Math.exp(-margin/10.5))));
-const live=[...verified.values()].find(p=>norm(p.away_team)===norm(g.away_team)&&norm(p.home_team)===norm(g.home_team)&&Math.abs(Date.parse(p.kickoff_utc)-date)<3600000);const hp=live?live.home_win_probability:.5+.75*(rawHp-.5); // verified Phase 10 prediction overrides heuristic; otherwise research-only
+const hp=live?live.home_win_probability:.5+.75*(rawHp-.5); // Phase 10 prediction overrides heuristic
 for(const [team,p] of [[g.home_team,hp],[g.away_team,1-hp]])for(const b of g.bookmakers||[])for(const o of b.outcomes||[]){
 if(norm(o.name)!==norm(team)||!Number.isFinite(o.price)||Math.abs(o.price)<100)continue;if(!b.last_update||!Number.isFinite(Date.parse(b.last_update))||Date.now()-Date.parse(b.last_update)>30*60*1000||Date.parse(b.last_update)>Date.now()+5*60*1000)continue;
 const imp=implied(o.price),roi=p*decimal(o.price)-1;
-results.push({game:g.away_team+' @ '+g.home_team,kickoff:g.commence_time,team,book:b.title,price:o.price,updated:b.last_update,p,imp,roi,edge:p-imp,samples:a.n+' / '+h.n,verified:!!live,model:live?'Phase 10':'Experimental heuristic'});
+results.push({game:g.away_team+' @ '+g.home_team,kickoff:g.commence_time,team,book:b.title,price:o.price,updated:b.last_update,p,imp,roi,edge:p-imp,samples:a.n+' / '+h.n,verified:live?.status==='verified',provisional:live?.status==='provisional',model:live?'Phase 10 '+live.model_version:'Experimental heuristic'});
 }}
 results.sort((a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff)||b.roi-a.roi);
 status.textContent='Analysis complete · '+new Date(odds.retrieved_at).toLocaleString('en-CA')+' · '+results.length+' matched quotes · '+skipped.length+' matchups skipped · regional odds NOT verified for Ontario';
 const positive=results.filter(x=>x.roi>0);
 const best=new Map();for(const x of positive){const key=x.game+'|'+x.team;const prior=best.get(key);if(!prior||x.roi>prior.roi)best.set(key,x)}
-const display=[...best.values()].sort((a,b)=>Number(b.verified)-Number(a.verified)||b.p-a.p||b.roi-a.roi).slice(0,16);
+const display=[...best.values()].sort((a,b)=>Number(b.verified)-Number(a.verified)||Number(b.provisional)-Number(a.provisional)||b.p-a.p||b.roi-a.roi).slice(0,16);
 const note=document.createElement('div');note.className='phase9-note';note.textContent='PRELIMINARY RESEARCH ONLY · Quotes older than 30 minutes or without valid timestamps are excluded. Ranked by estimated win probability, not expected betting profit. The 1–10 score is the experimental win percentage rounded to tenths, NOT a verified confidence rating. Highlighting is for research, not a best-bet recommendation. Experimental estimates are PROVISIONAL RESEARCH, not verified picks. ABSTAIN applies when required data or a usable model estimate is unavailable. No selection is an actionable Ontario bet without verified local odds. Phase 10 predictions override the heuristic only when verified live records exist. '+positive.length+' hypothetical positive-EV quotes across '+display.length+' displayed selections (best quote per team). Minimum five prior games per team. Probabilities shrunk 25% toward 50%; this is a heuristic, NOT validated calibration. Positive EV is not proof of a profitable opportunity.';root.append(note);
 if(!display.length){const p=document.createElement('p');p.textContent='No positive model-based expected value found. This is not evidence of market efficiency.';root.append(p);return}
 for(const x of display){
 const card=document.createElement('article');card.className='ev-card';if(x.verified)card.classList.add('ev-model-verified');const score=Math.max(1,Math.min(10,Math.round(x.p*10)));if(score>=7)card.classList.add('ev-highlight');
 const heading=document.createElement('h3');heading.textContent=x.team;const matchup=document.createElement('p');matchup.className='ev-meta';matchup.textContent=x.game+' · '+new Date(x.kickoff).toLocaleString('en-CA',{dateStyle:'medium',timeStyle:'short'});
-const top=document.createElement('div');top.className='ev-top';const badge=document.createElement('span');badge.className='ev-badge';badge.textContent=x.verified?'VERIFIED MODEL · Ontario odds unverified':'PROVISIONAL RESEARCH · Ontario odds unverified';const book=document.createElement('span');book.className='ev-book';book.textContent=x.book+' '+(x.price>0?'+':'')+x.price;top.append(book,badge);
+const top=document.createElement('div');top.className='ev-top';const badge=document.createElement('span');badge.className='ev-badge';badge.textContent=x.verified?'VERIFIED MODEL · Ontario odds unverified':x.provisional?'PHASE 10 PROVISIONAL · Ontario odds unverified':'EXPERIMENTAL HEURISTIC · Ontario odds unverified';const book=document.createElement('span');book.className='ev-book';book.textContent=x.book+' '+(x.price>0?'+':'')+x.price;top.append(book,badge);
 const rating=document.createElement('div');rating.className='ev-rating';rating.textContent='Estimated win score '+score+'/10 · '+x.model+(x.verified?' · VERIFIED MODEL':' · PROVISIONAL');rating.setAttribute('aria-label','Experimental win probability score '+score+' out of 10. Not a verified betting recommendation.');const metrics=document.createElement('div');metrics.className='ev-metrics';
 for(const [label,value] of [['Unvalidated win estimate',(x.p*100).toFixed(1)+'%'],['Break-even',(x.imp*100).toFixed(1)+'%'],['Hypothetical edge',((x.edge)*100).toFixed(1)+' pts'],['Hypothetical EV / $10','$'+(x.roi*10).toFixed(2)]]){const cell=document.createElement('div'),sm=document.createElement('small'),strong=document.createElement('strong');sm.textContent=label;strong.textContent=value;cell.append(sm,strong);metrics.append(cell)}
 const decision=document.createElement('p');decision.className='ev-caution';decision.textContent=x.verified?'Verified model prediction. Betting action: HOLD until the sportsbook offer is confirmed available in Ontario.':'Provisional research estimate: current game history available, but starting QB and injury evidence have not been certified. Betting action: HOLD; not a verified pick.';const caution=document.createElement('p');caution.className='ev-caution';caution.textContent='Last quote: '+(x.updated?new Date(x.updated).toLocaleString('en-CA'):'unknown')+' · Prior games away/home: '+x.samples+'. No injuries, quarterback confirmation, weather or verified Ontario availability.';
@@ -104,7 +106,7 @@ card.append(matchup,heading,rating,top,metrics,decision,caution);root.append(car
 const foot=document.createElement('p');foot.className='source-note';foot.textContent='Phase 9 research preview: model uses recent score margins and 25% shrinkage toward 50% to reduce extreme confidence. At least five prior games per team required. This is not trained or calibrated on held-out data and may still be inaccurate. Quotes are regional, may be stale, and do not represent confirmed Ontario offers. Results are hypothetical; no bets are placed.';root.append(foot);
 }catch(e){status.textContent='Analysis unavailable: '+e.message}finally{btn.disabled=false}});
 })();
-<script>
+</script><script>
 (()=>{'use strict';
 const btn=document.getElementById('verificationRefresh'),status=document.getElementById('verificationStatus'),root=document.getElementById('verificationGames');let busy=false;
 async function refresh(){if(busy)return;busy=true;btn.disabled=true;status.textContent='Checking upcoming game evidence…';
@@ -117,4 +119,4 @@ if(!data.games.length){const p=document.createElement('p');p.className='muted';p
 }catch(e){status.textContent='Verification unavailable: '+e.message+' · ABSTAIN';root.replaceChildren()}finally{busy=false;btn.disabled=false}}
 btn.addEventListener('click',refresh);refresh();document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 })();
-</script></script></body></html>
+</script><script type="module" src="./phase10/dashboard.mjs"></script></body></html>

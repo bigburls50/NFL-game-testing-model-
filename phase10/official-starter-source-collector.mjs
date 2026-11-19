@@ -1,0 +1,21 @@
+// Source collector for official team/NFL announcement pages. Discovery URLs must be configured.
+import {createHash} from 'node:crypto';
+export async function collectOfficialStarterEvidence(sources,{fetchImpl=fetch,asOf=new Date().toISOString()}={}){
+ if(!Array.isArray(sources))throw Error('Official source configuration required');
+ const evidence=[],errors=[];
+ for(const [i,s] of sources.entries()){
+  try{
+   const url=new URL(s.url);
+   if(url.protocol!=='https:'||!(url.hostname==='nfl.com'||url.hostname.endsWith('.nfl.com')||s.approved_team_hostname===url.hostname))throw Error('unapproved_host');
+   const response=await fetchImpl(url.toString(),{redirect:'follow',signal:AbortSignal.timeout(12000)});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const html=await response.text();
+   if(html.length>2000000)throw Error('oversized_document');
+   const published=s.published_at_utc;
+   if(!published||!Number.isFinite(Date.parse(published))||Date.parse(published)>Date.parse(asOf))throw Error('missing_or_future_publication_timestamp');
+   // Do not infer confirmation from text matches: evidence is pending independent review.
+   evidence.push({game_id:s.game_id,team:s.team,source_url:url.toString(),published_at_utc:published,retrieved_at_utc:asOf,document_sha256:'sha256:'+createHash('sha256').update(html).digest('hex'),review_status:'pending_explicit_starter_confirmation',status:'unconfirmed'});
+  }catch(e){errors.push({index:i,reason:e.message});}
+ }
+ return {evidence,errors,confirmed_starters:0,ready_for_forecast:false,warning:'Source retrieval is automated; starter confirmation requires explicit independently verified evidence. No automatic promotion of article text or projected depth charts.'};
+}

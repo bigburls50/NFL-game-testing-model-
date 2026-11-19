@@ -13,14 +13,14 @@ export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
  const decoded=raw[0]===0x1f&&raw[1]===0x8b?gunzipSync(raw):raw;
  const rows=parseCSV(decoded.toString('utf8'));
  const fields=rows[0]??{};
- if(!('team' in fields)||!('week' in fields))throw Error('Unexpected injury source schema');
+ if(!['team','week','gsis_id','full_name','report_status','practice_status','date_modified'].every(k=>k in fields))throw Error('Unexpected injury source schema');
  return {source_url:url,source_digest:'sha256:'+createHash('sha256').update(raw).digest('hex'),rows,warning:'Player injuries are candidate data, not a complete verified weekly team report. Confirm published dates and player IDs before forecast use.'};
 }
 export function injuryCandidates(source,week,teams){
  const teamSet=new Set(teams);
  return source.rows.filter(r=>Number(r.week)===week&&teamSet.has(r.team)).map(r=>({
  team:r.team,week:Number(r.week),player_id:r.gsis_id||r.player_id||null,player_name:r.full_name||r.player_name||null,
- practice_status:r.report_status||r.practice_status||null,game_status:r.game_status||null,
+ practice_status:r.practice_status||null,game_status:r.report_status||null,
  report_date:r.date_modified||r.report_date||null,source_url:source.source_url,source_digest:source.source_digest
  }));
 }

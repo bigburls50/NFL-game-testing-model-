@@ -1,4 +1,5 @@
 import {publicPredictions} from './phase10/public-predictions.mjs';
+const ONTARIO_BOOKS={betmgm_ca_on:'BetMGM Ontario',betano_ca_on:'Betano Ontario',betrivers_ca_on:'BetRivers Ontario'};
 const JSON_HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 function reply(body,status=200){return new Response(JSON.stringify(body),{status,headers:JSON_HEADERS});}
 export default {
@@ -63,6 +64,11 @@ export default {
    const combined=[...predictions,...provisional.predictions.filter(p=>!predictions.some(v=>v.game_id===p.game_id||(v.home_team===p.home_team&&v.away_team===p.away_team&&Date.parse(v.kickoff_utc)===Date.parse(p.kickoff_utc))))];
    return reply({...provisional,status:combined.length?'available':'unavailable',model:'phase10',verified:predictions.length>0,predictions:combined});
   }
+  if(url.pathname==='/api/results'){
+   if(request.method!=='GET')return reply({error:'Method not allowed'},405);
+   const day=url.searchParams.get('date')??'';if(!/^\d{8}$/.test(day))return reply({error:'Expected YYYYMMDD date'},400);
+   try{const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates='+day+'&limit=50',{signal:AbortSignal.timeout(10000)});if(!r.ok)throw Error();const body=await r.json();if(!Array.isArray(body.events))throw Error();const games=body.events.flatMap(e=>{const c=e.competitions?.[0],h=c?.competitors?.find(t=>t.homeAway==='home'),a=c?.competitors?.find(t=>t.homeAway==='away');if(e.status?.type?.completed!==true||e.status?.type?.name!=='STATUS_FINAL'||!h?.team?.displayName||!a?.team?.displayName||!/^\d+$/.test(String(h.score))||!/^\d+$/.test(String(a.score)))return [];return [{home_team:h.team.displayName,away_team:a.team.displayName,kickoff_utc:e.date,home_score:Number(h.score),away_score:Number(a.score),final:true}]});return reply({source:'ESPN scoreboard',games})}catch{return reply({error:'Final scores unavailable',games:[]},502)}
+  }
   if(url.pathname==='/.netlify/functions/odds'||url.pathname==='/api/odds'){
    if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    if(!env.ODDS_API_KEY)return reply({error:'ODDS_API_KEY is not configured as a Cloudflare Worker secret.'},503);
@@ -70,7 +76,7 @@ export default {
     const upstream=new URL('https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/');
     upstream.searchParams.set('apiKey',env.ODDS_API_KEY);
     upstream.searchParams.set('regions','ca');
-    upstream.searchParams.set('bookmakers','betmgm_ca_on');
+    upstream.searchParams.set('bookmakers',Object.keys(ONTARIO_BOOKS).join(','));
     upstream.searchParams.set('markets','h2h');
     upstream.searchParams.set('oddsFormat','american');
     const response=await fetch(upstream.toString(),{signal:AbortSignal.timeout(12000)});
@@ -80,13 +86,14 @@ export default {
     const now=Date.now();
     const games=data.filter(g=>Date.parse(g.commence_time)>now).map(g=>({
       id:String(g.id||''),home_team:g.home_team,away_team:g.away_team,commence_time:g.commence_time,
-      bookmakers:(g.bookmakers||[]).filter(b=>b.key==='betmgm_ca_on').map(b=>({
-        key:b.key,title:'BetMGM Ontario',last_update:b.last_update,
+      bookmakers:(g.bookmakers||[]).filter(b=>Object.hasOwn(ONTARIO_BOOKS,b.key)).map(b=>({
+        key:b.key,title:ONTARIO_BOOKS[b.key],last_update:b.last_update,
         outcomes:(b.markets||[]).filter(m=>m.key==='h2h').flatMap(m=>m.outcomes||[]).filter(o=>Number.isInteger(o.price)&&Math.abs(o.price)>=100&&(o.name===g.home_team||o.name===g.away_team)).map(o=>({name:o.name,price:o.price}))
       })).filter(b=>Number.isFinite(Date.parse(b.last_update))&&Date.parse(b.last_update)<=now+60000&&now-Date.parse(b.last_update)<=30*60000&&b.outcomes.length===2&&b.outcomes.some(o=>o.name===g.home_team)&&b.outcomes.some(o=>o.name===g.away_team))
     }));
     const quoted_games=games.filter(g=>g.bookmakers.length).length;
-    return reply({source:'The Odds API',bookmaker_key:'betmgm_ca_on',jurisdiction:'Ontario (BetMGM Ontario provider feed; confirm current offers in sportsbook)',status:quoted_games?'available':'no_fresh_quotes',quoted_games,retrieved_at:new Date(now).toISOString(),games});
+    const coverage=Object.fromEntries(Object.keys(ONTARIO_BOOKS).map(key=>[key,games.filter(g=>g.bookmakers.some(b=>b.key===key)).length]));
+    return reply({source:'The Odds API',bookmaker_keys:Object.keys(ONTARIO_BOOKS),primary_bookmaker:'betmgm_ca_on',jurisdiction:'Ontario sportsbook-specific provider feed; confirm current offers directly',status:quoted_games?'available':'no_fresh_quotes',quoted_games,coverage,retrieved_at:new Date(now).toISOString(),games});
    }catch(e){return reply({error:'Odds service unavailable: '+(e?.name==='TimeoutError'?'request timed out':'upstream request failed')},502);}
   }
   if(env.ASSETS)return env.ASSETS.fetch(request);

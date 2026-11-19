@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {settleTicket,ledgerSummary,resultDate,ticketKey} from './paper-ledger.mjs';
+import {compareParlayPrices} from './paper-math.mjs';
+import worker from '../worker.js';
+const date='2026-11-20T01:15:00Z',a={gameId:'1',home_team:'Home',away_team:'Away',team:'Home',kickoff_utc:date,decimal:2},b={gameId:'2',home_team:'Other',away_team:'Opponent',team:'Other',kickoff_utc:date,decimal:3};
+const result=(leg,home_score,away_score,final=true)=>({...leg,home_score,away_score,final});
+const ticket={kind:'parlay',status:'pending',stake:5,legs:[a,b]};
+test('settlement waits for both final games and locks recorded odds',()=>{assert.equal(settleTicket(ticket,[result(a,20,14)]).status,'pending');const won=settleTicket(ticket,[result(a,20,14),result(b,30,20)]);assert.equal(won.status,'won');assert.equal(won.pnl,25);assert.equal(settleTicket(won,[]),won);assert.equal(ledgerSummary([won,ticket]).roi,5)});
+test('ties push one leg; incomplete scores do not settle; loss costs paper stake',()=>{assert.equal(settleTicket(ticket,[result(a,20,14),result(b,14,14)]).pnl,5);assert.equal(settleTicket(ticket,[result(a,20,14),result(b,14,21,false)]).status,'pending');assert.equal(settleTicket(ticket,[result(a,20,14),result(b,14,21)]).pnl,-5);assert.equal(resultDate(date),'20261119');assert.equal(ticketKey(ticket),ticketKey({...ticket,legs:[b,a]}))});
+test('payout comparison ranks same-book combinations without mixing prices',()=>{const q=(bookKey,decimal)=>({bookKey,book:bookKey,decimal});const legs=[{gameId:'1',probability:.7,quotes:[q('A',2),q('B',1.5),q('C',10)]},{gameId:'2',probability:.7,quotes:[q('A',1.5),q('B',3)]},{gameId:'3',probability:.7,quotes:[q('A',2),q('B',2)]}];assert.deepEqual(compareParlayPrices(legs).map(p=>[p.book,p.decimal]),[['B',9],['A',6]])});
+test('results route returns only completed valid scoreboard games',async t=>{const event=(status,score)=>({date,status:{type:status},competitions:[{competitors:[{homeAway:'home',team:{displayName:'Home'},score},{homeAway:'away',team:{displayName:'Away'},score:'10'}]}]});t.mock.method(globalThis,'fetch',async()=>Response.json({events:[event({completed:true,name:'STATUS_FINAL'},'20'),event({completed:false,name:'STATUS_IN_PROGRESS'},'12'),event({completed:true,name:'STATUS_FINAL'},'')] }));const r=await worker.fetch(new Request('https://example.test/api/results?date=20261119'),{});const data=await r.json();assert.equal(data.games.length,1);assert.equal(data.games[0].home_score,20)});

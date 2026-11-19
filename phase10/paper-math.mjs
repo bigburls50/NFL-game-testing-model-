@@ -13,19 +13,23 @@ export function singlePortfolio(legs,budget){
  const total=rows.reduce((sum,r)=>sum+(r.projection?.stake??0),0),scale=total>0?Math.min(1,budget*PAPER_LIMITS.total/total):1;
  return rows.map(r=>{if(!r.projection)return r;const p=r.projection,stake=floorCents(p.stake*scale);return {...r,projection:{...p,stake,returnAmount:stake*p.decimal,profit:stake*(p.decimal-1),maxLoss:stake}}});
 }
+export function compareParlayPrices(legs){
+ if(!Array.isArray(legs)||legs.length<2||legs.length>4||new Set(legs.map(l=>l.gameId)).size!==legs.length||legs.some(l=>!validProbability(l.probability)||!l.quotes?.length))return [];
+ const books=[...new Set(legs[0].quotes.map(q=>q.bookKey))].filter(key=>legs.every(l=>l.quotes.some(q=>q.bookKey===key)));
+ return books.map(key=>{const quotes=legs.map(l=>l.quotes.find(q=>q.bookKey===key));return {book:quotes[0].book,bookKey:key,quotes,decimal:quotes.reduce((d,q)=>d*q.decimal,1),allPositive:legs.every((l,i)=>l.probability*quotes[i].decimal>1)}}).filter(p=>Number.isFinite(p.decimal)&&p.decimal>1).sort((a,b)=>b.decimal-a.decimal);
+}
 export function parlayProjection(legs,budget){
  if(legs.length<2||legs.length>4)return {reason:'Select 2–4 games.'};
  if(new Set(legs.map(l=>l.gameId)).size!==legs.length)return {reason:'Only one selection from each game.'};
  if(legs.some(l=>!validProbability(l.probability)||!l.quotes?.length))return {reason:'A leg is missing an eligible probability or fresh quote.'};
  // Never manufacture an executable parlay from prices at different sportsbooks.
- const books=legs[0].quotes.map(q=>q.bookKey).filter(key=>legs.every(l=>l.quotes.some(q=>q.bookKey===key)));
- if(!books.length)return {reason:'No sportsbook has fresh quotes for every leg.'};
- const candidates=books.map(key=>{const quotes=legs.map(l=>l.quotes.find(q=>q.bookKey===key));return {book:quotes[0].book,bookKey:key,quotes,decimal:quotes.reduce((d,q)=>d*q.decimal,1),allPositive:legs.every((l,i)=>l.probability*quotes[i].decimal>1)}}).sort((a,b)=>Number(b.allPositive)-Number(a.allPositive)||b.decimal-a.decimal);
+ const comparison=compareParlayPrices(legs);if(!comparison.length)return {reason:'No sportsbook has fresh quotes for every leg.'};
+ const candidates=[...comparison].sort((a,b)=>Number(b.allPositive)-Number(a.allPositive)||b.decimal-a.decimal);
  const best=candidates[0],probability=legs.reduce((p,l)=>p*l.probability,1),projection=paperStake(probability,best.decimal,budget,'parlay');
  if(!projection)return {reason:'Invalid parlay inputs.'};
  // Require each leg to offer positive modeled value at the selected book.
  const allPositive=legs.every((l,i)=>l.probability*best.quotes[i].decimal>1);
- return {...best,...projection,stake:allPositive?projection.stake:0,returnAmount:allPositive?projection.returnAmount:0,profit:allPositive?projection.profit:0,maxLoss:allPositive?projection.maxLoss:0,allPositive,independenceAssumed:true};
+ return {...best,...projection,stake:allPositive?projection.stake:0,returnAmount:allPositive?projection.returnAmount:0,profit:allPositive?projection.profit:0,maxLoss:allPositive?projection.maxLoss:0,allPositive,comparison,independenceAssumed:true};
 }
 
 // Rank all distinct-game three-leg combinations by estimated joint win chance.

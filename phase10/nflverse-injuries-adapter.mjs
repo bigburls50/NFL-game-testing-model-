@@ -6,7 +6,7 @@ import {gunzipSync} from 'node:zlib';
 export async function fetchNflverseInjuries(season,{fetchImpl=fetch}={}){
  if(!Number.isInteger(season)||season<2020||season>2100)throw Error('Invalid season');
  const url='https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_'+season+'.csv';
- const response=await fetchImpl(url,{headers:{'User-Agent':'NFL-Auto-Research/1.0'},redirect:'error',signal:AbortSignal.timeout(15000)});
+ const response=await fetchImpl(url,{headers:{'User-Agent':'NFL-Auto-Research/1.0'},redirect:'follow',signal:AbortSignal.timeout(15000)});
  if(!response.ok)throw Error('Injury source HTTP '+response.status);
  const raw=Buffer.from(await response.arrayBuffer());
  if(raw.length>15_000_000)throw Error('Injury file exceeds size limit');

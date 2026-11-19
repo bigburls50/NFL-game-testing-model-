@@ -69,22 +69,24 @@ export default {
    try{
     const upstream=new URL('https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/');
     upstream.searchParams.set('apiKey',env.ODDS_API_KEY);
-    upstream.searchParams.set('regions','us,ca');
+    upstream.searchParams.set('regions','ca');
+    upstream.searchParams.set('bookmakers','betmgm_ca_on');
     upstream.searchParams.set('markets','h2h');
     upstream.searchParams.set('oddsFormat','american');
     const response=await fetch(upstream.toString(),{signal:AbortSignal.timeout(12000)});
     if(!response.ok)return reply({error:'Odds provider returned HTTP '+response.status},502);
     const data=await response.json();
     if(!Array.isArray(data))return reply({error:'Unexpected odds provider response'},502);
-    const allowed=new Set(['fanduel','draftkings','betmgm','betmgm_ontario','bet365','bet365_ca']);
-    const games=data.map(g=>({
+    const now=Date.now();
+    const games=data.filter(g=>Date.parse(g.commence_time)>now).map(g=>({
       id:String(g.id||''),home_team:g.home_team,away_team:g.away_team,commence_time:g.commence_time,
-      bookmakers:(g.bookmakers||[]).filter(b=>allowed.has(b.key)).map(b=>({
-        key:b.key,title:b.title,last_update:b.last_update,
-        outcomes:(b.markets||[]).filter(m=>m.key==='h2h').flatMap(m=>m.outcomes||[]).filter(o=>Number.isFinite(o.price)).map(o=>({name:o.name,price:o.price}))
-      }))
+      bookmakers:(g.bookmakers||[]).filter(b=>b.key==='betmgm_ca_on').map(b=>({
+        key:b.key,title:'BetMGM Ontario',last_update:b.last_update,
+        outcomes:(b.markets||[]).filter(m=>m.key==='h2h').flatMap(m=>m.outcomes||[]).filter(o=>Number.isInteger(o.price)&&Math.abs(o.price)>=100&&(o.name===g.home_team||o.name===g.away_team)).map(o=>({name:o.name,price:o.price}))
+      })).filter(b=>Number.isFinite(Date.parse(b.last_update))&&Date.parse(b.last_update)<=now+60000&&now-Date.parse(b.last_update)<=30*60000&&b.outcomes.length===2&&b.outcomes.some(o=>o.name===g.home_team)&&b.outcomes.some(o=>o.name===g.away_team))
     }));
-    return reply({source:'The Odds API',jurisdiction:'Unverified: US/Canada regional feed; NOT confirmed Ontario offers',retrieved_at:new Date().toISOString(),games});
+    const quoted_games=games.filter(g=>g.bookmakers.length).length;
+    return reply({source:'The Odds API',bookmaker_key:'betmgm_ca_on',jurisdiction:'Ontario (BetMGM Ontario provider feed; confirm current offers in sportsbook)',status:quoted_games?'available':'no_fresh_quotes',quoted_games,retrieved_at:new Date(now).toISOString(),games});
    }catch(e){return reply({error:'Odds service unavailable: '+(e?.name==='TimeoutError'?'request timed out':'upstream request failed')},502);}
   }
   if(env.ASSETS)return env.ASSETS.fetch(request);

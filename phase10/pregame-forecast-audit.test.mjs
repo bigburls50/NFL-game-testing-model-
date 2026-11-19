@@ -33,3 +33,7 @@ test('rejects timezone-less audit as-of',()=>assert.throws(()=>auditPregameForec
 test('rejects impossible UTC calendar date in forecast timestamp',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-02-30T16:00:00Z'}],opts).errors.some(x=>x.reasons.includes('invalid_timestamps')),true));
 test('rejects impossible UTC calendar date in verified schedule',()=>assert.throws(()=>auditPregameForecasts([row],{season:2026,asOf:opts.asOf,expectedGames:[{...verifiedSchedule[0],kickoff_utc:'2026-02-30T01:15:00Z'}]}),/Invalid or duplicate/));
 test('rejects impossible UTC calendar date in audit as-of',()=>assert.throws(()=>auditPregameForecasts([row],{...opts,asOf:'2026-02-30T17:00:00Z'}),/Invalid as-of/));
+
+test('accepts canonical millisecond UTC forecast timestamps',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00.123Z',features_asof_utc:'2026-11-18T15:00:00.001Z'}],opts).ready,true));
+test('rejects malformed fractional seconds with literal backslash',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00\\123Z'}],opts).ready,false));
+test('rejects more than three fractional second digits',()=>assert.equal(auditPregameForecasts([{...row,generated_at_utc:'2026-11-18T16:00:00.1234Z'}],opts).ready,false));

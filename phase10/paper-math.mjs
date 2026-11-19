@@ -27,3 +27,17 @@ export function parlayProjection(legs,budget){
  const allPositive=legs.every((l,i)=>l.probability*best.quotes[i].decimal>1);
  return {...best,...projection,stake:allPositive?projection.stake:0,returnAmount:allPositive?projection.returnAmount:0,profit:allPositive?projection.profit:0,maxLoss:allPositive?projection.maxLoss:0,allPositive,independenceAssumed:true};
 }
+
+// Rank all distinct-game three-leg combinations by estimated joint win chance.
+// Positive modeled value is a separate optional filter, not a win probability.
+export function rankThreeGameParlay(legs,budget,{valueOnly=false}={}){
+ let best=null;
+ const eligible=legs.filter(l=>l?.gameId&&validProbability(l.probability)&&l.quotes?.length);
+ for(let i=0;i<eligible.length;i++)for(let j=i+1;j<eligible.length;j++)for(let k=j+1;k<eligible.length;k++){
+  const picks=[eligible[i],eligible[j],eligible[k]];if(new Set(picks.map(l=>l.gameId)).size!==3)continue;
+  const p=parlayProjection(picks,budget);if(p.reason||valueOnly&&(!p.allPositive||p.edge<=0))continue;
+  if(!best||p.probability>best.probability+1e-12||Math.abs(p.probability-best.probability)<=1e-12&&p.edge>best.edge)best={...p,legs:picks};
+ }
+ return best??{reason:valueOnly?'No three-game combination passes the modeled value screen.':'Three eligible games with fresh prices at a common sportsbook are required.'};
+}
+export function combinedAmerican(decimal){if(!Number.isFinite(decimal)||decimal<=1)return null;return decimal>=2?Math.round((decimal-1)*100):-Math.round(100/(decimal-1))}

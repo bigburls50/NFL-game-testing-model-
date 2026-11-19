@@ -11,7 +11,7 @@ export function extractOfficialInjuryTables(html){
   const rows=tr.map(m=>[...m[1].matchAll(cellTags)].map(c=>text(c[1])));
   const headers=rows[0].map(h=>h.toLowerCase());
   const idx=terms=>headers.findIndex(h=>terms.some(t=>h.includes(t)));
-  const player=idx(['player']),position=idx(['pos']),injury=idx(['injury']),status=idx(['game status','status']);
+  const player=idx(['player']),position=idx(['pos']),injury=idx(['injury','injuries']),status=idx(['game status']);
   const practice=idx(['practice participation','practice']);
   if(player<0||injury<0||status<0){errors.push({reason:'missing_required_table_columns',headers});continue;}
   const players=[];let invalid=false;

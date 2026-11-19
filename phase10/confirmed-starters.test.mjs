@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {confirmedStarterCoverage} from './confirmed-starters.mjs';
+const schedule=[{game_id:'g',home_team:'HOU',away_team:'IND',kickoff_utc:'2026-11-20T01:15:00Z'}];
+const starter=team=>({game_id:'g',team,status:'confirmed',player_id:'id-'+team,player_name:'Example QB',confirmed_at_utc:'2026-11-18T15:00:00Z',retrieved_at_utc:'2026-11-18T16:00:00Z',source_url:'https://www.nfl.com/'});
+const asOf='2026-11-18T18:00:00Z';
+test('both independently confirmed starters pass',()=>assert.equal(confirmedStarterCoverage(schedule,[starter('HOU'),starter('IND')],{asOf}).ready,true));
+test('projected starter never counts as confirmed',()=>{const r=confirmedStarterCoverage(schedule,[{...starter('HOU'),status:'projected'},starter('IND')],{asOf});assert.equal(r.ready,false);assert.equal(r.coverage[0].home_confirmed,false);});
+test('one missing starter causes abstention',()=>assert.equal(confirmedStarterCoverage(schedule,[starter('HOU')],{asOf}).ready,false));
+test('post-kickoff starter confirmation is rejected',()=>{const r=confirmedStarterCoverage(schedule,[{...starter('HOU'),confirmed_at_utc:'2026-11-20T02:00:00Z',retrieved_at_utc:'2026-11-20T02:00:00Z'},starter('IND')],{asOf:'2026-11-20T03:00:00Z'});assert.equal(r.ready,false);});

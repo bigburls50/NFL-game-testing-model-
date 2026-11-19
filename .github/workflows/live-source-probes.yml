@@ -22,12 +22,12 @@ jobs:
         run: node phase10/probe-injuries.mjs phase10/upcoming-week11-2026.json phase10/data/injury-source-audit.json
       - name: Probe Open-Meteo hourly stadium forecasts
         run: node phase10/probe-weather.mjs phase10/upcoming-week11-2026.json phase10/data/weather-source-audit.json
-      - name: Archive live provider evidence even if incomplete
+      - name: Probe official NFL injury and quarterback announcements\n        run: node phase10/probe-official-feeds.mjs\n      - name: Archive live provider evidence even if incomplete
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: live-2026-source-probes
           path: |
             phase10/data/injury-source-audit.json
-            phase10/data/weather-source-audit.json
+            phase10/data/weather-source-audit.json\n            phase10/data/official-starter-source-audit.json\n            phase10/data/official-injury-page-audit.json
           retention-days: 7

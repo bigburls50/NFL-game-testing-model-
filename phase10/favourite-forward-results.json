@@ -10,7 +10,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.7266847410825212,
       "market": 0.8438891592831211,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_MIA_BUF",
@@ -136,21 +136,21 @@
   ],
   "summary": {
     "locked": 12,
-    "scored": 0,
+    "scored": 1,
     "ties": 0,
-    "pending": 12,
+    "pending": 11,
     "metrics": {
       "market": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.024370594589330722,
+        "log_loss": 0.16973412087403944
       },
       "v2": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.07470123075712845,
+        "log_loss": 0.31926253912710006
       }
     },
     "bands": [
@@ -173,10 +173,10 @@
       {
         "label": "75–100%",
         "locked": 6,
-        "scored": 0,
-        "favourite_win_rate": null,
-        "market_favourite_probability": null,
-        "v2_favourite_probability": null
+        "scored": 1,
+        "favourite_win_rate": 1,
+        "market_favourite_probability": 0.8438891592831211,
+        "v2_favourite_probability": 0.7266847410825212
       }
     ]
   },

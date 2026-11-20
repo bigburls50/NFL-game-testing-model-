@@ -1,44 +1,42 @@
 {
   "selected_games": 1,
-  "scored_games": 0,
-  "pending": [
-    "2026_11_IND_HOU"
-  ],
+  "scored_games": 1,
+  "pending": [],
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 0,
-      "accuracy": null,
-      "brier": null,
-      "log_loss": null
+      "n": 1,
+      "accuracy": 1,
+      "brier": 0.07470123075712845,
+      "log_loss": 0.31926253912710006
     },
     "injury": {
-      "n": 0,
-      "accuracy": null,
-      "brier": null,
-      "log_loss": null
+      "n": 1,
+      "accuracy": 1,
+      "brier": 0.0736011920935147,
+      "log_loss": 0.31648683673783806
     }
   },
   "player_impact_comparison": {
-    "scored_games": 0,
+    "scored_games": 1,
     "metrics": {
       "v2": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.07470123075712845,
+        "log_loss": 0.31926253912710006
       },
       "injury": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.0736011920935147,
+        "log_loss": 0.31648683673783806
       },
       "weighted": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.06542027420107317,
+        "log_loss": 0.29541035642862845
       }
     }
   },
@@ -75,7 +73,18 @@
     }
   },
   "policy": "Latest archived observation 3–24 hours before kickoff, fixed independent of predictions and outcomes. Score only paired eligible probabilities and official final non-tie results.",
-  "final_scores": [],
+  "final_scores": [
+    {
+      "game_id": "2026_11_IND_HOU",
+      "gameday": "2026-11-19",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "HOU",
+      "away_team": "IND",
+      "home_score": 26,
+      "away_score": 3
+    }
+  ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",
   "real_money_stake": 0
 }

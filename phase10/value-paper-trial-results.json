@@ -32,8 +32,10 @@
               "stake": 10
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -10,
+          "settled_at": "2026-11-20T04:18:29.483Z"
         },
         {
           "kind": "single",
@@ -202,15 +204,15 @@
   },
   "summary": {
     "v2": {
-      "settled": 0,
+      "settled": 1,
       "won": 0,
-      "pending": 3,
-      "openExposure": 30,
-      "pnl": 0,
-      "roi": null,
+      "pending": 2,
+      "openExposure": 20,
+      "pnl": -10,
+      "roi": -1,
       "tickets": 3,
-      "turnover": 0,
-      "flat_unit_roi": null,
+      "turnover": 10,
+      "flat_unit_roi": -1,
       "completed_week_drawdown": 0
     },
     "market_anchor": {

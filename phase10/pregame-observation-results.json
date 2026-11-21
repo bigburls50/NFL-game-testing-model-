@@ -1,5 +1,5 @@
 {
-  "selected_games": 8,
+  "selected_games": 11,
   "scored_games": 1,
   "pending": [
     "2026_11_ARI_KC",
@@ -8,7 +8,10 @@
     "2026_11_NO_CHI",
     "2026_11_PIT_PHI",
     "2026_11_TB_DET",
-    "2026_11_TEN_DAL"
+    "2026_11_TEN_DAL",
+    "2026_11_NYJ_LAC",
+    "2026_11_JAX_NYG",
+    "2026_11_LV_DEN"
   ],
   "excluded": [],
   "metrics": {
@@ -49,7 +52,7 @@
     }
   },
   "qb_replacement_comparison": {
-    "eligible_games": 5,
+    "eligible_games": 8,
     "scored_games": 0,
     "metrics": {
       "v2": {

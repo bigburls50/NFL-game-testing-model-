@@ -66,8 +66,10 @@
               "stake": 10
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -10,
+          "settled_at": "2026-11-22T22:02:17.268Z"
         },
         {
           "kind": "single",
@@ -98,8 +100,10 @@
               "stake": 10
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -10,
+          "settled_at": "2026-11-22T22:02:17.268Z"
         }
       ],
       "market_anchor": [
@@ -132,8 +136,10 @@
               "stake": 1.86
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -1.86,
+          "settled_at": "2026-11-22T22:02:17.268Z"
         },
         {
           "kind": "single",
@@ -164,8 +170,10 @@
               "stake": 1.49
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -1.49,
+          "settled_at": "2026-11-22T22:02:17.268Z"
         },
         {
           "kind": "single",
@@ -196,36 +204,38 @@
               "stake": 3.3
             }
           ],
-          "status": "pending",
-          "recorded_at": "2026-11-19T21:08:21.911Z"
+          "status": "lost",
+          "recorded_at": "2026-11-19T21:08:21.911Z",
+          "pnl": -3.3,
+          "settled_at": "2026-11-22T22:02:17.268Z"
         }
       ]
     }
   },
   "summary": {
     "v2": {
-      "settled": 1,
+      "settled": 3,
       "won": 0,
-      "pending": 2,
-      "openExposure": 20,
-      "pnl": -10,
+      "pending": 0,
+      "openExposure": 0,
+      "pnl": -30,
       "roi": -1,
       "tickets": 3,
-      "turnover": 10,
+      "turnover": 30,
       "flat_unit_roi": -1,
-      "completed_week_drawdown": 0
+      "completed_week_drawdown": 0.03
     },
     "market_anchor": {
-      "settled": 0,
+      "settled": 3,
       "won": 0,
-      "pending": 3,
-      "openExposure": 6.65,
-      "pnl": 0,
-      "roi": null,
+      "pending": 0,
+      "openExposure": 0,
+      "pnl": -6.65,
+      "roi": -1,
       "tickets": 3,
-      "turnover": 0,
-      "flat_unit_roi": null,
-      "completed_week_drawdown": 0
+      "turnover": 6.65,
+      "flat_unit_roi": -1,
+      "completed_week_drawdown": 0.006649999999999977
     }
   },
   "real_money_stake": 0,

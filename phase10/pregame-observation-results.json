@@ -1,14 +1,7 @@
 {
   "selected_games": 12,
-  "scored_games": 1,
+  "scored_games": 8,
   "pending": [
-    "2026_11_ARI_KC",
-    "2026_11_BAL_CAR",
-    "2026_11_MIA_BUF",
-    "2026_11_NO_CHI",
-    "2026_11_PIT_PHI",
-    "2026_11_TB_DET",
-    "2026_11_TEN_DAL",
     "2026_11_NYJ_LAC",
     "2026_11_JAX_NYG",
     "2026_11_LV_DEN",
@@ -17,70 +10,70 @@
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 1,
-      "accuracy": 1,
-      "brier": 0.07470123075712845,
-      "log_loss": 0.31926253912710006
+      "n": 8,
+      "accuracy": 0.875,
+      "brier": 0.10988031452868371,
+      "log_loss": 0.381720362921701
     },
     "injury": {
-      "n": 1,
-      "accuracy": 1,
-      "brier": 0.0736011920935147,
-      "log_loss": 0.31648683673783806
+      "n": 8,
+      "accuracy": 0.875,
+      "brier": 0.11047160574027369,
+      "log_loss": 0.38270936905378933
     }
   },
   "player_impact_comparison": {
-    "scored_games": 1,
+    "scored_games": 7,
     "metrics": {
       "v2": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.07470123075712845,
-        "log_loss": 0.31926253912710006
+        "n": 7,
+        "accuracy": 0.8571428571428571,
+        "brier": 0.12196619307483968,
+        "log_loss": 0.41151516385280856
       },
       "injury": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.0736011920935147,
-        "log_loss": 0.31648683673783806
+        "n": 7,
+        "accuracy": 0.8571428571428571,
+        "brier": 0.12228572937528737,
+        "log_loss": 0.4113387901759333
       },
       "weighted": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.06542027420107317,
-        "log_loss": 0.29541035642862845
+        "n": 7,
+        "accuracy": 0.8571428571428571,
+        "brier": 0.12128639047385535,
+        "log_loss": 0.40822139552635023
       }
     }
   },
   "qb_replacement_comparison": {
     "eligible_games": 9,
-    "scored_games": 0,
+    "scored_games": 5,
     "metrics": {
       "v2": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 5,
+        "accuracy": 0.8,
+        "brier": 0.15205628302928098,
+        "log_loss": 0.4827907046514891
       },
       "replacement": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 5,
+        "accuracy": 0.8,
+        "brier": 0.1488721769954719,
+        "log_loss": 0.4749786739885561
       }
     },
     "changed_game_metrics": {
       "v2": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.17276483109797108,
+        "log_loss": 0.537254972443959
       },
       "replacement": {
-        "n": 0,
-        "accuracy": null,
-        "brier": null,
-        "log_loss": null
+        "n": 1,
+        "accuracy": 1,
+        "brier": 0.17131294996658858,
+        "log_loss": 0.5342643195401482
       }
     }
   },
@@ -95,6 +88,76 @@
       "away_team": "IND",
       "home_score": 26,
       "away_score": 3
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "KC",
+      "away_team": "ARI",
+      "home_score": 34,
+      "away_score": 7
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "CAR",
+      "away_team": "BAL",
+      "home_score": 35,
+      "away_score": 33
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "BUF",
+      "away_team": "MIA",
+      "home_score": 26,
+      "away_score": 9
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "CHI",
+      "away_team": "NO",
+      "home_score": 21,
+      "away_score": 13
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "PHI",
+      "away_team": "PIT",
+      "home_score": 19,
+      "away_score": 16
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DET",
+      "away_team": "TB",
+      "home_score": 31,
+      "away_score": 21
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DAL",
+      "away_team": "TEN",
+      "home_score": 51,
+      "away_score": 30
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

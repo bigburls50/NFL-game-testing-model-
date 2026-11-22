@@ -21,7 +21,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.8629572854167563,
       "market": 0.9020434798930214,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_BAL_CAR",
@@ -32,7 +32,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.584350109950729,
       "market": 0.5673461479299647,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_NO_CHI",
@@ -43,7 +43,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.7872226333833431,
       "market": 0.8304588832123957,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_TEN_DAL",
@@ -54,7 +54,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.720723842086958,
       "market": 0.7699708857722886,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_TB_DET",
@@ -65,7 +65,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.6427019369053759,
       "market": 0.7046170175870499,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_ARI_KC",
@@ -76,7 +76,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.8410057714708112,
       "market": 0.8965962653204977,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_PIT_PHI",
@@ -87,7 +87,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.41984028230643744,
       "market": 0.34114692293572774,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_NYJ_LAC",
@@ -136,47 +136,47 @@
   ],
   "summary": {
     "locked": 12,
-    "scored": 1,
+    "scored": 8,
     "ties": 0,
-    "pending": 11,
+    "pending": 4,
     "metrics": {
       "market": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.024370594589330722,
-        "log_loss": 0.16973412087403944
+        "n": 8,
+        "accuracy": 0.875,
+        "brier": 0.10435547870096389,
+        "log_loss": 0.35268553661637303
       },
       "v2": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.07470123075712845,
-        "log_loss": 0.31926253912710006
+        "n": 8,
+        "accuracy": 0.875,
+        "brier": 0.10988031452868371,
+        "log_loss": 0.381720362921701
       }
     },
     "bands": [
       {
         "label": "50–60%",
         "locked": 3,
-        "scored": 0,
-        "favourite_win_rate": null,
-        "market_favourite_probability": null,
-        "v2_favourite_probability": null
+        "scored": 1,
+        "favourite_win_rate": 1,
+        "market_favourite_probability": 0.5673461479299647,
+        "v2_favourite_probability": 0.584350109950729
       },
       {
         "label": "60–75%",
         "locked": 3,
-        "scored": 0,
-        "favourite_win_rate": null,
-        "market_favourite_probability": null,
-        "v2_favourite_probability": null
+        "scored": 2,
+        "favourite_win_rate": 0.5,
+        "market_favourite_probability": 0.681735047325661,
+        "v2_favourite_probability": 0.6114308272994693
       },
       {
         "label": "75–100%",
         "locked": 6,
-        "scored": 1,
+        "scored": 5,
         "favourite_win_rate": 1,
-        "market_favourite_probability": 0.8438891592831211,
-        "v2_favourite_probability": 0.7266847410825212
+        "market_favourite_probability": 0.8485917346962649,
+        "v2_favourite_probability": 0.7877188546880779
       }
     ]
   },

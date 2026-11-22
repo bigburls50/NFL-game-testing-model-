@@ -1,15 +1,8 @@
 {
   "locked_at_utc": "2026-11-19T20:07:49.645Z",
-  "scored_games": 1,
+  "scored_games": 8,
   "ties": [],
   "pending": [
-    "2026_11_MIA_BUF",
-    "2026_11_BAL_CAR",
-    "2026_11_NO_CHI",
-    "2026_11_TEN_DAL",
-    "2026_11_TB_DET",
-    "2026_11_ARI_KC",
-    "2026_11_PIT_PHI",
     "2026_11_NYJ_LAC",
     "2026_11_JAX_NYG",
     "2026_11_LV_DEN",
@@ -17,22 +10,22 @@
   ],
   "metrics": {
     "v2": {
-      "n": 1,
-      "accuracy": 1,
-      "brier": 0.07470123075712845,
-      "log_loss": 0.31926253912710006
+      "n": 8,
+      "accuracy": 0.875,
+      "brier": 0.10988031452868371,
+      "log_loss": 0.381720362921701
     },
     "team": {
-      "n": 1,
-      "accuracy": 1,
-      "brier": 0.058410316236525504,
-      "log_loss": 0.27665280303660755
+      "n": 8,
+      "accuracy": 0.875,
+      "brier": 0.10307675266501436,
+      "log_loss": 0.36583882497870435
     },
     "qb": {
-      "n": 1,
-      "accuracy": 1,
-      "brier": 0.053798622523328024,
-      "log_loss": 0.26389432534211504
+      "n": 8,
+      "accuracy": 0.875,
+      "brier": 0.10142233164264744,
+      "log_loss": 0.3631058960666921
     }
   },
   "final_scores": [
@@ -45,6 +38,76 @@
       "away_team": "IND",
       "home_score": 26,
       "away_score": 3
+    },
+    {
+      "game_id": "2026_11_MIA_BUF",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "BUF",
+      "away_team": "MIA",
+      "home_score": 26,
+      "away_score": 9
+    },
+    {
+      "game_id": "2026_11_BAL_CAR",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "CAR",
+      "away_team": "BAL",
+      "home_score": 35,
+      "away_score": 33
+    },
+    {
+      "game_id": "2026_11_NO_CHI",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "CHI",
+      "away_team": "NO",
+      "home_score": 21,
+      "away_score": 13
+    },
+    {
+      "game_id": "2026_11_TEN_DAL",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DAL",
+      "away_team": "TEN",
+      "home_score": 51,
+      "away_score": 30
+    },
+    {
+      "game_id": "2026_11_TB_DET",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DET",
+      "away_team": "TB",
+      "home_score": 31,
+      "away_score": 21
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "KC",
+      "away_team": "ARI",
+      "home_score": 34,
+      "away_score": 7
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "PHI",
+      "away_team": "PIT",
+      "home_score": 19,
+      "away_score": 16
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

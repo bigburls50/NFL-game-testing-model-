@@ -143,8 +143,10 @@
           "quote_updated": "2026-11-19T19:11:25Z"
         }
       ],
-      "status": "pending",
-      "recorded_at": "2026-11-19T19:11:47.271Z"
+      "status": "lost",
+      "recorded_at": "2026-11-19T19:11:47.271Z",
+      "pnl": -9.16,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "single",
@@ -167,8 +169,10 @@
           "quote_updated": "2026-11-19T19:11:25Z"
         }
       ],
-      "status": "pending",
-      "recorded_at": "2026-11-19T19:11:47.271Z"
+      "status": "lost",
+      "recorded_at": "2026-11-19T19:11:47.271Z",
+      "pnl": -9.16,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "single",
@@ -280,7 +284,7 @@
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_MIA_BUF",
@@ -297,12 +301,14 @@
           "price": -1400,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_BAL_CAR",
@@ -319,12 +325,14 @@
           "price": -150,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_NO_CHI",
@@ -341,12 +349,14 @@
           "price": -650,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_TEN_DAL",
@@ -363,12 +373,14 @@
           "price": -425,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_TB_DET",
@@ -385,12 +397,14 @@
           "price": -275,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_ARI_KC",
@@ -407,12 +421,14 @@
           "price": -1400,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.417Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "lost",
       "legs": [
         {
           "gameId": "2026_11_PIT_PHI",
@@ -429,7 +445,9 @@
           "price": -220,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-22T22:02:05.418Z"
     },
     {
       "kind": "observation",
@@ -521,20 +539,20 @@
     }
   ],
   "summary": {
-    "settled": 1,
+    "settled": 3,
     "won": 0,
-    "pending": 3,
-    "openExposure": 20.82,
-    "pnl": -9.16,
+    "pending": 1,
+    "openExposure": 2.5,
+    "pnl": -27.48,
     "roi": -1
   },
   "accuracy": {
-    "decisions": 1,
-    "correct": 1,
+    "decisions": 8,
+    "correct": 7,
     "ties": 0,
-    "pending": 11,
-    "accuracy": 1,
-    "brier": 0.12445470583606985
+    "pending": 4,
+    "accuracy": 0.875,
+    "brier": 0.12923964264301255
   },
   "real_money_stake": 0,
   "warning": "Provisional model and indicative odds. Paper returns only; parlay prices multiply same-book moneylines, not an offered combo."

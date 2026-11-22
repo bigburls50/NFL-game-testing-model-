@@ -3,19 +3,19 @@
   "summary": {
     "v2": {
       "tickets": 3,
-      "benchmarked": 1,
+      "benchmarked": 3,
       "positive_same_book": 0,
-      "mean_same_book_price_edge": -0.07407407407407407,
-      "mean_fair_price_edge": -0.019552655718873546,
-      "mean_minutes_before_kickoff": 133.47498333333334
+      "mean_same_book_price_edge": -0.053676865271068186,
+      "mean_fair_price_edge": 0.007079705702716876,
+      "mean_minutes_before_kickoff": 121.74940555555555
     },
     "market_anchor": {
       "tickets": 3,
-      "benchmarked": 0,
-      "positive_same_book": 0,
-      "mean_same_book_price_edge": null,
-      "mean_fair_price_edge": null,
-      "mean_minutes_before_kickoff": null
+      "benchmarked": 3,
+      "positive_same_book": 1,
+      "mean_same_book_price_edge": 0.057434245840042863,
+      "mean_fair_price_edge": 0.0755463653290418,
+      "mean_minutes_before_kickoff": 115.88661666666667
     }
   },
   "slates": {
@@ -42,14 +42,32 @@
           "team": "Arizona Cardinals",
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-22T18:00:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-22T16:04:06.803Z",
+            "minutes_before_kickoff": 115.88661666666667,
+            "locked_decimal": 10,
+            "later_decimal": 10,
+            "same_book_price_edge": 0,
+            "reference_fair_probability": 0.09976011718337721,
+            "fair_price_edge": -0.00239882816622794,
+            "checkpoint_sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+          }
         },
         {
           "game_id": "2026_11_MIA_BUF",
           "team": "Miami Dolphins",
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-22T18:00:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-22T16:04:06.803Z",
+            "minutes_before_kickoff": 115.88661666666667,
+            "locked_decimal": 10.5,
+            "later_decimal": 11.5,
+            "same_book_price_edge": -0.08695652173913049,
+            "reference_fair_probability": 0.09935148580888115,
+            "fair_price_edge": 0.043190600993252115,
+            "checkpoint_sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+          }
         }
       ],
       "market_anchor": [
@@ -58,21 +76,48 @@
           "team": "Arizona Cardinals",
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-22T18:00:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-22T16:04:06.803Z",
+            "minutes_before_kickoff": 115.88661666666667,
+            "locked_decimal": 10,
+            "later_decimal": 10,
+            "same_book_price_edge": 0,
+            "reference_fair_probability": 0.09976011718337721,
+            "fair_price_edge": -0.00239882816622794,
+            "checkpoint_sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+          }
         },
         {
           "game_id": "2026_11_MIA_BUF",
           "team": "Miami Dolphins",
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-22T18:00:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-22T16:04:06.803Z",
+            "minutes_before_kickoff": 115.88661666666667,
+            "locked_decimal": 10.5,
+            "later_decimal": 11.5,
+            "same_book_price_edge": -0.08695652173913049,
+            "reference_fair_probability": 0.09935148580888115,
+            "fair_price_edge": 0.043190600993252115,
+            "checkpoint_sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+          }
         },
         {
           "game_id": "2026_11_TB_DET",
           "team": "Tampa Bay Buccaneers",
           "book_key": "betrivers_ca_on",
           "kickoff_utc": "2026-11-22T18:00:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-22T16:04:06.803Z",
+            "minutes_before_kickoff": 115.88661666666667,
+            "locked_decimal": 3.4,
+            "later_decimal": 2.7,
+            "same_book_price_edge": 0.2592592592592591,
+            "reference_fair_probability": 0.3487786244588533,
+            "fair_price_edge": 0.18584732316010122,
+            "checkpoint_sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+          }
         }
       ]
     }

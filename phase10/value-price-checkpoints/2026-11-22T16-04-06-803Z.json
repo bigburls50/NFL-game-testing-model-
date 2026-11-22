@@ -1,0 +1,196 @@
+{
+  "version": "phase10-pregame-price-proxy-v1",
+  "captured_at_utc": "2026-11-22T16:04:06.803Z",
+  "market_retrieved_at": "2026-11-22T16:04:06.783Z",
+  "market_source": "The Odds API",
+  "games": [
+    {
+      "slate": "2026_11",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "game_id": "2026_11_ARI_KC",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "quotes": [
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -1400,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.0714285714285714,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 900,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 10,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.9032258064516129
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -1429,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.0699790062981105,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 825,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 9.25,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.8963196528166268
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -1667,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.05998800239952,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "away": {
+            "price": 900,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 10,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "no_vig_home_probability": 0.9041601128166188
+        }
+      ]
+    },
+    {
+      "slate": "2026_11",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "game_id": "2026_11_MIA_BUF",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -1429,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.0699790062981105,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 825,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 9.25,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.8963196528166268
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -1600,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.0625,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 1050,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 11.5,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.9154228855721394
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -2000,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.05,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "away": {
+            "price": 900,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 10,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "no_vig_home_probability": 0.9049773755656108
+        }
+      ]
+    },
+    {
+      "slate": "2026_11",
+      "trial_sha256": "5ef871ac8e254e69898273d7e6087d439af995d84c2f0b882be59ee0c9672423",
+      "game_id": "2026_11_TB_DET",
+      "kickoff_utc": "2026-11-22T18:00:00.000Z",
+      "quotes": [
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": -210,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.4761904761904763,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "away": {
+            "price": 170,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 2.7,
+            "updated": "2026-11-22T16:03:46Z"
+          },
+          "no_vig_home_probability": 0.6465222348916762
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": -210,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.4761904761904763,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 175,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.75,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.6507042253521127
+        },
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": -213,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.4694835680751175,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "away": {
+            "price": 175,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 2.75,
+            "updated": "2026-11-22T16:03:45Z"
+          },
+          "no_vig_home_probability": 0.6517385257301808
+        }
+      ]
+    }
+  ],
+  "real_money_stake": 0,
+  "sha256": "86e3ff1587f8dad3eb9d2513548a1c05f5eb084a4f00b26f053f48b1269351bf"
+}

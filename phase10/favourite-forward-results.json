@@ -98,7 +98,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.6206218129867674,
       "market": 0.5995144604956524,
-      "outcome": "pending"
+      "outcome": "away"
     },
     {
       "game_id": "2026_11_JAX_NYG",
@@ -109,7 +109,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.26752803558952815,
       "market": 0.30179636031184204,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_LV_DEN",
@@ -120,7 +120,7 @@
       "locked_at_utc": "2026-11-19T21:08:21.911Z",
       "v2": 0.7976379620498109,
       "market": 0.8143372634337206,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_11_MIN_SF",
@@ -136,47 +136,47 @@
   ],
   "summary": {
     "locked": 12,
-    "scored": 8,
+    "scored": 11,
     "ties": 0,
-    "pending": 4,
+    "pending": 1,
     "metrics": {
       "market": {
-        "n": 8,
-        "accuracy": 0.875,
-        "brier": 0.10435547870096389,
-        "log_loss": 0.35268553661637303
+        "n": 11,
+        "accuracy": 0.7272727272727273,
+        "brier": 0.1560200356521977,
+        "log_loss": 0.4672677613696111
       },
       "v2": {
-        "n": 8,
-        "accuracy": 0.875,
-        "brier": 0.10988031452868371,
-        "log_loss": 0.381720362921701
+        "n": 11,
+        "accuracy": 0.7272727272727273,
+        "brier": 0.16742541127592192,
+        "log_loss": 0.5061469089270824
       }
     },
     "bands": [
       {
         "label": "50–60%",
         "locked": 3,
-        "scored": 1,
-        "favourite_win_rate": 1,
-        "market_favourite_probability": 0.5673461479299647,
-        "v2_favourite_probability": 0.584350109950729
+        "scored": 2,
+        "favourite_win_rate": 0.5,
+        "market_favourite_probability": 0.5834303042128086,
+        "v2_favourite_probability": 0.6024859614687482
       },
       {
         "label": "60–75%",
         "locked": 3,
-        "scored": 2,
-        "favourite_win_rate": 0.5,
-        "market_favourite_probability": 0.681735047325661,
-        "v2_favourite_probability": 0.6114308272994693
+        "scored": 3,
+        "favourite_win_rate": 0.3333333333333333,
+        "market_favourite_probability": 0.68722457811316,
+        "v2_favourite_probability": 0.6517778730031368
       },
       {
         "label": "75–100%",
         "locked": 6,
-        "scored": 5,
+        "scored": 6,
         "favourite_win_rate": 1,
-        "market_favourite_probability": 0.8485917346962649,
-        "v2_favourite_probability": 0.7877188546880779
+        "market_favourite_probability": 0.8428826561525075,
+        "v2_favourite_probability": 0.7893720392483669
       }
     ]
   },

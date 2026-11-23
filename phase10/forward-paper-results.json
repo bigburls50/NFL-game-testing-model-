@@ -251,9 +251,11 @@
           "quote_updated": "2026-11-19T19:11:25Z"
         }
       ],
-      "status": "pending",
+      "status": "lost",
       "recorded_at": "2026-11-19T19:11:47.271Z",
-      "estimated_combo": true
+      "estimated_combo": true,
+      "pnl": -2.5,
+      "settled_at": "2026-11-23T01:42:08.754Z"
     }
   ],
   "observations": [
@@ -452,7 +454,7 @@
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "lost",
       "legs": [
         {
           "gameId": "2026_11_NYJ_LAC",
@@ -469,12 +471,14 @@
           "price": -165,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-23T01:42:08.754Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "lost",
       "legs": [
         {
           "gameId": "2026_11_JAX_NYG",
@@ -491,12 +495,14 @@
           "price": -275,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-23T01:42:08.754Z"
     },
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_LV_DEN",
@@ -513,7 +519,9 @@
           "price": -550,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-23T01:42:08.754Z"
     },
     {
       "kind": "observation",
@@ -539,20 +547,20 @@
     }
   ],
   "summary": {
-    "settled": 3,
+    "settled": 4,
     "won": 0,
-    "pending": 1,
-    "openExposure": 2.5,
-    "pnl": -27.48,
+    "pending": 0,
+    "openExposure": 0,
+    "pnl": -29.98,
     "roi": -1
   },
   "accuracy": {
-    "decisions": 8,
-    "correct": 7,
+    "decisions": 11,
+    "correct": 8,
     "ties": 0,
-    "pending": 4,
-    "accuracy": 0.875,
-    "brier": 0.12923964264301255
+    "pending": 1,
+    "accuracy": 0.7272727272727273,
+    "brier": 0.16614176347503146
   },
   "real_money_stake": 0,
   "warning": "Provisional model and indicative odds. Paper returns only; parlay prices multiply same-book moneylines, not an offered combo."

@@ -1,31 +1,28 @@
 {
   "locked_at_utc": "2026-11-19T20:07:49.645Z",
-  "scored_games": 8,
+  "scored_games": 11,
   "ties": [],
   "pending": [
-    "2026_11_NYJ_LAC",
-    "2026_11_JAX_NYG",
-    "2026_11_LV_DEN",
     "2026_11_MIN_SF"
   ],
   "metrics": {
     "v2": {
-      "n": 8,
-      "accuracy": 0.875,
-      "brier": 0.10988031452868371,
-      "log_loss": 0.381720362921701
+      "n": 11,
+      "accuracy": 0.7272727272727273,
+      "brier": 0.16742541127592192,
+      "log_loss": 0.5061469089270824
     },
     "team": {
-      "n": 8,
-      "accuracy": 0.875,
-      "brier": 0.10307675266501436,
-      "log_loss": 0.36583882497870435
+      "n": 11,
+      "accuracy": 0.7272727272727273,
+      "brier": 0.15820347671077367,
+      "log_loss": 0.48672911745215364
     },
     "qb": {
-      "n": 8,
-      "accuracy": 0.875,
-      "brier": 0.10142233164264744,
-      "log_loss": 0.3631058960666921
+      "n": 11,
+      "accuracy": 0.7272727272727273,
+      "brier": 0.15719800589961921,
+      "log_loss": 0.485609304655827
     }
   },
   "final_scores": [
@@ -108,6 +105,36 @@
       "away_team": "PIT",
       "home_score": 19,
       "away_score": 16
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "LAC",
+      "away_team": "NYJ",
+      "home_score": 24,
+      "away_score": 27
+    },
+    {
+      "game_id": "2026_11_JAX_NYG",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "NYG",
+      "away_team": "JAX",
+      "home_score": 23,
+      "away_score": 18
+    },
+    {
+      "game_id": "2026_11_LV_DEN",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DEN",
+      "away_team": "LV",
+      "home_score": 38,
+      "away_score": 24
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

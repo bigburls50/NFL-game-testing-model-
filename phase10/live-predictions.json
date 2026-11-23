@@ -1,6 +1,6 @@
 {
   "status": "available",
-  "generated_at_utc": "2026-11-23T07:58:57.115Z",
+  "generated_at_utc": "2026-11-23T10:32:20.133Z",
   "model": {
     "version": "phase10-causal-logistic-v2",
     "digest": "sha256:913f4ff6c7c05e75db0d052b748bf96b160ea2a267c77f07d1b1098bd6d30b3b",
@@ -116,13 +116,13 @@
       "home_win_probability": 0.3587075340215854,
       "model_version": "phase10-causal-logistic-v2",
       "model_digest": "sha256:913f4ff6c7c05e75db0d052b748bf96b160ea2a267c77f07d1b1098bd6d30b3b",
-      "generated_at_utc": "2026-11-23T07:58:57.115Z",
+      "generated_at_utc": "2026-11-23T10:32:20.133Z",
       "team_evidence": {
         "WAS": {
           "projected_qb_id": "00-0039910",
           "projected_qb_name": "Jayden Daniels",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-23T07:58:57.115Z",
+          "injury_checked_at_utc": "2026-11-23T10:32:20.133Z",
           "injury_updated_at_utc": "2026-11-23T07:01:34.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 15
@@ -131,7 +131,7 @@
           "projected_qb_id": "00-0036442",
           "projected_qb_name": "Joe Burrow",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-23T07:58:57.115Z",
+          "injury_checked_at_utc": "2026-11-23T10:32:20.133Z",
           "injury_updated_at_utc": "2026-11-23T07:01:34.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 16

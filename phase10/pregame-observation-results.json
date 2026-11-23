@@ -1,63 +1,62 @@
 {
   "selected_games": 13,
-  "scored_games": 11,
+  "scored_games": 12,
   "pending": [
-    "2026_11_MIN_SF",
     "2026_11_CIN_WAS"
   ],
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 11,
-      "accuracy": 0.7272727272727273,
-      "brier": 0.16742541127592192,
-      "log_loss": 0.5061469089270824
+      "n": 12,
+      "accuracy": 0.75,
+      "brier": 0.16967461946606024,
+      "log_loss": 0.5124241485477465
     },
     "injury": {
-      "n": 11,
-      "accuracy": 0.7272727272727273,
-      "brier": 0.16655054995801766,
-      "log_loss": 0.5036117281577719
+      "n": 12,
+      "accuracy": 0.75,
+      "brier": 0.1688336764019203,
+      "log_loss": 0.510021145208875
     }
   },
   "player_impact_comparison": {
-    "scored_games": 9,
+    "scored_games": 10,
     "metrics": {
       "v2": {
-        "n": 9,
-        "accuracy": 0.7777777777777778,
-        "brier": 0.14220946452024597,
-        "log_loss": 0.45288092551092046
+        "n": 10,
+        "accuracy": 0.8,
+        "brier": 0.14743010902397952,
+        "log_loss": 0.4657402113973337
       },
       "injury": {
-        "n": 9,
-        "accuracy": 0.7777777777777778,
-        "brier": 0.1425258475489175,
-        "log_loss": 0.45295855138995417
+        "n": 10,
+        "accuracy": 0.8,
+        "brier": 0.14766806952251071,
+        "log_loss": 0.46571516952805964
       },
       "weighted": {
-        "n": 9,
-        "accuracy": 0.7777777777777778,
-        "brier": 0.14264194083488313,
-        "log_loss": 0.45189370991006705
+        "n": 10,
+        "accuracy": 0.8,
+        "brier": 0.14675885789920132,
+        "log_loss": 0.4626940183244095
       }
     }
   },
   "qb_replacement_comparison": {
     "eligible_games": 10,
-    "scored_games": 8,
+    "scored_games": 9,
     "metrics": {
       "v2": {
-        "n": 8,
-        "accuracy": 0.625,
-        "brier": 0.21536480286900953,
-        "log_loss": 0.6159758272602178
+        "n": 9,
+        "accuracy": 0.6666666666666666,
+        "brier": 0.21303714805662866,
+        "log_loss": 0.6121422669396439
       },
       "replacement": {
-        "n": 8,
-        "accuracy": 0.625,
-        "brier": 0.2151597478474362,
-        "log_loss": 0.6161437956174003
+        "n": 9,
+        "accuracy": 0.6666666666666666,
+        "brier": 0.21208852833826441,
+        "log_loss": 0.6107341080983834
       }
     },
     "changed_game_metrics": {
@@ -186,6 +185,16 @@
       "away_team": "LV",
       "home_score": 38,
       "away_score": 24
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "SF",
+      "away_team": "MIN",
+      "home_score": 35,
+      "away_score": 10
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

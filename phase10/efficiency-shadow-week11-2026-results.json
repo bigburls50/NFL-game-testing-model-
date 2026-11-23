@@ -1,28 +1,26 @@
 {
   "locked_at_utc": "2026-11-19T20:07:49.645Z",
-  "scored_games": 11,
+  "scored_games": 12,
   "ties": [],
-  "pending": [
-    "2026_11_MIN_SF"
-  ],
+  "pending": [],
   "metrics": {
     "v2": {
-      "n": 11,
-      "accuracy": 0.7272727272727273,
-      "brier": 0.16742541127592192,
-      "log_loss": 0.5061469089270824
+      "n": 12,
+      "accuracy": 0.75,
+      "brier": 0.16967461946606024,
+      "log_loss": 0.5124241485477465
     },
     "team": {
-      "n": 11,
-      "accuracy": 0.7272727272727273,
-      "brier": 0.15820347671077367,
-      "log_loss": 0.48672911745215364
+      "n": 12,
+      "accuracy": 0.75,
+      "brier": 0.15561497674924427,
+      "log_loss": 0.48291340259633797
     },
     "qb": {
-      "n": 11,
-      "accuracy": 0.7272727272727273,
-      "brier": 0.15719800589961921,
-      "log_loss": 0.485609304655827
+      "n": 12,
+      "accuracy": 0.75,
+      "brier": 0.15525925046599434,
+      "log_loss": 0.4831132489585719
     }
   },
   "final_scores": [
@@ -135,6 +133,16 @@
       "away_team": "LV",
       "home_score": 38,
       "away_score": 24
+    },
+    {
+      "game_id": "2026_11_MIN_SF",
+      "gameday": "2026-11-22",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "SF",
+      "away_team": "MIN",
+      "home_score": 35,
+      "away_score": 10
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

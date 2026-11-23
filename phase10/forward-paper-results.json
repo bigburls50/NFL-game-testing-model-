@@ -526,7 +526,7 @@
     {
       "kind": "observation",
       "stake": 0,
-      "status": "pending",
+      "status": "won",
       "legs": [
         {
           "gameId": "2026_11_MIN_SF",
@@ -543,7 +543,9 @@
           "price": -165,
           "quote_updated": "2026-11-19T19:11:25Z"
         }
-      ]
+      ],
+      "pnl": 0,
+      "settled_at": "2026-11-23T04:34:13.966Z"
     }
   ],
   "summary": {
@@ -555,12 +557,12 @@
     "roi": -1
   },
   "accuracy": {
-    "decisions": 11,
-    "correct": 8,
+    "decisions": 12,
+    "correct": 9,
     "ties": 0,
-    "pending": 1,
-    "accuracy": 0.7272727272727273,
-    "brier": 0.16614176347503146
+    "pending": 0,
+    "accuracy": 0.75,
+    "brier": 0.1659638075295051
   },
   "real_money_stake": 0,
   "warning": "Provisional model and indicative odds. Paper returns only; parlay prices multiply same-book moneylines, not an offered combo."

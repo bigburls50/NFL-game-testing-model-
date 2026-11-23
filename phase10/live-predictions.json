@@ -1,6 +1,6 @@
 {
   "status": "available",
-  "generated_at_utc": "2026-11-23T19:24:45.425Z",
+  "generated_at_utc": "2026-11-23T22:12:56.187Z",
   "model": {
     "version": "phase10-causal-logistic-v2",
     "digest": "sha256:913f4ff6c7c05e75db0d052b748bf96b160ea2a267c77f07d1b1098bd6d30b3b",
@@ -72,7 +72,7 @@
   "source_provenance": {
     "roster": {
       "url": "https://github.com/nflverse/nflverse-data/releases/download/players/players.csv",
-      "digest": "sha256:a78280a0f60cd63b28cbbfe35cb2702e1e16ffc0f7d8ac27653c584b4251bf86"
+      "digest": "sha256:6841de1b685d478b4cbe3da2ab533d9e19438e347f4a25e060d5921d7dd2e47b"
     },
     "depth_chart": {
       "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.csv",
@@ -116,13 +116,13 @@
       "home_win_probability": 0.3587075340215854,
       "model_version": "phase10-causal-logistic-v2",
       "model_digest": "sha256:913f4ff6c7c05e75db0d052b748bf96b160ea2a267c77f07d1b1098bd6d30b3b",
-      "generated_at_utc": "2026-11-23T19:24:45.425Z",
+      "generated_at_utc": "2026-11-23T22:12:56.187Z",
       "team_evidence": {
         "WAS": {
           "projected_qb_id": "00-0039910",
           "projected_qb_name": "Jayden Daniels",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-23T19:24:45.425Z",
+          "injury_checked_at_utc": "2026-11-23T22:12:56.187Z",
           "injury_updated_at_utc": "2026-11-23T19:10:40.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 15
@@ -131,7 +131,7 @@
           "projected_qb_id": "00-0036442",
           "projected_qb_name": "Joe Burrow",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-23T19:24:45.425Z",
+          "injury_checked_at_utc": "2026-11-23T22:12:56.187Z",
           "injury_updated_at_utc": "2026-11-23T19:10:40.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 16

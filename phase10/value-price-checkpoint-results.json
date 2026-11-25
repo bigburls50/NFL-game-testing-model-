@@ -2,7 +2,7 @@
   "version": "phase10-pregame-price-proxy-v1",
   "summary": {
     "v2": {
-      "tickets": 3,
+      "tickets": 6,
       "benchmarked": 3,
       "positive_same_book": 0,
       "mean_same_book_price_edge": -0.053676865271068186,
@@ -120,6 +120,32 @@
           }
         }
       ]
+    },
+    "2026_12": {
+      "v2": [
+        {
+          "game_id": "2026_12_PHI_DAL",
+          "team": "Philadelphia Eagles",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-26T21:30:00.000Z",
+          "benchmark": null
+        },
+        {
+          "game_id": "2026_12_CHI_DET",
+          "team": "Detroit Lions",
+          "book_key": "betrivers_ca_on",
+          "kickoff_utc": "2026-11-26T18:00:00.000Z",
+          "benchmark": null
+        },
+        {
+          "game_id": "2026_12_DEN_PIT",
+          "team": "Pittsburgh Steelers",
+          "book_key": "betmgm_ca_on",
+          "kickoff_utc": "2026-11-27T20:00:00.000Z",
+          "benchmark": null
+        }
+      ],
+      "market_anchor": []
     }
   },
   "real_money_stake": 0,

@@ -210,17 +210,118 @@
           "settled_at": "2026-11-22T22:02:17.268Z"
         }
       ]
+    },
+    "2026_12": {
+      "v2": [
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_12_PHI_DAL",
+              "team": "Philadelphia Eagles",
+              "home_team": "Dallas Cowboys",
+              "away_team": "Philadelphia Eagles",
+              "kickoff_utc": "2026-11-26T21:30:00.000Z",
+              "probability": 0.33007364815593687,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
+              "prediction_created_utc": "2026-11-25T10:27:32.079Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 4.75,
+              "price": 375,
+              "quote_updated": "2026-11-25T10:26:56Z",
+              "reference_books": [
+                "betrivers_ca_on",
+                "betano_ca_on"
+              ],
+              "reference_home_probability": 0.7888052327185358,
+              "edge": 0.5678498287407001,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-25T10:27:42.432Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetRivers Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_12_CHI_DET",
+              "team": "Detroit Lions",
+              "home_team": "Detroit Lions",
+              "away_team": "Chicago Bears",
+              "kickoff_utc": "2026-11-26T18:00:00.000Z",
+              "probability": 0.5916819247522571,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
+              "prediction_created_utc": "2026-11-25T10:27:32.079Z",
+              "book": "BetRivers Ontario",
+              "book_key": "betrivers_ca_on",
+              "decimal": 2.1,
+              "price": 110,
+              "quote_updated": "2026-11-25T10:27:19Z",
+              "reference_books": [
+                "betmgm_ca_on",
+                "betano_ca_on"
+              ],
+              "reference_home_probability": 0.4675324675324676,
+              "edge": 0.2425320419797401,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-25T10:27:42.432Z"
+        },
+        {
+          "kind": "single",
+          "book": "BetMGM Ontario",
+          "stake": 10,
+          "legs": [
+            {
+              "gameId": "2026_12_DEN_PIT",
+              "team": "Pittsburgh Steelers",
+              "home_team": "Pittsburgh Steelers",
+              "away_team": "Denver Broncos",
+              "kickoff_utc": "2026-11-27T20:00:00.000Z",
+              "probability": 0.43875321627753894,
+              "model_version": "phase10-causal-logistic-v2",
+              "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
+              "prediction_created_utc": "2026-11-25T10:27:32.079Z",
+              "book": "BetMGM Ontario",
+              "book_key": "betmgm_ca_on",
+              "decimal": 2.7,
+              "price": 170,
+              "quote_updated": "2026-11-25T10:26:56Z",
+              "reference_books": [
+                "betrivers_ca_on",
+                "betano_ca_on"
+              ],
+              "reference_home_probability": 0.36276172651772143,
+              "edge": 0.1846336839493552,
+              "stake": 10
+            }
+          ],
+          "status": "pending",
+          "recorded_at": "2026-11-25T10:27:42.432Z"
+        }
+      ],
+      "market_anchor": []
     }
   },
   "summary": {
     "v2": {
       "settled": 3,
       "won": 0,
-      "pending": 0,
-      "openExposure": 0,
+      "pending": 3,
+      "openExposure": 30,
       "pnl": -30,
       "roi": -1,
-      "tickets": 3,
+      "tickets": 6,
       "turnover": 30,
       "flat_unit_roi": -1,
       "completed_week_drawdown": 0.03

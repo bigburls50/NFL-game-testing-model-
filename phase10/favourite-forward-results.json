@@ -132,13 +132,57 @@
       "v2": 0.559073804863465,
       "market": 0.5963450404243588,
       "outcome": "home"
+    },
+    {
+      "game_id": "2026_12_CHI_DET",
+      "home_team": "Detroit Lions",
+      "away_team": "Chicago Bears",
+      "kickoff_utc": "2026-11-26T18:00:00.000Z",
+      "trial_sha256": "11d3f68bdab440f0ce2fff857484dbd0a92f9f843dc6b0497987cc4cd997fccd",
+      "locked_at_utc": "2026-11-25T10:27:42.432Z",
+      "v2": 0.5916819247522571,
+      "market": 0.46356052954638977,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_12_PHI_DAL",
+      "home_team": "Dallas Cowboys",
+      "away_team": "Philadelphia Eagles",
+      "kickoff_utc": "2026-11-26T21:30:00.000Z",
+      "trial_sha256": "11d3f68bdab440f0ce2fff857484dbd0a92f9f843dc6b0497987cc4cd997fccd",
+      "locked_at_utc": "2026-11-25T10:27:42.432Z",
+      "v2": 0.6699263518440631,
+      "market": 0.7915066525702673,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_12_KC_BUF",
+      "home_team": "Buffalo Bills",
+      "away_team": "Kansas City Chiefs",
+      "kickoff_utc": "2026-11-27T01:20:00.000Z",
+      "trial_sha256": "11d3f68bdab440f0ce2fff857484dbd0a92f9f843dc6b0497987cc4cd997fccd",
+      "locked_at_utc": "2026-11-25T10:27:42.432Z",
+      "v2": 0.6099093025396276,
+      "market": 0.5792851112419624,
+      "outcome": "pending"
+    },
+    {
+      "game_id": "2026_12_DEN_PIT",
+      "home_team": "Pittsburgh Steelers",
+      "away_team": "Denver Broncos",
+      "kickoff_utc": "2026-11-27T20:00:00.000Z",
+      "trial_sha256": "11d3f68bdab440f0ce2fff857484dbd0a92f9f843dc6b0497987cc4cd997fccd",
+      "locked_at_utc": "2026-11-25T10:27:42.432Z",
+      "v2": 0.43875321627753894,
+      "market": 0.3596670727145889,
+      "outcome": "pending"
     }
   ],
   "summary": {
-    "locked": 12,
+    "locked": 16,
     "scored": 12,
     "ties": 0,
-    "pending": 0,
+    "pending": 4,
     "metrics": {
       "market": {
         "n": 12,
@@ -156,7 +200,7 @@
     "bands": [
       {
         "label": "50–60%",
-        "locked": 3,
+        "locked": 5,
         "scored": 3,
         "favourite_win_rate": 0.6666666666666666,
         "market_favourite_probability": 0.5877352162833254,
@@ -164,7 +208,7 @@
       },
       {
         "label": "60–75%",
-        "locked": 3,
+        "locked": 4,
         "scored": 3,
         "favourite_win_rate": 0.3333333333333333,
         "market_favourite_probability": 0.68722457811316,
@@ -172,7 +216,7 @@
       },
       {
         "label": "75–100%",
-        "locked": 6,
+        "locked": 7,
         "scored": 6,
         "favourite_win_rate": 1,
         "market_favourite_probability": 0.8428826561525075,

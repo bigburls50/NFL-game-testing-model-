@@ -3,11 +3,11 @@
   "summary": {
     "v2": {
       "tickets": 6,
-      "benchmarked": 3,
+      "benchmarked": 4,
       "positive_same_book": 0,
-      "mean_same_book_price_edge": -0.053676865271068186,
-      "mean_fair_price_edge": 0.007079705702716876,
-      "mean_minutes_before_kickoff": 121.74940555555555
+      "mean_same_book_price_edge": -0.0428618156199678,
+      "mean_fair_price_edge": 0.0031094486006920385,
+      "mean_minutes_before_kickoff": 122.14744166666667
     },
     "market_anchor": {
       "tickets": 3,
@@ -128,7 +128,16 @@
           "team": "Philadelphia Eagles",
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-26T21:30:00.000Z",
-          "benchmark": null
+          "benchmark": {
+            "captured_at_utc": "2026-11-26T19:26:39.507Z",
+            "minutes_before_kickoff": 123.34155,
+            "locked_decimal": 4.75,
+            "later_decimal": 4.8,
+            "same_book_price_edge": -0.01041666666666663,
+            "reference_fair_probability": 0.20867340574623527,
+            "fair_price_edge": -0.008801322705382475,
+            "checkpoint_sha256": "32dc3580bea190f15a1c053ba9c66792ad5c816c1725c0ebaed87887f3afd960"
+          }
         },
         {
           "game_id": "2026_12_CHI_DET",

@@ -142,7 +142,7 @@
       "locked_at_utc": "2026-11-25T10:27:42.432Z",
       "v2": 0.5916819247522571,
       "market": 0.46356052954638977,
-      "outcome": "pending"
+      "outcome": "away"
     },
     {
       "game_id": "2026_12_PHI_DAL",
@@ -180,31 +180,31 @@
   ],
   "summary": {
     "locked": 16,
-    "scored": 12,
+    "scored": 13,
     "ties": 0,
-    "pending": 4,
+    "pending": 3,
     "metrics": {
       "market": {
-        "n": 12,
-        "accuracy": 0.75,
-        "brier": 0.1565964765470156,
-        "log_loss": 0.4714067689674602
+        "n": 13,
+        "accuracy": 0.7692307692307693,
+        "brier": 0.1610804679321167,
+        "log_loss": 0.4830525210691341
       },
       "v2": {
-        "n": 12,
-        "accuracy": 0.75,
-        "brier": 0.16967461946606024,
-        "log_loss": 0.5124241485477465
+        "n": 13,
+        "accuracy": 0.6923076923076923,
+        "brier": 0.18355253335932759,
+        "log_loss": 0.5419075842063656
       }
     },
     "bands": [
       {
         "label": "50–60%",
         "locked": 5,
-        "scored": 3,
-        "favourite_win_rate": 0.6666666666666666,
-        "market_favourite_probability": 0.5877352162833254,
-        "v2_favourite_probability": 0.5880152426003206
+        "scored": 4,
+        "favourite_win_rate": 0.75,
+        "market_favourite_probability": 0.5749112798258966,
+        "v2_favourite_probability": 0.5430909507621762
       },
       {
         "label": "60–75%",

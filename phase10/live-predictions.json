@@ -1,12 +1,12 @@
 {
   "status": "available",
-  "generated_at_utc": "2026-11-26T04:28:02.526Z",
+  "generated_at_utc": "2026-11-26T07:47:45.070Z",
   "model": {
     "version": "phase10-causal-logistic-v2",
-    "digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
+    "digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
     "training_games": 2486,
-    "history_games": 2924,
-    "training_cutoff_date": "2026-11-25",
+    "history_games": 2925,
+    "training_cutoff_date": "2026-11-26",
     "training_last_season": 2025,
     "feature_names": [
       "home_venue",
@@ -76,7 +76,7 @@
     },
     "depth_chart": {
       "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.csv",
-      "digest": "sha256:dc19bb077898456255a7d7b1c31ce84eaa89f751a26c51a4bd0cd4b03d046acc",
+      "digest": "sha256:41600c6e49d387eadc8efd4e1ce544d23150cb968844f5a032cf2d2da011c88c",
       "columns": [
         "dt",
         "team",
@@ -94,7 +94,7 @@
     },
     "injuries": {
       "url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-      "digest": "sha256:d23fab63001bce1a2c0832465ffd6de5fa68baa93080c7043241afe69be35c6b"
+      "digest": "sha256:12d01eaeced9ea73602b906b560b5cc22b27e0d048bfb1cacef8bac54c9a1452"
     }
   },
   "errors": [],
@@ -115,15 +115,15 @@
       "status": "provisional",
       "home_win_probability": 0.5916819247522571,
       "model_version": "phase10-causal-logistic-v2",
-      "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
-      "generated_at_utc": "2026-11-26T04:28:02.526Z",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
       "team_evidence": {
         "DET": {
           "projected_qb_id": "00-0033106",
           "projected_qb_name": "Jared Goff",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 7
         },
@@ -131,10 +131,10 @@
           "projected_qb_id": "00-0039918",
           "projected_qb_name": "Caleb Williams",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
-          "injury_rows": 5
+          "injury_rows": 6
         }
       },
       "betting_status": "hold",
@@ -156,15 +156,15 @@
       "status": "provisional",
       "home_win_probability": 0.6699263518440631,
       "model_version": "phase10-causal-logistic-v2",
-      "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
-      "generated_at_utc": "2026-11-26T04:28:02.526Z",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
       "team_evidence": {
         "DAL": {
           "projected_qb_id": "00-0033077",
           "projected_qb_name": "Dak Prescott",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 13
         },
@@ -172,8 +172,8 @@
           "projected_qb_id": "00-0039398",
           "projected_qb_name": "Joe Milton III",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 14
         }
@@ -197,15 +197,15 @@
       "status": "provisional",
       "home_win_probability": 0.6099093025396276,
       "model_version": "phase10-causal-logistic-v2",
-      "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
-      "generated_at_utc": "2026-11-26T04:28:02.526Z",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
       "team_evidence": {
         "BUF": {
           "projected_qb_id": "00-0034857",
           "projected_qb_name": "Josh Allen",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 14
         },
@@ -213,8 +213,8 @@
           "projected_qb_id": "00-0033873",
           "projected_qb_name": "Patrick Mahomes",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 10
         }
@@ -238,24 +238,24 @@
       "status": "provisional",
       "home_win_probability": 0.43875321627753894,
       "model_version": "phase10-causal-logistic-v2",
-      "model_digest": "sha256:332b45fccbea5cc7e2963a6885643d50120552c415356948ca5ea50aaa20905c",
-      "generated_at_utc": "2026-11-26T04:28:02.526Z",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
       "team_evidence": {
         "PIT": {
           "projected_qb_id": "00-0034771",
           "projected_qb_name": "Mason Rudolph",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
-          "injury_rows": 5
+          "injury_rows": 9
         },
         "DEN": {
           "projected_qb_id": "00-0039732",
           "projected_qb_name": "Bo Nix",
           "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
-          "injury_checked_at_utc": "2026-11-26T04:28:02.526Z",
-          "injury_updated_at_utc": "2026-11-25T17:59:53.000Z",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
           "injury_timestamp_basis": "dataset_last_modified",
           "injury_rows": 8
         }
@@ -278,8 +278,7 @@
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
       "status": "abstain",
       "reasons": [
-        "CIN_recent_injury_feed_unavailable",
-        "NO_recent_injury_feed_unavailable"
+        "CIN_recent_injury_feed_unavailable"
       ]
     },
     {
@@ -295,11 +294,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/bal.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "HOU_recent_injury_feed_unavailable",
-        "BAL_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.7544685511123392,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "HOU": {
+          "projected_qb_id": "00-0039163",
+          "projected_qb_name": "C.J. Stroud",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 14
+        },
+        "BAL": {
+          "projected_qb_id": "00-0033119",
+          "projected_qb_name": "Jacoby Brissett",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 9
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_NYG_IND",
@@ -314,11 +335,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ind.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyg.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "IND_recent_injury_feed_unavailable",
-        "NYG_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.406608470907676,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "IND": {
+          "projected_qb_id": "00-0039164",
+          "projected_qb_name": "Anthony Richardson",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 10
+        },
+        "NYG": {
+          "projected_qb_id": "00-0039923",
+          "projected_qb_name": "J.J. McCarthy",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 6
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_TEN_JAX",
@@ -333,11 +376,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/jax.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ten.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "JAX_recent_injury_feed_unavailable",
-        "TEN_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.8948117436185087,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "JAX": {
+          "projected_qb_id": "00-0036971",
+          "projected_qb_name": "Trevor Lawrence",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 13
+        },
+        "TEN": {
+          "projected_qb_id": "00-0040676",
+          "projected_qb_name": "Cam Ward",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 9
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_NYJ_MIA",
@@ -352,11 +417,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/mia.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyj.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "MIA_recent_injury_feed_unavailable",
-        "NYJ_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.5806519085437777,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "MIA": {
+          "projected_qb_id": "00-0040014",
+          "projected_qb_name": "Kyle McCord",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 11
+        },
+        "NYJ": {
+          "projected_qb_id": "00-0030565",
+          "projected_qb_name": "Geno Smith",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 7
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_ATL_MIN",
@@ -371,11 +458,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/min.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "MIN_recent_injury_feed_unavailable",
-        "ATL_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.689638334028569,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "MIN": {
+          "projected_qb_id": "00-0029604",
+          "projected_qb_name": "Kirk Cousins",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 8
+        },
+        "ATL": {
+          "projected_qb_id": "00-0039917",
+          "projected_qb_name": "Michael Penix Jr.",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 7
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_NE_LAC",
@@ -392,8 +501,7 @@
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
       "status": "abstain",
       "reasons": [
-        "LAC_recent_injury_feed_unavailable",
-        "NE_recent_injury_feed_unavailable"
+        "LAC_recent_injury_feed_unavailable"
       ]
     },
     {
@@ -409,11 +517,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ari.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/wsh.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "ARI_recent_injury_feed_unavailable",
-        "WAS_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.3377971735300887,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "ARI": {
+          "projected_qb_id": "00-0041561",
+          "projected_qb_name": "Carson Beck",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 9
+        },
+        "WAS": {
+          "projected_qb_id": "00-0039910",
+          "projected_qb_name": "Jayden Daniels",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 11
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_SEA_SF",
@@ -447,11 +577,33 @@
       "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cle.png",
       "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lv.png",
       "schedule_source": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
-      "status": "abstain",
-      "reasons": [
-        "CLE_recent_injury_feed_unavailable",
-        "LV_recent_injury_feed_unavailable"
-      ]
+      "status": "provisional",
+      "home_win_probability": 0.6559321062844056,
+      "model_version": "phase10-causal-logistic-v2",
+      "model_digest": "sha256:a6d947bbb1c43bd238a2d1dc07e731b1835785483e3e4c8aae4c36bf3d1dd3e6",
+      "generated_at_utc": "2026-11-26T07:47:45.070Z",
+      "team_evidence": {
+        "CLE": {
+          "projected_qb_id": "00-0033537",
+          "projected_qb_name": "Deshaun Watson",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 10
+        },
+        "LV": {
+          "projected_qb_id": "00-0041562",
+          "projected_qb_name": "Fernando Mendoza",
+          "injury_source_url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.csv",
+          "injury_checked_at_utc": "2026-11-26T07:47:45.070Z",
+          "injury_updated_at_utc": "2026-11-26T07:01:22.000Z",
+          "injury_timestamp_basis": "dataset_last_modified",
+          "injury_rows": 8
+        }
+      },
+      "betting_status": "hold",
+      "warning": "Projected starters and recent injuries are not final confirmations. Not a verified betting recommendation."
     },
     {
       "game_id": "2026_12_CAR_TB",

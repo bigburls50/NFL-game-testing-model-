@@ -1,8 +1,7 @@
 {
   "selected_games": 17,
-  "scored_games": 13,
+  "scored_games": 14,
   "pending": [
-    "2026_12_GB_LA",
     "2026_12_CHI_DET",
     "2026_12_PHI_DAL",
     "2026_12_KC_BUF"
@@ -10,56 +9,56 @@
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 13,
-      "accuracy": 0.6923076923076923,
-      "brier": 0.18825780465487688,
-      "log_loss": 0.5518721287348506
+      "n": 14,
+      "accuracy": 0.7142857142857143,
+      "brier": 0.18191680589450926,
+      "log_loss": 0.5395195466521037
     },
     "injury": {
-      "n": 13,
-      "accuracy": 0.6923076923076923,
-      "brier": 0.1857219572504771,
-      "log_loss": 0.5458693117529121
+      "n": 14,
+      "accuracy": 0.7142857142857143,
+      "brier": 0.17996396795647887,
+      "log_loss": 0.5348692394270121
     }
   },
   "player_impact_comparison": {
-    "scored_games": 11,
+    "scored_games": 12,
     "metrics": {
       "v2": {
-        "n": 11,
-        "accuracy": 0.7272727272727273,
-        "brier": 0.17141428337822465,
-        "log_loss": 0.5166045459048578
+        "n": 12,
+        "accuracy": 0.75,
+        "brier": 0.16542007826418345,
+        "log_loss": 0.5051321653774857
       },
       "injury": {
-        "n": 11,
-        "accuracy": 0.7272727272727273,
-        "brier": 0.16955109296893325,
-        "log_loss": 0.5121090005056321
+        "n": 12,
+        "accuracy": 0.75,
+        "brier": 0.16418101081606398,
+        "log_loss": 0.502088942062689
       },
       "weighted": {
-        "n": 11,
-        "accuracy": 0.7272727272727273,
-        "brier": 0.168863692135122,
-        "log_loss": 0.5096589913736912
+        "n": 12,
+        "accuracy": 0.75,
+        "brier": 0.16433798481246045,
+        "log_loss": 0.5016194838894888
       }
     }
   },
   "qb_replacement_comparison": {
     "eligible_games": 14,
-    "scored_games": 10,
+    "scored_games": 11,
     "metrics": {
       "v2": {
-        "n": 10,
-        "accuracy": 0.6,
-        "brier": 0.23285903594303342,
-        "log_loss": 0.6534528293436894
+        "n": 11,
+        "accuracy": 0.6363636363636364,
+        "brier": 0.2207340164945513,
+        "log_loss": 0.628496752092117
       },
       "replacement": {
-        "n": 10,
-        "accuracy": 0.6,
-        "brier": 0.23395528999292878,
-        "log_loss": 0.6564651708828442
+        "n": 11,
+        "accuracy": 0.6363636363636364,
+        "brier": 0.22184424743498757,
+        "log_loss": 0.6314979385189629
       }
     },
     "changed_game_metrics": {
@@ -208,6 +207,16 @@
       "away_team": "CIN",
       "home_score": 22,
       "away_score": 20
+    },
+    {
+      "game_id": "2026_12_GB_LA",
+      "gameday": "2026-11-25",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "LA",
+      "away_team": "GB",
+      "home_score": 26,
+      "away_score": 13
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

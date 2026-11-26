@@ -1,10 +1,11 @@
 {
-  "selected_games": 16,
+  "selected_games": 17,
   "scored_games": 13,
   "pending": [
     "2026_12_GB_LA",
     "2026_12_CHI_DET",
-    "2026_12_PHI_DAL"
+    "2026_12_PHI_DAL",
+    "2026_12_KC_BUF"
   ],
   "excluded": [],
   "metrics": {
@@ -45,7 +46,7 @@
     }
   },
   "qb_replacement_comparison": {
-    "eligible_games": 13,
+    "eligible_games": 14,
     "scored_games": 10,
     "metrics": {
       "v2": {

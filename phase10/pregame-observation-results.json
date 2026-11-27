@@ -1,63 +1,62 @@
 {
   "selected_games": 18,
-  "scored_games": 16,
+  "scored_games": 17,
   "pending": [
-    "2026_12_KC_BUF",
     "2026_12_DEN_PIT"
   ],
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 16,
-      "accuracy": 0.625,
-      "brier": 0.20910775621854755,
-      "log_loss": 0.5973388711519284
+      "n": 17,
+      "accuracy": 0.6470588235294118,
+      "brier": 0.20575852069069886,
+      "log_loss": 0.591286291509501
     },
     "injury": {
-      "n": 16,
-      "accuracy": 0.625,
-      "brier": 0.20634084829162058,
-      "log_loss": 0.5908245209951661
+      "n": 17,
+      "accuracy": 0.6470588235294118,
+      "brier": 0.20249582564071011,
+      "log_loss": 0.5837613784760298
     }
   },
   "player_impact_comparison": {
-    "scored_games": 13,
+    "scored_games": 14,
     "metrics": {
       "v2": {
-        "n": 13,
-        "accuracy": 0.6923076923076923,
-        "brier": 0.17962526455759514,
-        "log_loss": 0.5351765228184325
+        "n": 14,
+        "accuracy": 0.7142857142857143,
+        "brier": 0.17766422796384693,
+        "log_loss": 0.5322671295621632
       },
       "injury": {
-        "n": 13,
-        "accuracy": 0.6923076923076923,
-        "brier": 0.17917640303308544,
-        "log_loss": 0.5338098132651408
+        "n": 14,
+        "accuracy": 0.7142857142857143,
+        "brier": 0.17644776447544666,
+        "log_loss": 0.5293056193297627
       },
       "weighted": {
-        "n": 13,
-        "accuracy": 0.6923076923076923,
-        "brier": 0.17874032128354414,
-        "log_loss": 0.5321699109840454
+        "n": 14,
+        "accuracy": 0.7142857142857143,
+        "brier": 0.17651120600939899,
+        "log_loss": 0.5287770923090142
       }
     }
   },
   "qb_replacement_comparison": {
     "eligible_games": 15,
-    "scored_games": 13,
+    "scored_games": 14,
     "metrics": {
       "v2": {
-        "n": 13,
-        "accuracy": 0.5384615384615384,
-        "brier": 0.24822792295489965,
-        "log_loss": 0.6859701967934377
+        "n": 14,
+        "accuracy": 0.5714285714285714,
+        "brier": 0.24136669647562967,
+        "log_loss": 0.6722898268246681
       },
       "replacement": {
-        "n": 13,
-        "accuracy": 0.5384615384615384,
-        "brier": 0.2515898754738964,
-        "log_loss": 0.6940074963917616
+        "n": 14,
+        "accuracy": 0.5714285714285714,
+        "brier": 0.2444636427120834,
+        "log_loss": 0.6797007640104027
       }
     },
     "changed_game_metrics": {
@@ -236,6 +235,16 @@
       "away_team": "PHI",
       "home_score": 38,
       "away_score": 39
+    },
+    {
+      "game_id": "2026_12_KC_BUF",
+      "gameday": "2026-11-26",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "BUF",
+      "away_team": "KC",
+      "home_score": 13,
+      "away_score": 10
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",

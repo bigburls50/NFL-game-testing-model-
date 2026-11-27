@@ -164,7 +164,7 @@
       "locked_at_utc": "2026-11-25T10:27:42.432Z",
       "v2": 0.6099093025396276,
       "market": 0.5792851112419624,
-      "outcome": "pending"
+      "outcome": "home"
     },
     {
       "game_id": "2026_12_DEN_PIT",
@@ -180,31 +180,31 @@
   ],
   "summary": {
     "locked": 16,
-    "scored": 14,
+    "scored": 15,
     "ties": 0,
-    "pending": 2,
+    "pending": 1,
     "metrics": {
       "market": {
-        "n": 14,
-        "accuracy": 0.7142857142857143,
-        "brier": 0.1943234902986076,
-        "log_loss": 0.5605379227830637
+        "n": 15,
+        "accuracy": 0.7333333333333333,
+        "brier": 0.19316865878687964,
+        "log_loss": 0.5595660947642676
       },
       "v2": {
-        "n": 14,
-        "accuracy": 0.6428571428571429,
-        "brier": 0.20249887504045389,
-        "log_loss": 0.5823741477053116
+        "n": 15,
+        "accuracy": 0.6666666666666666,
+        "brier": 0.1991436668540983,
+        "log_loss": 0.5765122056736682
       }
     },
     "bands": [
       {
         "label": "50–60%",
         "locked": 5,
-        "scored": 4,
-        "favourite_win_rate": 0.75,
-        "market_favourite_probability": 0.5749112798258966,
-        "v2_favourite_probability": 0.5430909507621762
+        "scored": 5,
+        "favourite_win_rate": 0.8,
+        "market_favourite_probability": 0.5757860461091098,
+        "v2_favourite_probability": 0.5564546211176664
       },
       {
         "label": "60–75%",

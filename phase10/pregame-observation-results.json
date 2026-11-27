@@ -1,24 +1,23 @@
 {
   "selected_games": 18,
-  "scored_games": 15,
+  "scored_games": 16,
   "pending": [
-    "2026_12_PHI_DAL",
     "2026_12_KC_BUF",
     "2026_12_DEN_PIT"
   ],
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 15,
-      "accuracy": 0.6666666666666666,
-      "brier": 0.19312818550677768,
-      "log_loss": 0.5632654976826164
+      "n": 16,
+      "accuracy": 0.625,
+      "brier": 0.20910775621854755,
+      "log_loss": 0.5973388711519284
     },
     "injury": {
-      "n": 15,
-      "accuracy": 0.6666666666666666,
-      "brier": 0.1919077774018698,
-      "log_loss": 0.5601753079781823
+      "n": 16,
+      "accuracy": 0.625,
+      "brier": 0.20634084829162058,
+      "log_loss": 0.5908245209951661
     }
   },
   "player_impact_comparison": {
@@ -46,19 +45,19 @@
   },
   "qb_replacement_comparison": {
     "eligible_games": 15,
-    "scored_games": 12,
+    "scored_games": 13,
     "metrics": {
       "v2": {
-        "n": 12,
-        "accuracy": 0.5833333333333334,
-        "brier": 0.23151347345988335,
-        "log_loss": 0.6507644237602568
+        "n": 13,
+        "accuracy": 0.5384615384615384,
+        "brier": 0.24822792295489965,
+        "log_loss": 0.6859701967934377
       },
       "replacement": {
-        "n": 12,
-        "accuracy": 0.5833333333333334,
-        "brier": 0.232869163497726,
-        "log_loss": 0.6542159068533887
+        "n": 13,
+        "accuracy": 0.5384615384615384,
+        "brier": 0.2515898754738964,
+        "log_loss": 0.6940074963917616
       }
     },
     "changed_game_metrics": {
@@ -226,6 +225,16 @@
       "home_team": "DET",
       "away_team": "CHI",
       "home_score": 35,
+      "away_score": 39
+    },
+    {
+      "game_id": "2026_12_PHI_DAL",
+      "gameday": "2026-11-26",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "DAL",
+      "away_team": "PHI",
+      "home_score": 38,
       "away_score": 39
     }
   ],

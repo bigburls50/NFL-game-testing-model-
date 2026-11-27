@@ -153,7 +153,7 @@
       "locked_at_utc": "2026-11-25T10:27:42.432Z",
       "v2": 0.6699263518440631,
       "market": 0.7915066525702673,
-      "outcome": "pending"
+      "outcome": "away"
     },
     {
       "game_id": "2026_12_KC_BUF",
@@ -180,21 +180,21 @@
   ],
   "summary": {
     "locked": 16,
-    "scored": 13,
+    "scored": 14,
     "ties": 0,
-    "pending": 3,
+    "pending": 2,
     "metrics": {
       "market": {
-        "n": 13,
-        "accuracy": 0.7692307692307693,
-        "brier": 0.1610804679321167,
-        "log_loss": 0.4830525210691341
+        "n": 14,
+        "accuracy": 0.7142857142857143,
+        "brier": 0.1943234902986076,
+        "log_loss": 0.5605379227830637
       },
       "v2": {
-        "n": 13,
-        "accuracy": 0.6923076923076923,
-        "brier": 0.18355253335932759,
-        "log_loss": 0.5419075842063656
+        "n": 14,
+        "accuracy": 0.6428571428571429,
+        "brier": 0.20249887504045389,
+        "log_loss": 0.5823741477053116
       }
     },
     "bands": [
@@ -217,10 +217,10 @@
       {
         "label": "75–100%",
         "locked": 7,
-        "scored": 6,
-        "favourite_win_rate": 1,
-        "market_favourite_probability": 0.8428826561525075,
-        "v2_favourite_probability": 0.7893720392483669
+        "scored": 7,
+        "favourite_win_rate": 0.8571428571428571,
+        "market_favourite_probability": 0.8355432270693303,
+        "v2_favourite_probability": 0.7723083696191806
       }
     ]
   },

@@ -1,0 +1,72 @@
+{
+  "version": "phase10-pregame-price-proxy-v1",
+  "captured_at_utc": "2026-11-27T19:23:05.718Z",
+  "market_retrieved_at": "2026-11-27T19:23:05.697Z",
+  "market_source": "The Odds API",
+  "games": [
+    {
+      "slate": "2026_12",
+      "trial_sha256": "11d3f68bdab440f0ce2fff857484dbd0a92f9f843dc6b0497987cc4cd997fccd",
+      "game_id": "2026_12_DEN_PIT",
+      "kickoff_utc": "2026-11-27T20:00:00.000Z",
+      "quotes": [
+        {
+          "book_key": "betano_ca_on",
+          "home": {
+            "price": 200,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 3,
+            "updated": "2026-11-27T19:22:27Z"
+          },
+          "away": {
+            "price": -238,
+            "book": "Betano Ontario",
+            "bookKey": "betano_ca_on",
+            "decimal": 1.4201680672268908,
+            "updated": "2026-11-27T19:22:27Z"
+          },
+          "no_vig_home_probability": 0.3212927756653992
+        },
+        {
+          "book_key": "betrivers_ca_on",
+          "home": {
+            "price": 200,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 3,
+            "updated": "2026-11-27T19:22:55Z"
+          },
+          "away": {
+            "price": -250,
+            "book": "BetRivers Ontario",
+            "bookKey": "betrivers_ca_on",
+            "decimal": 1.4,
+            "updated": "2026-11-27T19:22:55Z"
+          },
+          "no_vig_home_probability": 0.3181818181818181
+        },
+        {
+          "book_key": "betmgm_ca_on",
+          "home": {
+            "price": 195,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 2.95,
+            "updated": "2026-11-27T19:22:53Z"
+          },
+          "away": {
+            "price": -235,
+            "book": "BetMGM Ontario",
+            "bookKey": "betmgm_ca_on",
+            "decimal": 1.425531914893617,
+            "updated": "2026-11-27T19:22:53Z"
+          },
+          "no_vig_home_probability": 0.32579625577437393
+        }
+      ]
+    }
+  ],
+  "real_money_stake": 0,
+  "sha256": "07a454ffc2a10a6f4e0854c42c8825b4ccaf2ba387144f68232ab17615220b6d"
+}

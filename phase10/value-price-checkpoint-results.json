@@ -6,8 +6,8 @@
       "benchmarked": 5,
       "positive_same_book": 0,
       "mean_same_book_price_edge": -0.05123860503834712,
-      "mean_fair_price_edge": -0.023861786899135363,
-      "mean_minutes_before_kickoff": 140.50942
+      "mean_fair_price_edge": -0.024854300780697704,
+      "mean_minutes_before_kickoff": 105.09889333333334
     },
     "market_anchor": {
       "tickets": 3,
@@ -152,14 +152,14 @@
           "book_key": "betmgm_ca_on",
           "kickoff_utc": "2026-11-27T20:00:00.000Z",
           "benchmark": {
-            "captured_at_utc": "2026-11-27T16:26:02.560Z",
-            "minutes_before_kickoff": 213.95733333333334,
+            "captured_at_utc": "2026-11-27T19:23:05.718Z",
+            "minutes_before_kickoff": 36.9047,
             "locked_decimal": 2.7,
             "later_decimal": 2.95,
             "same_book_price_edge": -0.0847457627118644,
-            "reference_fair_probability": 0.3215752855931685,
-            "fair_price_edge": -0.13174672889844496,
-            "checkpoint_sha256": "2109ca6ce7508aad4d5e7d8fa0ea233027e3e892a863cb383e2265006008937f"
+            "reference_fair_probability": 0.31973729692360864,
+            "fair_price_edge": -0.13670929830625667,
+            "checkpoint_sha256": "07a454ffc2a10a6f4e0854c42c8825b4ccaf2ba387144f68232ab17615220b6d"
           }
         }
       ],

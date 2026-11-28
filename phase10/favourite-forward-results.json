@@ -175,26 +175,26 @@
       "locked_at_utc": "2026-11-25T10:27:42.432Z",
       "v2": 0.43875321627753894,
       "market": 0.3596670727145889,
-      "outcome": "pending"
+      "outcome": "home"
     }
   ],
   "summary": {
     "locked": 16,
-    "scored": 15,
+    "scored": 16,
     "ties": 0,
-    "pending": 1,
+    "pending": 0,
     "metrics": {
       "market": {
-        "n": 15,
-        "accuracy": 0.7333333333333333,
-        "brier": 0.19316865878687964,
-        "log_loss": 0.5595660947642676
+        "n": 16,
+        "accuracy": 0.6875,
+        "brier": 0.20672225872306862,
+        "log_loss": 0.5885042434312836
       },
       "v2": {
-        "n": 15,
-        "accuracy": 0.6666666666666666,
-        "brier": 0.1991436668540983,
-        "log_loss": 0.5765122056736682
+        "n": 16,
+        "accuracy": 0.625,
+        "brier": 0.20638455969064257,
+        "log_loss": 0.5919688286741785
       }
     },
     "bands": [
@@ -209,10 +209,10 @@
       {
         "label": "60–75%",
         "locked": 4,
-        "scored": 3,
-        "favourite_win_rate": 0.3333333333333333,
-        "market_favourite_probability": 0.68722457811316,
-        "v2_favourite_probability": 0.6517778730031368
+        "scored": 4,
+        "favourite_win_rate": 0.25,
+        "market_favourite_probability": 0.6755016654062227,
+        "v2_favourite_probability": 0.6291451006829678
       },
       {
         "label": "75–100%",

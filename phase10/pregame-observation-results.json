@@ -1,22 +1,20 @@
 {
   "selected_games": 18,
-  "scored_games": 17,
-  "pending": [
-    "2026_12_DEN_PIT"
-  ],
+  "scored_games": 18,
+  "pending": [],
   "excluded": [],
   "metrics": {
     "v2": {
-      "n": 17,
-      "accuracy": 0.6470588235294118,
-      "brier": 0.20575852069069886,
-      "log_loss": 0.591286291509501
+      "n": 18,
+      "accuracy": 0.6111111111111112,
+      "brier": 0.2118273779989271,
+      "log_loss": 0.6042047294079639
     },
     "injury": {
-      "n": 17,
-      "accuracy": 0.6470588235294118,
-      "brier": 0.20249582564071011,
-      "log_loss": 0.5837613784760298
+      "n": 18,
+      "accuracy": 0.6111111111111112,
+      "brier": 0.20895251874805865,
+      "log_loss": 0.597517662138393
     }
   },
   "player_impact_comparison": {
@@ -44,33 +42,33 @@
   },
   "qb_replacement_comparison": {
     "eligible_games": 15,
-    "scored_games": 14,
+    "scored_games": 15,
     "metrics": {
       "v2": {
-        "n": 14,
-        "accuracy": 0.5714285714285714,
-        "brier": 0.24136669647562967,
-        "log_loss": 0.6722898268246681
+        "n": 15,
+        "accuracy": 0.5333333333333333,
+        "brier": 0.24627544685984148,
+        "log_loss": 0.6823917166151456
       },
       "replacement": {
-        "n": 14,
-        "accuracy": 0.5714285714285714,
-        "brier": 0.2444636427120834,
-        "log_loss": 0.6797007640104027
+        "n": 15,
+        "accuracy": 0.5333333333333333,
+        "brier": 0.2491251940189865,
+        "log_loss": 0.6892258894165287
       }
     },
     "changed_game_metrics": {
       "v2": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.17276483109797108,
-        "log_loss": 0.537254972443959
+        "n": 2,
+        "accuracy": 0.5,
+        "brier": 0.24388139166838904,
+        "log_loss": 0.6805365730628958
       },
       "replacement": {
-        "n": 1,
-        "accuracy": 1,
-        "brier": 0.17131294996658858,
-        "log_loss": 0.5342643195401482
+        "n": 2,
+        "accuracy": 0.5,
+        "brier": 0.24284993114110937,
+        "log_loss": 0.6784209823212208
       }
     }
   },
@@ -245,6 +243,16 @@
       "away_team": "KC",
       "home_score": 13,
       "away_score": 10
+    },
+    {
+      "game_id": "2026_12_DEN_PIT",
+      "gameday": "2026-11-27",
+      "game_type": "REG",
+      "season": 2026,
+      "home_team": "PIT",
+      "away_team": "DEN",
+      "home_score": 27,
+      "away_score": 5
     }
   ],
   "source": "Cloudflare /api/results (ESPN final scoreboard)",
